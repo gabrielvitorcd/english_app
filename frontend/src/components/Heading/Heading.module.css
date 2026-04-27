@@ -1,0 +1,90 @@
+.nav {
+  flex-shrink: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--b1);
+  background: rgba(10, 10, 11, 0.95);
+  backdrop-filter: blur(16px);
+  position: relative;
+  z-index: 20;
+}
+
+.brand_group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand {
+  font-family: "DM Serif Display", serif;
+  font-size: 0.95rem;
+  color: var(--gold);
+  letter-spacing: 0.03em;
+  text-decoration: none;
+}
+
+.epLabel {
+  font-size: 0.68rem;
+  color: var(--mu);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-left: 12px;
+  border-left: 1px solid var(--b2);
+}
+
+.tabs {
+  display: flex;
+  background: var(--s1);
+  border: 1px solid var(--b1);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.tab {
+  padding: 5px 20px;
+  border-radius: 7px;
+  border: none;
+  background: transparent;
+  color: var(--mu);
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.77rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.tab:hover {
+  color: var(--mu2);
+}
+
+.tab.on {
+  background: var(--s3);
+  color: var(--tx);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+.menu_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--b1);
+  background: transparent;
+  color: var(--mu);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.menu_btn:hover {
+  background: var(--s2);
+  color: var(--mu2);
+  border-color: var(--b2);
+}

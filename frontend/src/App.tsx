@@ -1,0 +1,20 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Heading } from "./components/Heading/Heading";
+import { PlayerPage } from "./pages/Player/Player";
+import { ProgressoPage } from "./pages/Progresso/Progresso";
+import { ShadowingPage } from "./pages/Shadowing/Shadowing";
+import "./App.css";
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Heading />
+      <Routes>
+        <Route path="/" element={<Navigate to="/player" />} />
+        <Route path="/player" element={<PlayerPage />} />
+        <Route path="/progresso" element={<ProgressoPage />} />
+        <Route path="/shadowing" element={<ShadowingPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}

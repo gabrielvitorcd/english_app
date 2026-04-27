@@ -1,0 +1,30 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap");
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+:root {
+  --bg: #0a0a0b;
+  --s1: #111113;
+  --s2: #18181b;
+  --s3: #222226;
+  --b1: rgba(255, 255, 255, 0.055);
+  --b2: rgba(255, 255, 255, 0.1);
+  --b3: rgba(255, 255, 255, 0.16);
+  --tx: #f0ede8;
+  --mu: #6b6b72;
+  --mu2: #9999a3;
+  --gold: #e8c97a;
+  --blue: #7ac4e8;
+  --green: #6ee7b7;
+  --red: #f87171;
+}
+body {
+  background: var(--bg);
+}
+h1 {
+  color: white;
+}
