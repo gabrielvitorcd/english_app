@@ -31,6 +31,10 @@ dist/
 dist-ssr/
 *.local
 .cache/
+# Vite cache
+.vite/
+**/node_modules/
+dist/
 
 # ===========================
 # Supabase
