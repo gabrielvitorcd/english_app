@@ -1,15 +1,14 @@
 import styles from "./VideoPlayer.module.css";
 
-export function Play() {
+export function Play({ src }: { src: string }) {
   return (
-    <>
-      <div className={styles["video-col"]}>
-        <div className={styles["video-bg"]} />
-        <div className={styles["video-placeholder"]}>
-          <div className={styles["video-icon"]}>◈</div>
-          <div className={styles["video-lbl"]}>VIDEO</div>
-        </div>
+    <div className={styles.wrapper}>
+      <div className={styles.background} />
+      <div className={styles.container}>
+        <video controls className={styles.video} poster="/src/assets/hero.png">
+          <source src={src} type="video/mp4" />
+        </video>
       </div>
-    </>
+    </div>
   );
 }
