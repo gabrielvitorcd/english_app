@@ -7,14 +7,18 @@ import "./App.css";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Heading />
-      <Routes>
-        <Route path="/" element={<Navigate to="/player" />} />
-        <Route path="/player" element={<PlayerPage />} />
-        <Route path="/progresso" element={<ProgressoPage />} />
-        <Route path="/shadowing" element={<ShadowingPage />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <div className="app">
+        <BrowserRouter>
+          <Heading />
+          <Routes>
+            <Route path="/" element={<Navigate to="/player" />} />
+            <Route path="/player" element={<PlayerPage />} />
+            <Route path="/progresso" element={<ProgressoPage />} />
+            <Route path="/shadowing" element={<ShadowingPage />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </>
   );
 }
