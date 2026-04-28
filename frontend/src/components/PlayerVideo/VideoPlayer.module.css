@@ -1,0 +1,33 @@
+/* ── VIDEO ── */
+.video-col {
+  position: relative;
+  background: #000;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.video-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 40%, #1a1208 0%, #0a0a0b 70%);
+}
+.video-placeholder {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  opacity: 0.12;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.video-icon {
+  font-size: 4rem;
+}
+.video-lbl {
+  font-family: "DM Serif Display", serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--tx);
+}
