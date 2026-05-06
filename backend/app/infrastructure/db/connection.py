@@ -11,8 +11,6 @@ db_name = os.getenv("DB_NAME")
 
 SQLALCHEMY_DATABASE_URL = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}"
 
-print(f"DEBUG: Conectando em -> {SQLALCHEMY_DATABASE_URL}")
-
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

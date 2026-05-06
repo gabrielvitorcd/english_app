@@ -1,9 +1,9 @@
 import os
 from logging.config import fileConfig
-from sqlalchemy import engine_from_config, pool, create_engine
+from sqlalchemy import  pool, create_engine
 from alembic import context
 
-from app.database import Base, SQLALCHEMY_DATABASE_URL
+from app.infrastructure.db import Base, SQLALCHEMY_DATABASE_URL
 from app.infrastructure.db.models import Table_Base
 
 config = context.config
