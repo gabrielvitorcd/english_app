@@ -31,15 +31,11 @@ dist/
 dist-ssr/
 *.local
 .cache/
+
 # Vite cache
 .vite/
 **/node_modules/
 dist/
-
-# ===========================
-# Supabase
-# ===========================
-.supabase/
 
 # ===========================
 # Variáveis de ambiente
@@ -61,3 +57,10 @@ dist/
 # ===========================
 .DS_Store
 Thumbs.db
+
+
+# ===========================
+# Referencias
+# ===========================
+refs
+.specs
