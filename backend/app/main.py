@@ -5,4 +5,4 @@ app = FastAPI()
 
 @app.get("/health")
 def estamos_online():
-    return "OK"
+    return "ESTAMOS ONLINE!"
