@@ -1,0 +1,196 @@
+.card {
+  background: var(--s1);
+  border: 1px solid var(--b1);
+  border-radius: 6px;
+  padding: 32px 28px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: cardReveal 0.5s ease forwards;
+  min-height: 380px;
+}
+
+@keyframes cardReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card:hover {
+  background: var(--s2);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+/* Glow */
+.glow {
+  position: absolute;
+  inset: 0;
+  background: var(--accent-dim);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.card:hover .glow {
+  opacity: 1;
+}
+
+/* Card number */
+.number {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--mu);
+  font-weight: 300;
+}
+
+/* Card top */
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.iconWrap {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--b1);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.card:hover .iconWrap {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: var(--mu2);
+  transition: color 0.25s ease;
+}
+
+.card:hover .icon {
+  color: var(--accent);
+}
+
+.badge {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mu);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  transition: color 0.25s ease;
+}
+
+.card:hover .badge {
+  color: var(--accent);
+}
+
+.badgeIcon {
+  font-size: 8px;
+}
+
+/* Card body */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.label {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--tx);
+  letter-spacing: -0.01em;
+}
+
+.tagline {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  opacity: 0.8;
+  transition: opacity 0.25s ease;
+}
+
+.card:hover .tagline {
+  opacity: 1;
+}
+
+.description {
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--mu2);
+  font-weight: 300;
+  margin-top: 4px;
+}
+
+/* Card footer */
+.footer {
+  margin-top: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--b1);
+  transition: border-color 0.25s ease;
+}
+
+.card:hover .footer {
+  border-color: var(--b2);
+}
+
+.cta {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mu2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition:
+    color 0.25s ease,
+    gap 0.25s ease;
+}
+
+.card:hover .cta {
+  color: var(--accent);
+  gap: 12px;
+}
+
+.path {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--mu);
+  opacity: 0.6;
+}
