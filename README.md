@@ -303,7 +303,7 @@ Distribuído sob a licença ISC. Veja `LICENSE` para mais informações.
 ## 👤 Autor
 
 **Gabriel Vitor**  
-[GitHub](https://github.com/gabrielvitorcd) • [LinkedIn](https://linkedin.com/in/gabrielvitorcd)
+[GitHub](https://github.com/gabrielvitorcd) • [LinkedIn](https://linkedin.com/in/dev-gabriel-vitor)
 
 ---
 
