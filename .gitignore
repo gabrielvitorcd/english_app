@@ -57,13 +57,9 @@ dist/
 # ===========================
 .DS_Store
 Thumbs.db
-<<<<<<< HEAD
-
-
 # ===========================
 # Referencias
 # ===========================
-refs
-=======
->>>>>>> feature/page_main_player
+.refs
 .specs
+.claude
