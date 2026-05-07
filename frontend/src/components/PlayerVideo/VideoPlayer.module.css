@@ -1,46 +1,19 @@
-.wrapper {
+/* ─── Box do vídeo ──────────────────────────────────── */
+.box {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - var(--heading-h, 56px));
   background: #000;
   overflow: hidden;
-}
 
-.background {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle, #1a1208 0%, #0a0a0b 100%);
-  z-index: 1;
-}
-
-.container {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.overlay {
-  position: absolute;
-  z-index: 3;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  text-align: center;
-  color: white;
-  opacity: 0.5;
-}
-
-.icon {
-  font-size: 3rem;
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
   display: block;
 }

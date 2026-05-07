@@ -1,0 +1,129 @@
+/* ─── Modos de posicionamento ───────────────────────── */
+
+/* Sobreposto ao vídeo (uso padrão no player) */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  padding: 16px 40px 80px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.6) 55%,
+    transparent 100%
+  );
+}
+
+/* Bloco standalone — para usar fora do player */
+.block {
+  position: relative;
+  padding: 20px 24px;
+  background: var(--s1);
+  border: 1px solid var(--b1);
+  border-radius: 8px;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ─── Linha de palavras ─────────────────────────────── */
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  transition:
+    filter 0.35s,
+    opacity 0.35s;
+}
+
+.hidden {
+  filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── Palavras ──────────────────────────────────────── */
+.word {
+  font-family: "DM Serif Display", serif;
+  font-size: 1.55rem;
+  line-height: 1.2;
+  color: var(--tx);
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0 3px;
+  transition: color 0.12s;
+  position: relative;
+  user-select: none;
+}
+
+.word:hover {
+  color: var(--gold);
+}
+
+.word.sel {
+  color: var(--gold);
+}
+
+/* ─── Tooltip de tradução ───────────────────────────── */
+.tip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--s2);
+  border: 1px solid var(--b2);
+  border-radius: 8px;
+  padding: 5px 11px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  color: var(--gold);
+  font-weight: 500;
+  z-index: 10;
+}
+
+/* ─── Botões ────────────────────────────────────────── */
+.toggleBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--b1);
+  border-radius: 4px;
+  padding: 5px 7px;
+  color: var(--mu2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.toggleBtn:hover {
+  color: var(--tx);
+  border-color: var(--b2);
+}
+
+.clearBtn {
+  background: transparent;
+  border: none;
+  color: var(--mu);
+  font-size: 11px;
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: color 0.2s;
+}
+
+.clearBtn:hover {
+  color: var(--red);
+}
