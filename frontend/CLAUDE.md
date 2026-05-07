@@ -44,16 +44,21 @@ Aplicação React 19 + TypeScript + Vite para prática de listening em inglês c
 - Legenda: `/videos/friends/friends1x01.srt`
 - Ambos servidos da pasta `public/`
 
-## Skills & Automação
-
 ### `suggestion-commit`
 
 Sempre que este comando for invocado:
 
-1. Execute `git diff --cached`.
-2. Responda **UNICA E EXCLUSIVAMENTE** com a string da mensagem de commit (Conventional Commits).
-3. Use obrigatoriamente o escopo `frontend-srt`.
-4. A descrição após o escopo deve ser em **português**.
-5. **Proibido** incluir o comando `git commit -m`, aspas, explicações ou qualquer outro texto.
-   - Formato: <tipo>(frontend - <componente>): <descrição curta em inglês>
-   - Exemplo: feat(frontend-subtitle): add auto-sync logic for React 19
+1. Execute `git diff --cached --name-status` para pegar apenas os arquivos em stage.
+2. Para cada arquivo:
+   - Status `A` → leia o arquivo e descreva o que ele faz
+   - Status `M` → execute `git diff --cached <arquivo>` e descreva apenas as alterações
+3. Gere uma mensagem de commit por arquivo no formato:
+
+<tipo>(frontend - <componente>): <descrição curta em português>
+
+- <detalhe 1 do que foi implementado/alterado>
+- <detalhe 2>
+- <detalhe 3>
+
+4. Responda **ÚNICA E EXCLUSIVAMENTE** com as mensagens, separadas por linha em branco.
+5. **Proibido** incluir `git commit -m`, aspas, explicações ou qualquer outro texto.
