@@ -16,4 +16,4 @@ COPY . .
 EXPOSE 5200
 
 # Comando para rodar o Vite com host aberto
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+CMD ["npm", "run", "dev"]
