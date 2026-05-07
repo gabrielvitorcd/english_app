@@ -1,0 +1,314 @@
+/* ─── Root ─────────────────────────────────────────── */
+.root {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--tx);
+  font-family: "DM Sans", sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px 80px;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Grain overlay */
+.root::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Ambient orb */
+.root::after {
+  content: "";
+  position: fixed;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(
+    ellipse,
+    rgba(122, 196, 232, 0.05) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ─── Hero ──────────────────────────────────────────── */
+.hero {
+  width: 100%;
+  max-width: 1100px;
+  margin-top: 96px;
+  margin-bottom: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.6s ease 0.1s,
+    transform 0.6s ease 0.1s;
+}
+
+.mounted .hero {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.heroEyebrow {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mu);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heroEyebrow::before {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--mu);
+}
+
+.heroTitle {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: clamp(52px, 7vw, 96px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--tx);
+  max-width: 700px;
+}
+
+.heroTitle em {
+  font-style: italic;
+  color: var(--mu2);
+}
+
+.heroSub {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--mu2);
+  max-width: 480px;
+  font-weight: 300;
+}
+
+/* ─── Grid ──────────────────────────────────────────── */
+.grid {
+  width: 100%;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ─── Card ──────────────────────────────────────────── */
+.sourceCard {
+  background: var(--s1);
+  border: 1px solid var(--b1);
+  border-radius: 6px;
+  padding: 32px 28px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: cardReveal 0.5s ease forwards;
+  min-height: 380px;
+}
+
+@keyframes cardReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sourceCard:hover {
+  background: var(--s2);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+/* Glow */
+.cardGlow {
+  position: absolute;
+  inset: 0;
+  background: var(--accent-dim);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.sourceCard:hover .cardGlow {
+  opacity: 1;
+}
+
+/* ─── Card Number ───────────────────────────────────── */
+.cardNumber {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--mu);
+  font-weight: 300;
+}
+
+/* ─── Card Top ──────────────────────────────────────── */
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.cardIconWrap {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--b1);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.sourceCard:hover .cardIconWrap {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.cardIcon {
+  width: 24px;
+  height: 24px;
+  color: var(--mu2);
+  transition: color 0.25s ease;
+}
+
+.sourceCard:hover .cardIcon {
+  color: var(--accent);
+}
+
+.cardBadge {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--mu);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 4px;
+  transition: color 0.25s ease;
+}
+
+.sourceCard:hover .cardBadge {
+  color: var(--accent);
+}
+
+.badgeIcon {
+  font-size: 8px;
+}
+
+/* ─── Card Body ─────────────────────────────────────── */
+.cardBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cardLabel {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--tx);
+  letter-spacing: -0.01em;
+}
+
+.cardTagline {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+  opacity: 0.8;
+  transition: opacity 0.25s ease;
+}
+
+.sourceCard:hover .cardTagline {
+  opacity: 1;
+}
+
+.cardDescription {
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--mu2);
+  font-weight: 300;
+  margin-top: 4px;
+}
+
+/* ─── Card Footer ───────────────────────────────────── */
+.cardFooter {
+  margin-top: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid var(--b1);
+  transition: border-color 0.25s ease;
+}
+
+.sourceCard:hover .cardFooter {
+  border-color: var(--b2);
+}
+
+.cardCta {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mu2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition:
+    color 0.25s ease,
+    gap 0.25s ease;
+}
+
+.sourceCard:hover .cardCta {
+  color: var(--accent);
+  gap: 12px;
+}
+
+.cardPath {
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--mu);
+  opacity: 0.6;
+}
