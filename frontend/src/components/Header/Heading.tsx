@@ -3,6 +3,7 @@ import styles from "./Heading.module.css";
 
 export function Heading() {
   const tabs = [
+    { name: "Select", path: "/selectpath" },
     { name: "Player", path: "/player" },
     { name: "Progresso", path: "/progresso" },
     { name: "Shadowing", path: "/shadowing" },
