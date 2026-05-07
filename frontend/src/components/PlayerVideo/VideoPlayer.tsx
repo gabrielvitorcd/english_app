@@ -15,6 +15,7 @@ export const VideoPlayer = forwardRef<HTMLVideoElement, VideoPlayerProps>(
           ref={ref}
           className={styles.video}
           poster={poster}
+          controls
           autoPlay
           loop
           playsInline /* Importante para autoplay em navegadores mobile (iOS) */
