@@ -1,15 +1,16 @@
 .nav {
   flex-shrink: 0;
-  height: 50px;
-  display: flex;
+  height: 72px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
+  padding: 0 32px;
   border-bottom: 1px solid var(--b1);
-  background: rgba(10, 10, 11, 0.95);
-  backdrop-filter: blur(16px);
-  position: relative;
-  z-index: 20;
+  background: rgba(10, 10, 11, 0.8);
+  backdrop-filter: blur(20px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
 .brand_group {
@@ -19,72 +20,137 @@
 }
 
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-family: "DM Serif Display", serif;
-  font-size: 0.95rem;
-  color: var(--gold);
-  letter-spacing: 0.03em;
+  font-size: 1.25rem;
+  color: var(--tx);
+  letter-spacing: -0.02em;
   text-decoration: none;
+  transition: opacity 0.2s;
 }
 
-.epLabel {
-  font-size: 0.68rem;
-  color: var(--mu);
-  max-width: 220px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding-left: 12px;
-  border-left: 1px solid var(--b2);
+.brand:hover {
+  opacity: 0.8;
+}
+
+.brand_logo {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--gold) 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+}
+
+.brand_logo svg {
+  width: 18px;
+  height: 18px;
+}
+
+.brand_text {
+  font-weight: 600;
+}
+
+.brand_text span {
+  color: var(--gold);
 }
 
 .tabs {
+  justify-self: center;
   display: flex;
+  align-items: center;
+  gap: 8px;
   background: var(--s1);
   border: 1px solid var(--b1);
-  border-radius: 10px;
-  padding: 3px;
-  gap: 2px;
+  border-radius: 12px;
+  padding: 6px;
 }
 
 .tab {
-  padding: 5px 20px;
-  border-radius: 7px;
+  position: relative;
+  padding: 10px 20px;
   border: none;
   background: transparent;
-  color: var(--mu);
+  color: var(--mu2);
   font-family: "DM Sans", sans-serif;
-  font-size: 0.77rem;
+  font-size: 0.9rem;
   font-weight: 500;
+  text-decoration: none;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s ease;
+  border-radius: 8px;
 }
 
 .tab:hover {
-  color: var(--mu2);
+  color: var(--tx);
+  background: var(--b1);
 }
 
 .tab.on {
-  background: var(--s3);
   color: var(--tx);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+  background: var(--s3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .menu_btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
   border: 1px solid var(--b1);
-  background: transparent;
-  color: var(--mu);
+  background: var(--s1);
+  color: var(--mu2);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s;
 }
 
 .menu_btn:hover {
   background: var(--s2);
-  color: var(--mu2);
+  color: var(--tx);
   border-color: var(--b2);
+  transform: translateY(-1px);
+}
+
+.menu_btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .nav {
+    height: 64px;
+    padding: 0 16px;
+  }
+
+  .brand {
+    font-size: 1.1rem;
+  }
+
+  .brand_logo {
+    width: 28px;
+    height: 28px;
+  }
+
+  .tabs {
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .tab {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .tabs {
+    display: none;
+  }
 }
