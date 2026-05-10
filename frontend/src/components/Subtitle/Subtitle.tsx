@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { type Cue } from "../useSrt/useSrt";
 import { lookup } from "../useSrt/dict";
+import { translateWord } from "../useSrt/translator";
 import styles from "./Subtitle.module.css";
 
 interface SubtitleProps {
@@ -10,14 +11,33 @@ interface SubtitleProps {
 
 export function Subtitle({ cue, overlay = true }: SubtitleProps) {
   const [selWord, setSelWord] = useState<string | null>(null);
+  const [translations, setTranslations] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState<string | null>(null);
 
   const isVisible = true;
 
   const words = cue?.text.split(/\s+/) ?? [];
 
-  const clickWord = (w: string) => {
+  const clickWord = async (w: string) => {
     const clean = w.replace(/[.,!?'"]/g, "").toLowerCase();
-    setSelWord((prev) => (prev === clean ? null : clean));
+    if (selWord === clean) {
+      setSelWord(null);
+      return;
+    }
+
+    setSelWord(clean);
+
+    let translation = lookup(clean);
+
+    if (!translation && !translations[clean]) {
+      setLoading(clean);
+      const apiTranslation = await translateWord(clean);
+      setLoading(null);
+
+      if (apiTranslation) {
+        setTranslations((prev) => ({ ...prev, [clean]: apiTranslation }));
+      }
+    }
   };
 
   if (!cue) return null;
@@ -30,7 +50,7 @@ export function Subtitle({ cue, overlay = true }: SubtitleProps) {
         {words.map((w, i) => {
           const clean = w.replace(/[.,!?'"]/g, "").toLowerCase();
           const isSel = selWord === clean;
-          const translation = lookup(clean);
+          const translation = lookup(clean) ?? translations[clean];
           return (
             <span
               key={i}
@@ -38,6 +58,9 @@ export function Subtitle({ cue, overlay = true }: SubtitleProps) {
               onClick={() => clickWord(w)}
             >
               {w}
+              {isSel && loading === clean && (
+                <span className={styles.tip}>...</span>
+              )}
               {isSel && translation && (
                 <span className={styles.tip}>{translation}</span>
               )}
