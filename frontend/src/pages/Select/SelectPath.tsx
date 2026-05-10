@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { SourceCard, type Source } from "./SourceCard";
+import { VideoSelectModal } from "./VideoSelectModal";
 import styles from "./SelectPath.module.css";
 
 const sources: Source[] = [
@@ -86,35 +87,51 @@ const sources: Source[] = [
 
 export function HomePage() {
   const [mounted, setMounted] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  const handleVideoSelect = (videoFile: File, subtitleFile?: File) => {
+    // TODO: Enviar para API quando configurada
+    console.log("Vídeo selecionado:", videoFile);
+    console.log("Legenda selecionada:", subtitleFile);
+
+    // Navegar para player com os arquivos
+    navigate("/player", {
+      state: {
+        videoFile,
+        subtitleFile,
+      },
+    });
+  };
+
   return (
     <div className={`${styles.root} ${mounted ? styles.mounted : ""}`}>
-      <section className={styles.hero}>
-        <div className={styles.heroEyebrow}>Selecione o modo de estudo</div>
-        <h1 className={styles.heroTitle}>
-          Aprenda com <em>qualquer</em> vídeo.
-        </h1>
-        <p className={styles.heroSub}>
-          Escolha como quer importar seu conteúdo. Cada modo tem sua própria
-          experiência — adaptada ao seu fluxo de estudo.
-        </p>
-      </section>
-
       <main className={styles.grid}>
         {sources.map((source, i) => (
           <SourceCard
             key={source.id}
             source={source}
             index={i}
-            onNavigate={navigate}
+            onNavigate={(path) => {
+              if (path === "/learnwatching/local") {
+                setModalOpen(true);
+              } else {
+                navigate(path);
+              }
+            }}
           />
         ))}
       </main>
+
+      <VideoSelectModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSelect={handleVideoSelect}
+      />
     </div>
   );
 }
