@@ -1,0 +1,376 @@
+/* ─── Overlay ───────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 11, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ─── Modal ─────────────────────────────────────────── */
+.modal {
+  background: var(--s1);
+  border: 1px solid var(--b2);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 32px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Close Button ──────────────────────────────────── */
+.closeButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: var(--mu2);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
+}
+
+.closeButton:hover {
+  color: var(--tx);
+  background: var(--b1);
+}
+
+/* ─── Header ────────────────────────────────────────── */
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--tx);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: var(--mu2);
+  font-weight: 300;
+  margin: 0;
+}
+
+/* ─── Dropzone ──────────────────────────────────────── */
+.dropzone {
+  border: 1px dashed var(--b2);
+  border-radius: 6px;
+  padding: 40px 24px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+  background: var(--s2);
+  min-height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropzone:hover {
+  border-color: var(--blue);
+  background: rgba(122, 196, 232, 0.05);
+}
+
+.dropzone.dragActive {
+  border-color: var(--blue);
+  background: rgba(122, 196, 232, 0.08);
+}
+
+.dropzone.hasVideo {
+  border-style: solid;
+  border-color: var(--green);
+  background: rgba(110, 231, 183, 0.05);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+/* ─── Dropzone Content ──────────────────────────────── */
+.dropzoneContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.dropzoneIcon {
+  color: var(--mu2);
+  transition: color 0.2s ease;
+}
+
+.dropzone:hover .dropzoneIcon {
+  color: var(--blue);
+}
+
+.dropzone.dragActive .dropzoneIcon {
+  color: var(--blue);
+}
+
+.dropzoneText {
+  font-size: 14px;
+  color: var(--tx);
+  margin: 0;
+}
+
+.highlight {
+  color: var(--blue);
+  font-weight: 500;
+}
+
+.dropzoneSub {
+  font-size: 11px;
+  color: var(--mu);
+  margin: 0;
+  letter-spacing: 0.05em;
+}
+
+/* ─── File Selected ─────────────────────────────────── */
+.fileSelected {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.fileIcon {
+  width: 48px;
+  height: 48px;
+  background: var(--s3);
+  border: 1px solid var(--b2);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--blue);
+  flex-shrink: 0;
+}
+
+.fileInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fileName {
+  font-size: 13px;
+  color: var(--tx);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileSize {
+  font-size: 11px;
+  color: var(--mu);
+  letter-spacing: 0.05em;
+}
+
+.removeFile {
+  background: var(--s3);
+  border: 1px solid var(--b2);
+  color: var(--mu2);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.removeFile:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+/* ─── Subtitle Section ──────────────────────────────── */
+.subtitleSection {
+  margin-top: 20px;
+}
+
+.subtitleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.subtitleLabel {
+  font-size: 12px;
+  color: var(--mu2);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.removeSubtitle {
+  background: var(--s3);
+  border: 1px solid var(--b1);
+  color: var(--mu2);
+  cursor: pointer;
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.removeSubtitle:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+.subtitleDropzone {
+  border: 1px dashed var(--b2);
+  border-radius: 6px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+  background: var(--s2);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.subtitleDropzone:hover {
+  border-color: var(--gold);
+  background: rgba(232, 201, 122, 0.05);
+}
+
+.subtitleDropzone.dragActive {
+  border-color: var(--gold);
+  background: rgba(232, 201, 122, 0.08);
+}
+
+.subtitleDropzone svg {
+  color: var(--mu2);
+  flex-shrink: 0;
+}
+
+.subtitleDropzone:hover svg {
+  color: var(--gold);
+}
+
+.subtitleText {
+  font-size: 12px;
+  color: var(--mu2);
+}
+
+/* ─── Footer ────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--b1);
+}
+
+.cancelButton {
+  background: transparent;
+  border: 1px solid var(--b2);
+  color: var(--mu2);
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.cancelButton:hover {
+  color: var(--tx);
+  border-color: var(--b3);
+}
+
+.submitButton {
+  background: var(--blue);
+  border: 1px solid var(--blue);
+  color: var(--bg);
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.submitButton:hover:not(.disabled) {
+  background: #6ab8d8;
+  transform: translateY(-1px);
+}
+
+.submitButton.disabled {
+  background: var(--s3);
+  border-color: var(--b1);
+  color: var(--mu);
+  cursor: not-allowed;
+}
+
+.submitButton:active:not(.disabled) {
+  transform: translateY(0);
+}
