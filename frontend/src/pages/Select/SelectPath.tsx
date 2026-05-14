@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { SourceCard, type Source } from "./SourceCard";
-import { VideoSelectModal } from "./VideoSelectModal";
+import { SourceCard, type Source } from "../../components/Select/SourceCard";
+import { VideoSelectModal } from "../../components/Select/VideoSelectModal";
+import { YoutubeLinkModal } from "../../components/Select/YoutubeLinkModal";
 import styles from "./SelectPath.module.css";
 
 const sources: Source[] = [
@@ -87,7 +88,8 @@ const sources: Source[] = [
 
 export function HomePage() {
   const [mounted, setMounted] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [youtubeModalOpen, setYoutubeModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -108,6 +110,12 @@ export function HomePage() {
     });
   };
 
+  const handleYoutubeSubmit = (url: string) => {
+    // TODO: Enviar para API quando configurada
+    console.log("URL do YouTube enviada:", url);
+    alert("Link recebido! Em breve será integrado com a API.");
+  };
+
   return (
     <div className={`${styles.root} ${mounted ? styles.mounted : ""}`}>
       <main className={styles.grid}>
@@ -118,7 +126,9 @@ export function HomePage() {
             index={i}
             onNavigate={(path) => {
               if (path === "/learnwatching/local") {
-                setModalOpen(true);
+                setVideoModalOpen(true);
+              } else if (path === "/learnwatching/youtube") {
+                setYoutubeModalOpen(true);
               } else {
                 navigate(path);
               }
@@ -128,9 +138,15 @@ export function HomePage() {
       </main>
 
       <VideoSelectModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        isOpen={videoModalOpen}
+        onClose={() => setVideoModalOpen(false)}
         onSelect={handleVideoSelect}
+      />
+
+      <YoutubeLinkModal
+        isOpen={youtubeModalOpen}
+        onClose={() => setYoutubeModalOpen(false)}
+        onSubmit={handleYoutubeSubmit}
       />
     </div>
   );
