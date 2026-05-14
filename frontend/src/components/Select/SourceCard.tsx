@@ -56,24 +56,6 @@ export function SourceCard({ source, index, onNavigate }: SourceCardProps) {
         <p className={styles.description}>{source.description}</p>
       </div>
 
-      <div className={styles.footer}>
-        <span className={styles.cta}>
-          Começar
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        </span>
-
-        <span className={styles.path}>{source.path}</span>
-      </div>
-
       <div className={styles.glow} />
     </button>
   );
