@@ -181,30 +181,10 @@
 .footer {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  gap: 12px;
+  justify-content: space-around;
   margin-top: 24px;
   padding-top: 20px;
   border-top: 1px solid var(--b1);
-}
-
-.cancelButton {
-  background: transparent;
-  border: 1px solid var(--b2);
-  color: var(--mu2);
-  cursor: pointer;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.cancelButton:hover {
-  color: var(--tx);
-  border-color: var(--b3);
 }
 
 .submitButton {
@@ -240,4 +220,127 @@
 
 .submitButton:active:not(.disabled) {
   transform: translateY(0);
+}
+
+/* ─── Load Button ───────────────────────────────────── */
+.loadButton {
+  background: transparent;
+  border: 1px solid var(--b2);
+  color: var(--blue);
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.loadButton:hover:not(.disabled) {
+  background: rgba(122, 196, 232, 0.08);
+  border-color: var(--blue);
+  transform: translateY(-1px);
+}
+
+.loadButton.disabled {
+  background: var(--s3);
+  border-color: var(--b1);
+  color: var(--mu);
+  cursor: not-allowed;
+}
+
+.loadButton:active:not(.disabled) {
+  transform: translateY(0);
+}
+
+/* ─── Subtitles Section ─────────────────────────────── */
+.subtitlesSection {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--s2);
+  border: 1px solid var(--b2);
+  border-radius: 6px;
+}
+
+.subtitlesTitle {
+  font-family: "DM Serif Display", Georgia, serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--tx);
+  margin: 0 0 12px 0;
+  letter-spacing: -0.01em;
+}
+
+.subtitlesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.subtitleItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--s1);
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.subtitleFlag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.subtitleName {
+  flex: 1;
+  color: var(--tx);
+}
+
+.subtitleBadge {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: rgba(122, 196, 232, 0.15);
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ─── Loading State ─────────────────────────────────── */
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px;
+  color: var(--mu2);
+  font-size: 13px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
