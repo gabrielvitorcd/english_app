@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { SourceCard, type Source } from "../../components/Select/SourceCard";
 import { VideoSelectModal } from "../../components/Select/VideoSelectModal";
-import { YoutubeLinkModal } from "../../components/Select/YoutubeLinkModal";
+import { YoutubeLinkModal, type SubtitleInfo } from "../../components/Select/YoutubeLinkModal";
+import { SubtitleSelectModal } from "../../components/Select/SubtitleSelectModal";
+import { useSubtitles } from "../../hooks/useSubtitles";
 import styles from "./SelectPath.module.css";
 
 const sources: Source[] = [
@@ -90,7 +92,10 @@ export function HomePage() {
   const [mounted, setMounted] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [youtubeModalOpen, setYoutubeModalOpen] = useState(false);
+  const [subtitleModalOpen, setSubtitleModalOpen] = useState(false);
+  const [selectedUrl, setSelectedUrl] = useState<string>("");
   const navigate = useNavigate();
+  const { subtitles, isLoading, error, fetchSubtitles } = useSubtitles();
 
   useEffect(() => {
     setMounted(true);
@@ -111,10 +116,27 @@ export function HomePage() {
   };
 
   const handleYoutubeSubmit = (url: string) => {
-    // TODO: Enviar para API quando configurada
     console.log("URL do YouTube enviada:", url);
-    alert("Link recebido! Em breve será integrado com a API.");
+    setSelectedUrl(url);
+    fetchSubtitles(url);
   };
+
+  const handleSubtitlesLoaded = (url: string, loadedSubtitles: SubtitleInfo[]) => {
+    console.log("Legendas carregadas para:", url, loadedSubtitles);
+  };
+
+  const handleSubtitleSelect = (languageCode: string) => {
+    console.log("Legenda selecionada:", languageCode);
+    setSubtitleModalOpen(false);
+    // TODO: Baixar legenda e navegar para player
+    // navigate("/player", { state: { videoUrl: selectedUrl, languageCode } });
+  };
+
+  useEffect(() => {
+    if (subtitles && selectedUrl) {
+      setSubtitleModalOpen(true);
+    }
+  }, [subtitles, selectedUrl]);
 
   return (
     <div className={`${styles.root} ${mounted ? styles.mounted : ""}`}>
@@ -145,8 +167,21 @@ export function HomePage() {
 
       <YoutubeLinkModal
         isOpen={youtubeModalOpen}
-        onClose={() => setYoutubeModalOpen(false)}
+        onClose={() => {
+          setYoutubeModalOpen(false);
+          setSelectedUrl("");
+        }}
         onSubmit={handleYoutubeSubmit}
+        onSubtitlesLoaded={handleSubtitlesLoaded}
+      />
+
+      <SubtitleSelectModal
+        isOpen={subtitleModalOpen}
+        onClose={() => setSubtitleModalOpen(false)}
+        onSelect={handleSubtitleSelect}
+        subtitles={subtitles?.subtitles ?? []}
+        videoTitle={subtitles?.video_title}
+        isLoading={isLoading}
       />
     </div>
   );
