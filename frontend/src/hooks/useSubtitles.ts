@@ -7,23 +7,23 @@ export interface SubtitleInfo {
 }
 
 export interface SubtitlesData {
-  video_id: string;
-  video_title: string;
+  video_id?: string;
+  video_title?: string;
   subtitles: SubtitleInfo[];
 }
 
 export interface UseSubtitlesReturn {
-  subtitles: SubtitlesData | null;
+  subtitles: SubtitleInfo[] | null;
   isLoading: boolean;
   error: string | null;
-  fetchSubtitles: (videoUrl: string) => Promise<void>;
+  fetchSubtitles: (videoUrl: string) => Promise<SubtitleInfo[] | null>;
   clearSubtitles: () => void;
 }
 
 const API_BASE_URL = "http://localhost:8000";
 
 export function useSubtitles(): UseSubtitlesReturn {
-  const [subtitles, setSubtitles] = useState<SubtitlesData | null>(null);
+  const [subtitles, setSubtitles] = useState<SubtitleInfo[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,8 +33,9 @@ export function useSubtitles(): UseSubtitlesReturn {
     setSubtitles(null);
 
     try {
+      // Usando a rota consistente com Query Parameters
       const response = await fetch(
-        `${API_BASE_URL}/api/subtitles/${encodeURIComponent(videoUrl)}`,
+        `${API_BASE_URL}/api/subtitles/list?video_url=${encodeURIComponent(videoUrl)}`,
       );
 
       if (!response.ok) {
@@ -43,10 +44,15 @@ export function useSubtitles(): UseSubtitlesReturn {
       }
 
       const data = await response.json();
-      setSubtitles(data);
+      // Garante que armazena a array de legendas (baseado no formato data.subtitles)
+      const subtitlesList = data.subtitles || data;
+      setSubtitles(subtitlesList);
+      return subtitlesList; // Retorna para caso o componente queira usar o resultado imediatamente
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Erro desconhecido");
+      const errMsg = err instanceof Error ? err.message : "Erro desconhecido";
+      setError(errMsg);
       setSubtitles(null);
+      throw err; // Repassa o erro para o componente tratar localmente se necessário
     } finally {
       setIsLoading(false);
     }
