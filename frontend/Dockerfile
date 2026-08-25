@@ -3,17 +3,21 @@ FROM node:20-slim
 
 WORKDIR /app
 
-# Copia arquivos de dependência
+# Copia apenas os arquivos de dependência primeiro (otimiza cache do Docker)
 COPY package*.json ./
 
 # Instala dependências
 RUN npm install
 
-# Copia o restante do código
+# Copia o restante do código (exceto node_modules, ignorado pelo .dockerignore)
 COPY . .
 
-# Expõe a porta que o Vite usará (5173 é o padrão)
+# Expõe a porta que o Vite usará
 EXPOSE 5200
 
-# Comando para rodar o Vite com host aberto
-CMD ["npm", "run", "dev"]
+# Variável de ambiente para o Vite funcionar em containers
+ENV VITE_HMR_PORT=5200
+ENV WDS_SOCKET_PORT=0
+
+# Comando para rodar o Vite com host aberto para desenvolvimento
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5200"]
