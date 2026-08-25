@@ -44,15 +44,18 @@
 /* ─── Grid ──────────────────────────────────────────── */
 .grid {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1400px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+  padding: 0 48px;
 }
 
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 0 24px;
   }
 }
 
@@ -61,7 +64,7 @@
   background: var(--s1);
   border: 1px solid var(--b1);
   border-radius: 6px;
-  padding: 32px 28px;
+  padding: 48px 40px;
   cursor: pointer;
   text-align: left;
   display: flex;
@@ -75,7 +78,7 @@
   opacity: 0;
   transform: translateY(20px);
   animation: cardReveal 0.5s ease forwards;
-  min-height: 380px;
+  min-height: 450px;
 }
 
 @keyframes cardReveal {
@@ -106,149 +109,4 @@
   opacity: 1;
 }
 
-/* ─── Card Number ───────────────────────────────────── */
-.cardNumber {
-  position: absolute;
-  top: 28px;
-  right: 28px;
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--mu);
-  font-weight: 300;
-}
 
-/* ─── Card Top ──────────────────────────────────────── */
-.cardTop {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  margin-bottom: 32px;
-}
-
-.cardIconWrap {
-  width: 52px;
-  height: 52px;
-  border: 1px solid var(--b1);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition:
-    border-color 0.25s ease,
-    background 0.25s ease;
-}
-
-.sourceCard:hover .cardIconWrap {
-  border-color: var(--accent);
-  background: var(--accent-dim);
-}
-
-.cardIcon {
-  width: 24px;
-  height: 24px;
-  color: var(--mu2);
-  transition: color 0.25s ease;
-}
-
-.sourceCard:hover .cardIcon {
-  color: var(--accent);
-}
-
-.cardBadge {
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--mu);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-top: 4px;
-  transition: color 0.25s ease;
-}
-
-.sourceCard:hover .cardBadge {
-  color: var(--accent);
-}
-
-.badgeIcon {
-  font-size: 8px;
-}
-
-/* ─── Card Body ─────────────────────────────────────── */
-.cardBody {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.cardLabel {
-  font-family: "DM Serif Display", Georgia, serif;
-  font-size: 28px;
-  font-weight: 400;
-  line-height: 1.1;
-  color: var(--tx);
-  letter-spacing: -0.01em;
-}
-
-.cardTagline {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  color: var(--accent);
-  opacity: 0.8;
-  transition: opacity 0.25s ease;
-}
-
-.sourceCard:hover .cardTagline {
-  opacity: 1;
-}
-
-.cardDescription {
-  font-size: 12.5px;
-  line-height: 1.75;
-  color: var(--mu2);
-  font-weight: 300;
-  margin-top: 4px;
-}
-
-/* ─── Card Footer ───────────────────────────────────── */
-.cardFooter {
-  margin-top: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 20px;
-  border-top: 1px solid var(--b1);
-  transition: border-color 0.25s ease;
-}
-
-.sourceCard:hover .cardFooter {
-  border-color: var(--b2);
-}
-
-.cardCta {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--mu2);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition:
-    color 0.25s ease,
-    gap 0.25s ease;
-}
-
-.sourceCard:hover .cardCta {
-  color: var(--accent);
-  gap: 12px;
-}
-
-.cardPath {
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  color: var(--mu);
-  opacity: 0.6;
-}
