@@ -1,0 +1,101 @@
+.root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background: #000;
+  overflow: hidden;
+}
+
+/* Esconde o Heading global quando o Player está montado.
+   O topBar do StudyPlayer substitui a navegação. */
+:global(.app):has(.root) :global(nav) {
+  display: none;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 100px);
+  padding: 24px;
+  color: #eee;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  max-width: 400px;
+  text-align: center;
+}
+
+.loaderTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #f5c842;
+}
+
+.loaderProgress {
+  font-size: 14px;
+  color: #999;
+}
+
+.progressBar {
+  width: 260px;
+  height: 6px;
+  background: #1a1a1a;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.progressFill {
+  height: 100%;
+  background: #f5c842;
+  transition: width 0.3s ease-out;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #333;
+  border-top-color: #f5c842;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.errorBox {
+  padding: 16px 20px;
+  background: rgba(255, 125, 125, 0.1);
+  border: 1px solid rgba(255, 125, 125, 0.4);
+  border-radius: 6px;
+  color: #ffb3b3;
+  max-width: 500px;
+  font-size: 14px;
+}
+
+.overlayBadge {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.75);
+  color: #f5c842;
+  border-radius: 20px;
+  font-size: 12px;
+  font-family: "Menlo", "Consolas", monospace;
+  pointer-events: none;
+  backdrop-filter: blur(4px);
+  z-index: 40;
+}
