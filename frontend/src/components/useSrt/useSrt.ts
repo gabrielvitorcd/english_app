@@ -1,34 +1,9 @@
 import { useState, useEffect, type RefObject } from "react";
+import { parseSrt, type SrtCue } from "../../lib/srt";
 
-export interface Cue {
-  start: number;
-  end: number;
-  text: string;
-}
-
-function parseSrt(raw: string): Cue[] {
-  const blocks = raw.trim().split(/\n\s*\n/);
-  return blocks.flatMap((block) => {
-    const lines = block.trim().split("\n");
-    if (lines.length < 3) return [];
-    const match = lines[1].match(
-      /(\d{2}):(\d{2}):(\d{2})[,.](\d{3})\s*-->\s*(\d{2}):(\d{2}):(\d{2})[,.](\d{3})/,
-    );
-    if (!match) return [];
-    const toSec = (h: string, m: string, s: string, ms: string) =>
-      +h * 3600 + +m * 60 + +s + +ms / 1000;
-    return [
-      {
-        start: toSec(match[1], match[2], match[3], match[4]),
-        end: toSec(match[5], match[6], match[7], match[8]),
-        text: lines
-          .slice(2)
-          .join(" ")
-          .replace(/<[^>]+>/g, ""),
-      },
-    ];
-  });
-}
+// Cue e mantido como alias de SrtCue pra nao quebrar quem ja importa daqui
+// (Subtitle.tsx). Nova sessao (Passo 5) usa SrtCue diretamente do lib.
+export type Cue = SrtCue;
 
 export function useSrt(
   videoRef: RefObject<HTMLVideoElement | null>,
