@@ -1,3 +1,30 @@
+# Dependências
 node_modules
 npm-debug.log
+
+# Build output
 dist
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Testes
+coverage
+*.test.ts
+*.spec.ts
