@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "wasm:build": "bash scripts/build-x264.sh && bash scripts/build-ffmpeg.sh && bash scripts/link-ffmpeg-wasm.sh",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
   },
   "repository": {
     "type": "git",
