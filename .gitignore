@@ -63,3 +63,17 @@ Thumbs.db
 .refs
 .specs
 .claude
+docs
+
+# ===========================
+# Transcodificacao WASM (FFmpeg)
+# ===========================
+# Toolchain e sources de terceiros — reproduziveis via scripts/build-*.sh
+emsdk/
+ffmpeg-wasm/
+libx264/
+wasm-test/
+
+# Artefatos de build (.a intermediarios e o .wasm final de ~6.6MB)
+build/
+frontend/src/vendor/ffmpeg/
