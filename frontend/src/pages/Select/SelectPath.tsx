@@ -2,40 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { SourceCard, type Source } from "../../components/Select/SourceCard";
 import { VideoSelectModal } from "../../components/Select/VideoSelectModal";
-import { YoutubeLinkModal, type SubtitleInfo } from "../../components/Select/YoutubeLinkModal";
-import { SubtitleSelectModal } from "../../components/Select/SubtitleSelectModal";
-import { useSubtitles } from "../../hooks/useSubtitles";
+import { usePlayerSession } from "../../contexts/PlayerSessionContext";
 import styles from "./SelectPath.module.css";
 
 const sources: Source[] = [
-  {
-    id: "youtube",
-    path: "/learnwatching/youtube",
-    label: "YouTube",
-    tagline: "Aprenda com qualquer vídeo do YouTube",
-    description:
-      "Cole o link ou pesquise. Seu progresso fica salvo automaticamente — retome de onde parou, em qualquer dispositivo.",
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-      >
-        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" />
-        <polygon
-          points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"
-          fill="currentColor"
-          stroke="none"
-        />
-      </svg>
-    ),
-    accent: "#FF4444",
-    accentDim: "rgba(255,68,68,0.12)",
-    badge: "Progresso salvo",
-    badgeIcon: "✦",
-    number: "01",
-  },
   {
     id: "local",
     path: "/learnwatching/local",
@@ -91,52 +61,22 @@ const sources: Source[] = [
 export function HomePage() {
   const [mounted, setMounted] = useState(false);
   const [videoModalOpen, setVideoModalOpen] = useState(false);
-  const [youtubeModalOpen, setYoutubeModalOpen] = useState(false);
-  const [subtitleModalOpen, setSubtitleModalOpen] = useState(false);
-  const [selectedUrl, setSelectedUrl] = useState<string>("");
   const navigate = useNavigate();
-  const { subtitles, isLoading, error, fetchSubtitles } = useSubtitles();
+  const { setSession } = usePlayerSession();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
   const handleVideoSelect = (videoFile: File, subtitleFile?: File) => {
-    // TODO: Enviar para API quando configurada
-    console.log("Vídeo selecionado:", videoFile);
-    console.log("Legenda selecionada:", subtitleFile);
-
-    // Navegar para player com os arquivos
-    navigate("/player", {
-      state: {
-        videoFile,
-        subtitleFile,
-      },
-    });
-  };
-
-  const handleYoutubeSubmit = (url: string) => {
-    console.log("URL do YouTube enviada:", url);
-    setSelectedUrl(url);
-    fetchSubtitles(url);
-  };
-
-  const handleSubtitlesLoaded = (url: string, loadedSubtitles: SubtitleInfo[]) => {
-    console.log("Legendas carregadas para:", url, loadedSubtitles);
-  };
-
-  const handleSubtitleSelect = (languageCode: string) => {
-    console.log("Legenda selecionada:", languageCode);
-    setSubtitleModalOpen(false);
-    // TODO: Baixar legenda e navegar para player
-    // navigate("/player", { state: { videoUrl: selectedUrl, languageCode } });
-  };
-
-  useEffect(() => {
-    if (subtitles && selectedUrl) {
-      setSubtitleModalOpen(true);
+    if (!subtitleFile) {
+      console.warn("Legenda obrigatória — sessão não iniciada");
+      return;
     }
-  }, [subtitles, selectedUrl]);
+    // Guarda a sessao no contexto pra persistir enquanto o app estiver aberto
+    setSession({ videoFile, subtitleFile });
+    navigate("/player");
+  };
 
   return (
     <div className={`${styles.root} ${mounted ? styles.mounted : ""}`}>
@@ -149,8 +89,6 @@ export function HomePage() {
             onNavigate={(path) => {
               if (path === "/learnwatching/local") {
                 setVideoModalOpen(true);
-              } else if (path === "/learnwatching/youtube") {
-                setYoutubeModalOpen(true);
               } else {
                 navigate(path);
               }
@@ -163,25 +101,6 @@ export function HomePage() {
         isOpen={videoModalOpen}
         onClose={() => setVideoModalOpen(false)}
         onSelect={handleVideoSelect}
-      />
-
-      <YoutubeLinkModal
-        isOpen={youtubeModalOpen}
-        onClose={() => {
-          setYoutubeModalOpen(false);
-          setSelectedUrl("");
-        }}
-        onSubmit={handleYoutubeSubmit}
-        onSubtitlesLoaded={handleSubtitlesLoaded}
-      />
-
-      <SubtitleSelectModal
-        isOpen={subtitleModalOpen}
-        onClose={() => setSubtitleModalOpen(false)}
-        onSelect={handleSubtitleSelect}
-        subtitles={subtitles?.subtitles ?? []}
-        videoTitle={subtitles?.video_title}
-        isLoading={isLoading}
       />
     </div>
   );
