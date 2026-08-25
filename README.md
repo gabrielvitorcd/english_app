@@ -27,21 +27,28 @@
 ## 🏗️ Arquitetura
 
 ```
-┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│   React     │────▶│   FastAPI    │────▶│  PostgreSQL │
-│  Frontend   │     │   Backend    │     │   Database  │
-│  (Port 5200)│     │  (Port 8000) │     │  (Port 5432)│
-└─────────────┘     └──────────────┘     └─────────────┘
+┌─────────────────────────────────────┐
+│           Browser (cliente)         │
+│  ┌─────────┐    ┌─────────────────┐ │
+│  │  React  │───▶│  Web Worker     │ │
+│  │   UI    │    │  FFmpeg.wasm    │ │
+│  └─────────┘    │  (transcodifica)│ │
+└─────────────────┴─────────────────┘─┘
+         │
+         ▼
+   ┌──────────┐     ┌─────────────┐
+   │  FastAPI │────▶│  PostgreSQL │
+   └──────────┘     └─────────────┘
 ```
 
 ### Stack Tecnológico
 
-| Camada      | Tecnologia                          |
-|-------------|-------------------------------------|
-| Frontend    | React 19 + TypeScript + Vite        |
-| Backend     | FastAPI + SQLAlchemy + Alembic      |
-| Database    | PostgreSQL 15                       |
-| Infra       | Docker + Docker Compose             |
+| Camada   | Tecnologia                     |
+| -------- | ------------------------------ |
+| Frontend | React 19 + TypeScript + Vite   |
+| Backend  | FastAPI + SQLAlchemy + Alembic |
+| Database | PostgreSQL 15                  |
+| Infra    | Docker + Docker Compose        |
 
 ---
 
@@ -115,6 +122,13 @@ DB_HOST=db
 DB_PORT=5432
 ```
 
+### 2.5 Compilar o FFmpeg para WASM (necessário uma vez)
+
+```bash
+source ~/desenvolvimento/emsdk/emsdk_env.sh
+npm run wasm:build
+```
+
 ### 3. Suba os containers
 
 ```bash
@@ -123,11 +137,11 @@ docker-compose up --build
 
 A aplicação estará disponível em:
 
-| Serviço   | URL                  |
-|-----------|----------------------|
-| Frontend  | http://localhost:5200 |
-| Backend   | http://localhost:8000 |
-| Database  | localhost:5432       |
+| Serviço  | URL                   |
+| -------- | --------------------- |
+| Frontend | http://localhost:5200 |
+| Backend  | http://localhost:8000 |
+| Database | localhost:5432        |
 
 ### 4. Health Check
 
@@ -187,24 +201,75 @@ npm run preview
 
 ## 📦 Comandos Docker
 
+> **Nota:** Use `docker compose` (v2) em vez de `docker-compose` (v1 legado).
+
 ```bash
-# Subir todos os serviços
-docker-compose up -d
+# Subir todos os serviços (com build)
+docker compose up -d --build
 
 # Parar todos os serviços
-docker-compose down
+docker compose down
+
+# Parar e remover volumes (limpa banco de dados)
+docker compose down -v
 
 # Ver logs
-docker-compose logs -f api
-docker-compose logs -f web
+docker compose logs -f api
+docker compose logs -f web
+docker compose logs -f db
 
 # Rebuildar um serviço específico
-docker-compose build api
-docker-compose up -d api
+docker compose build api
+docker compose up -d api
+
+docker compose build web
+docker compose up -d web
 
 # Acessar shell do container
 docker exec -it fastapi_api_english sh
 docker exec -it react_frontend_english sh
+docker exec -it pg_database_english psql -U gabriel_dev -d db_study_english
+```
+
+### Instalando Dependências no Docker
+
+#### Frontend (npm)
+
+```bash
+# Instalar pacote no container
+docker exec -w /app react_frontend_english npm install <package>
+
+# Exemplo: instalar react-player
+docker exec -w /app react_frontend_english npm install react-player
+```
+
+#### Backend (pip)
+
+```bash
+# Instalar pacote no container
+docker exec fastapi_api_english pip install <package>
+
+# Adicionar ao requirements.txt para persistência
+echo "<package>" >> backend/requirements.txt
+docker compose build api
+```
+
+---
+
+## 🔧 Scripts Úteis
+
+No diretório raiz do projeto:
+
+```bash
+# Build e start de todos os serviços
+npm run docker:build
+npm run docker:up
+
+# Parar serviços
+npm run docker:down
+
+# Ver logs em tempo real
+npm run docker:logs
 ```
 
 ---
@@ -242,9 +307,9 @@ npm run build
 
 ## 🔌 API Endpoints
 
-| Método | Endpoint     | Descrição              |
-|--------|--------------|------------------------|
-| GET    | `/health`    | Health check da API    |
+| Método | Endpoint  | Descrição           |
+| ------ | --------- | ------------------- |
+| GET    | `/health` | Health check da API |
 
 > **Nota:** Endpoints adicionais serão documentados conforme implementação.
 
@@ -274,13 +339,13 @@ npm run build
 
 ## 🔐 Variáveis de Ambiente
 
-| Variável      | Descrição                | Padrão     |
-|---------------|--------------------------|------------|
-| `DB_USER`     | Usuário do PostgreSQL    | -          |
-| `DB_PASSWORD` | Senha do PostgreSQL      | -          |
-| `DB_NAME`     | Nome do banco            | -          |
-| `DB_HOST`     | Host do banco            | `db`       |
-| `DB_PORT`     | Porta do PostgreSQL      | `5432`     |
+| Variável      | Descrição             | Padrão |
+| ------------- | --------------------- | ------ |
+| `DB_USER`     | Usuário do PostgreSQL | -      |
+| `DB_PASSWORD` | Senha do PostgreSQL   | -      |
+| `DB_NAME`     | Nome do banco         | -      |
+| `DB_HOST`     | Host do banco         | `db`   |
+| `DB_PORT`     | Porta do PostgreSQL   | `5432` |
 
 ---
 
