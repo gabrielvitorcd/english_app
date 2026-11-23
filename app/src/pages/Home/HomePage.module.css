@@ -91,7 +91,7 @@
 .video_screen {
   position: relative;
   aspect-ratio: 16 / 10;
-  background: var(--surface);
+  background: var(--video-bg);
   display: flex;
   flex-direction: column;
   justify-content: center;
