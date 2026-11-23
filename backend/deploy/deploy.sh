@@ -108,6 +108,13 @@ conferir() {  # $1 = versão que vai entrar no ar. Roda ANTES de mexer em qualqu
     log "  scp -r borda core@<IP>:/tmp/borda && ssh core@<IP> bash /tmp/borda/instalar.sh"
     return 1
   fi
+  if ! borda_no_ar; then
+    # Quem liga a borda é o deploy do core-studio (a migração tira o Caddy antigo dele). Ligar daqui,
+    # antes disso, tomaria as portas 80/443 e deixaria o Caddy antigo do core sem poder voltar.
+    log "a borda (container \"$BORDA\") está parada. Ela é ligada pelo deploy do core-studio: publique"
+    log "o core primeiro (veja o roteiro da borda no backend/README.md do core-studio)."
+    return 1
+  fi
   if [ ! -d "$BORDA_SITES" ] || [ ! -w "$BORDA_SITES" ]; then
     log "não consigo gravar em $BORDA_SITES (rode o borda/instalar.sh do core-studio)"; return 1
   fi
@@ -128,9 +135,9 @@ instalar_site() {  # $1 = versão. Grava o site dela na borda, valida e recarreg
   fi
   mv -f "$dst.novo" "$dst" || return 1
   if ! borda_no_ar; then
-    # A borda é do core-studio: se ela está parada, o core também está fora. Ligar não faz mal (é o que
-    # o deploy do core faria), e sem ela o LearnWatching não fica no ar.
-    log "a borda estava parada: ligando"
+    # O conferir só deixa seguir com a borda no ar: se ela parou desde então, já servia o core e
+    # pode ser religada.
+    log "a borda parou durante o deploy: ligando de novo"
     docker start "$BORDA" >/dev/null || true
   fi
   if borda_pronta && caddy_borda validate && caddy_borda reload; then
@@ -201,7 +208,16 @@ if [ "${1:-}" = "--voltar" ]; then
   [ -n "$alvo" ] || { log "não há versão anterior registrada"; exit 1; }
   conferir "$alvo" || { log "não voltei: nada foi alterado"; exit 1; }
   log "voltando de ${atual:-?} para $alvo"
-  if ! { ativar "$alvo" && saudavel; }; then log "a versão anterior também não ficou saudável"; exit 1; fi
+  if ! { ativar "$alvo" && saudavel; }; then
+    log "a versão $alvo não ficou saudável"
+    docker compose logs --tail 80 api || true
+    # Não deixa a VPS com a configuração de uma versão e o registro de outra: volta para a que estava.
+    if [ -n "$atual" ] && conferir "$atual"; then
+      log "voltando para $atual"
+      if ativar "$atual" && saudavel; then log "de volta em $atual"; else log "ATENÇÃO: $atual também falhou"; fi
+    fi
+    exit 1
+  fi
   echo "$alvo" > .deploy/atual
   echo "$atual" > .deploy/anterior
   log "no ar: $alvo"
