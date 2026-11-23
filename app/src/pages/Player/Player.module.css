@@ -1,10 +1,11 @@
+/* Página do player. Os estados de carregamento e erro também ficam no palco (classe global .palco). */
 .root {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
   z-index: 10;
-  background: #000;
+  background: var(--video-bg);
   overflow: hidden;
 }
 
@@ -18,84 +19,77 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 100px);
-  padding: 24px;
-  color: #eee;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: calc(100vh - var(--navbar-h) - var(--s-8));
+  padding: var(--s-6);
+  color: var(--text);
+  font-family: var(--font-text);
 }
 
 .loader {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  max-width: 400px;
+  gap: var(--s-3);
+  max-width: var(--loader-max);
   text-align: center;
 }
 
 .loaderTitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: #f5c842;
+  font-size: var(--fs-headline);
+  font-weight: var(--fw-bold);
+  color: var(--text);
 }
 
 .loaderProgress {
-  font-size: 14px;
-  color: #999;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
 }
 
 .progressBar {
-  width: 260px;
-  height: 6px;
-  background: #1a1a1a;
-  border-radius: 3px;
+  width: var(--loader-w);
+  max-width: 100%;
+  height: var(--track-h);
+  background: var(--track-idle);
+  border-radius: var(--radius-full);
   overflow: hidden;
-  margin-top: 6px;
+  margin-top: var(--s-1);
 }
 
 .progressFill {
   height: 100%;
-  background: #f5c842;
-  transition: width 0.3s ease-out;
-}
-
-.spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid #333;
-  border-top-color: #f5c842;
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+  background: var(--accent);
+  border-radius: var(--radius-full);
+  transition: width var(--dur-slow) var(--ease);
 }
 
 .errorBox {
-  padding: 16px 20px;
-  background: rgba(255, 125, 125, 0.1);
-  border: 1px solid rgba(255, 125, 125, 0.4);
-  border-radius: 6px;
-  color: #ffb3b3;
-  max-width: 500px;
-  font-size: 14px;
+  padding: var(--s-4) var(--s-5);
+  background: var(--danger-soft);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  max-width: var(--error-max);
+  font-size: var(--fs-callout);
 }
 
+.errorBox strong {
+  color: var(--danger);
+}
+
+/* fundo e desfoque vêm da classe global .material-video */
 .overlayBadge {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 8px 14px;
-  background: rgba(0, 0, 0, 0.75);
-  color: #f5c842;
-  border-radius: 20px;
-  font-size: 12px;
-  font-family: "Menlo", "Consolas", monospace;
+  top: var(--s-5);
+  right: var(--s-5);
+  padding: var(--s-2) var(--s-3);
+  color: var(--text);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
   pointer-events: none;
-  backdrop-filter: blur(4px);
   z-index: 40;
 }
