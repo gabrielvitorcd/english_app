@@ -4,6 +4,7 @@
 // COLOR_PRESETS, BG_PRESETS e FONT_OPTIONS são dados de preferência do aluno (as cores e fontes que
 // ele pode escolher para a legenda), não estilo do app: são a exceção à regra de cor solta do DESIGN.md.
 
+import type { CSSProperties } from "react";
 import { X } from "lucide-react";
 import { Button, IconButton } from "../ui";
 import type { SubtitleSettings } from "../../hooks/useSubtitleSettings";
@@ -85,7 +86,7 @@ export function SubtitleSettingsPanel({
               className={`${styles.swatch} ${
                 settings.color === c ? styles.swatchActive : ""
               }`}
-              style={{ background: c }}
+              style={{ "--swatch-color": c } as CSSProperties}
               onClick={() => update("color", c)}
               aria-label={`Cor ${c}`}
               title={c}
@@ -104,7 +105,11 @@ export function SubtitleSettingsPanel({
               className={`${styles.swatch} ${
                 settings.background === c ? styles.swatchActive : ""
               } ${c === "transparent" ? styles.swatchTransparent : ""}`}
-              style={c !== "transparent" ? { background: c } : undefined}
+              style={
+                c !== "transparent"
+                  ? ({ "--swatch-color": c } as CSSProperties)
+                  : undefined
+              }
               onClick={() => update("background", c)}
               aria-label={`Fundo ${c === "transparent" ? "transparente" : c}`}
               title={c === "transparent" ? "transparente" : c}

@@ -76,34 +76,61 @@
   color: var(--text);
 }
 
-/* ── Swatches (cor de fundo de cada uma vem do inline: preferência do aluno) ── */
+/* ── Swatches ──
+ * O botão tem a área de toque de 44 pt (--control-h); o círculo visível (--swatch) é o ::before.
+ * A cor de cada amostra vem do inline (--swatch-color): preferência do aluno.
+ * A margem negativa mantém os círculos onde estavam (alinhados ao rótulo). */
 
 .swatches {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--s-2);
+  gap: 0;
+  margin: calc((var(--swatch) - var(--control-h)) / 2);
 }
 
 .swatch {
+  display: inline-grid;
+  place-items: center;
+  width: var(--control-h);
+  height: var(--control-h);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  cursor: pointer;
+}
+
+.swatch::before {
+  content: "";
   width: var(--swatch);
   height: var(--swatch);
+  box-sizing: border-box;
   border-radius: var(--radius-full);
   border: var(--hairline) solid var(--border-control);
-  cursor: pointer;
-  padding: 0;
+  background: var(--swatch-color, transparent);
   transition: box-shadow var(--dur-fast) var(--ease);
 }
 
-.swatch:hover {
+.swatch:hover::before {
   box-shadow: 0 0 0 var(--focus-w) var(--border-control);
 }
 
-.swatchActive,
-.swatchActive:hover {
+.swatchActive::before,
+.swatchActive:hover::before {
   box-shadow: 0 0 0 var(--focus-w) var(--surface-2), 0 0 0 calc(2 * var(--focus-w)) var(--focus);
 }
 
-.swatchTransparent {
+/* Foco do teclado em volta do círculo, por fora do anel de seleção (cabe nos 44 pt). */
+.swatch:focus-visible {
+  outline: none;
+}
+
+.swatch:focus-visible::before {
+  outline: var(--focus-w) solid var(--focus);
+  outline-offset: calc(3 * var(--focus-w));
+}
+
+.swatchTransparent::before {
   background: repeating-conic-gradient(var(--checker-a) 0% 25%, var(--checker-b) 0% 50%) 50% / var(--s-2) var(--s-2);
 }
 

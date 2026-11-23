@@ -340,7 +340,7 @@ Cheios e diretos. Hover: `filter: brightness(1.08)` nos preenchidos e `--fill-ho
 - **Internal Padding:** 24 px (16 px no celular).
 
 ### Popover (painel de legenda)
-Nível 2 sobre o palco: `--surface-2` escuro, 12 px de canto, padding 16 px, largura 320 px (`--panel-w`). Título em headline, fechar com `X` 44 × 44, amostras de cor de 28 px com anel `--focus` na selecionada.
+Nível 2 sobre o palco: `--surface-2` escuro, 12 px de canto, padding 16 px, largura 320 px (`--panel-w`). Título em headline, fechar com `X` 44 × 44, amostras de cor com círculo visível de 28 px (`--swatch`) dentro de uma área de toque de 44 × 44 (`--control-h`), anel `--focus` em volta do círculo na selecionada e foco de teclado por fora desse anel.
 
 ### Modal (seleção de vídeo)
 Nível 3, 24 px de canto, padding 32 px, largura 560 px, véu `--overlay` com `blur(8px)`. Título em Title 1, subtítulo em `--text-2`, fechar `X` 44 × 44 no canto, rodapé com secundário e principal.
@@ -420,7 +420,7 @@ Conteúdo que a frente de aplicação cria em `app/src/styles/tokens.css`. Nomes
 | `--underline-w` / `--underline-offset` | `2px` / `3px` | Sublinhado de sinal. |
 | `--control-h` / `--control-h-lg` | `44px` / `56px` | Alturas de controle. |
 | `--icon` / `--icon-lg` / `--icon-xl` / `--icon-stroke` | `20px` / `24px` / `36px` / `1.75` | Ícones Lucide. |
-| `--swatch` | `28px` | Amostra de cor do painel de legenda. |
+| `--swatch` | `28px` | Círculo visível da amostra de cor do painel de legenda (a área de toque é `--control-h`). |
 | `--play-overlay` | `88px` | Botão de play sobre o vídeo pausado. |
 | `--opacity-disabled` / `--opacity-pressed` | `0.4` / `0.72` | Estados. |
 | `--navbar-h` | `64px` (52 px até 599) | Cabeçalho. |
@@ -670,7 +670,7 @@ O comportamento e o layout funcional continuam: barra de controles no topo que a
   - **Não Sei / Sei:** `.btn--nao-sei` / `.btn--sei`, altura `--control-h` (hoje 48), `--radius-sm`, `--fs-callout` peso 700, sem `text-transform`, ícones `X` e `Check` de `--icon`. Saem gradientes, sombras 3D e o "afundar" no clique; pressionar = `--opacity-pressed`. Desativado: `--opacity-disabled` (mesma condição de hoje).
   - **CC, painel de legenda, avanço automático:** `IconButton` 44 × 44, ícones `Captions`/`CaptionsOff`, `Settings2`, `Repeat` em `--icon-lg`. Ligado (`showSubtitle`, painel aberto, `autoplay`): fundo `--accent-soft`, ícone `--accent` (4.55:1). Sai o amarelo.
   - **390 px (até 599 px):** só CSS, sem mexer no DOM: a barra quebra em duas linhas (voltar e contador na primeira, `position: static`; ações na segunda, Sei e Não Sei com `flex: 1`), daí `--player-bar-h: 112px`. Hoje, em 390 px, as ações (mais de 400 px de largura) não cabem e passam por cima do voltar e do contador, que estão em `position: absolute`.
-- **Painel de legenda:** `.popover` nível 2 sobre o palco, `--panel-w`, `--radius-md`, título em `--fs-headline`, rótulos em `--fs-caption` sem caixa alta, valores ("78%", "22px") em `--font-mono`, amostras de `--swatch` com `--radius-full`, borda `--hairline` `--border`, selecionada com anel `--focus`; sliders com `accent-color: var(--accent)`; select como `.input`; "Restaurar padrão" como `.btn--secondary`. As **cores das amostras** (`COLOR_PRESETS`, `BG_PRESETS`) e os valores padrão de `useSubtitleSettings.ts` são dados de preferência do aluno, não estilo: ficam como estão e são a única exceção à regra de cor solta.
+- **Painel de legenda:** `.popover` nível 2 sobre o palco, `--panel-w`, `--radius-md`, título em `--fs-headline`, rótulos em `--fs-caption` sem caixa alta, valores ("78%", "22px") em `--font-mono`, amostras com círculo de `--swatch` (`::before`, `--radius-full`, borda `--hairline` `--border-control`, cor pelo inline `--swatch-color`) num botão de `--control-h` × `--control-h` (44 pt de toque), selecionada com anel `--focus` em volta do círculo; sliders com `accent-color: var(--accent)`; select como `.input`; "Restaurar padrão" como `.btn--secondary`. As **cores das amostras** (`COLOR_PRESETS`, `BG_PRESETS`) e os valores padrão de `useSubtitleSettings.ts` são dados de preferência do aluno, não estilo: ficam como estão e são a única exceção à regra de cor solta.
 - **Legenda sobre o vídeo (`.subtitleOverlay`):** mesma posição (8% da base, 85% de largura máxima); `--radius-sm`, padding `var(--s-2) var(--s-4)`, `line-height: var(--lh-video)`. Cor, fundo, tamanho e fonte continuam vindo do `subtitleStyle()`.
 - **Área do campo e do feedback (`.inputArea`):** mesma animação de descer do topo e mesma largura (`min(var(--read-max), 100% - 2 × var(--gutter))`); `top: calc(var(--player-bar-h) + var(--s-1))`; fundo `--surface-video` + `--material-blur`, `--radius-md`, borda `--hairline` `--border`, sombra `--shadow-2`; curva `--ease`, duração `--dur-slow`.
   - **Campo:** `.input` de 44 px sobre `--surface`, borda `--border-video`, `--fs-body`; foco com borda `--accent` e anel `--focus`. Placeholder igual.
