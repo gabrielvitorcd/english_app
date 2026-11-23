@@ -91,6 +91,7 @@ cp -r "$TMP/src/app/dist" "$TMP/rel/app"
 git archive "$SHA" backend | tar -x -C "$TMP/rel"   # código do servidor, para montar a imagem na VPS
 tar czf "$TMP/$SHA.tgz" -C "$TMP/rel" .
 log "enviando ($(du -h "$TMP/$SHA.tgz" | cut -f1))"
+ssh "$VPS" "test -d $BASE" || { log "$BASE não existe na VPS: rode antes o borda/instalar.sh do core-studio (ele cria a pasta)"; exit 1; }
 ssh "$VPS" "mkdir -p $BASE/releases"
 scp -q "$TMP/$SHA.tgz" "$VPS:$BASE/releases/$SHA.tgz"
 
