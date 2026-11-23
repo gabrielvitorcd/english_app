@@ -1,0 +1,106 @@
+/* Cabeçalho: fundo --bg com borda inferior, sem vidro (DESIGN.md, "Navigation"). */
+.nav {
+  flex-shrink: 0;
+  height: var(--navbar-h);
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--s-4);
+  padding: 0 var(--gutter);
+  border-bottom: var(--hairline) solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand_group {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: var(--control-h);
+  font-family: var(--font-display);
+  font-size: var(--fs-title3);
+  font-weight: var(--fw-semibold);
+  letter-spacing: var(--tracking-title);
+  color: var(--text);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: opacity var(--dur) var(--ease);
+}
+
+.brand:hover {
+  opacity: var(--opacity-pressed);
+}
+
+.brand_logo {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+  color: var(--accent-text);
+}
+
+.brand_text span {
+  color: var(--accent-text);
+}
+
+.tabs {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-h);
+  padding: 0 var(--s-4);
+  border-radius: var(--radius-sm);
+  color: var(--text-2);
+  font-family: var(--font-text);
+  font-size: var(--fs-callout);
+  font-weight: var(--fw-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease);
+}
+
+.tab:hover {
+  color: var(--text);
+  background: var(--fill-hover);
+}
+
+.tab.on {
+  color: var(--accent-text);
+  background: var(--accent-soft);
+}
+
+/* botão de menu: classe global .icon-btn */
+.menu_btn {
+  color: var(--text-2);
+}
+
+.menu_btn:hover {
+  color: var(--text);
+}
+
+@media (max-width: 1023px) {
+  .tab {
+    padding: 0 var(--s-3);
+  }
+}
+
+/* abas escondidas abaixo de 600 px (mesmo ponto de quebra de antes: é comportamento) */
+@media (max-width: 600px) {
+  .tabs {
+    display: none;
+  }
+}

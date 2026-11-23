@@ -1,0 +1,156 @@
+/* Painel de legenda: .popover (nível 2) sobre o palco. Mesma posição de antes, abaixo da barra, à direita. */
+.panel {
+  position: absolute;
+  top: calc(var(--player-bar-h) + var(--s-1));
+  right: var(--gutter);
+  z-index: 35;
+  width: min(var(--panel-w), 100% - 2 * var(--gutter));
+  max-height: calc(100vh - var(--player-bar-h) - var(--s-10));
+  overflow-y: auto;
+  font-family: var(--font-text);
+  animation: panelIn var(--dur) var(--ease);
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--s-2)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-2);
+}
+
+.title {
+  font-family: var(--font-text);
+  font-size: var(--fs-headline);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0;
+  color: var(--text);
+}
+
+/* ── Sections ── */
+
+.section {
+  margin-bottom: var(--s-4);
+}
+
+.section:last-of-type {
+  margin-bottom: var(--s-2);
+}
+
+.label {
+  display: block;
+  margin-bottom: var(--s-2);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-caption);
+  line-height: var(--lh-caption);
+  color: var(--text-2);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--s-2);
+}
+
+.labelRow .label {
+  margin-bottom: 0;
+}
+
+.value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+/* ── Swatches ──
+ * O botão tem a área de toque de 44 pt (--control-h); o círculo visível (--swatch) é o ::before.
+ * A cor de cada amostra vem do inline (--swatch-color): preferência do aluno.
+ * A margem negativa mantém os círculos onde estavam (alinhados ao rótulo). */
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: calc((var(--swatch) - var(--control-h)) / 2);
+}
+
+.swatch {
+  display: inline-grid;
+  place-items: center;
+  width: var(--control-h);
+  height: var(--control-h);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  cursor: pointer;
+}
+
+.swatch::before {
+  content: "";
+  width: var(--swatch);
+  height: var(--swatch);
+  box-sizing: border-box;
+  border-radius: var(--radius-full);
+  border: var(--hairline) solid var(--border-control);
+  background: var(--swatch-color, transparent);
+  transition: box-shadow var(--dur-fast) var(--ease);
+}
+
+.swatch:hover::before {
+  box-shadow: 0 0 0 var(--focus-w) var(--border-control);
+}
+
+.swatchActive::before,
+.swatchActive:hover::before {
+  box-shadow: 0 0 0 var(--focus-w) var(--surface-2), 0 0 0 calc(2 * var(--focus-w)) var(--focus);
+}
+
+/* Foco do teclado em volta do círculo, por fora do anel de seleção (cabe nos 44 pt). */
+.swatch:focus-visible {
+  outline: none;
+}
+
+.swatch:focus-visible::before {
+  outline: var(--focus-w) solid var(--focus);
+  outline-offset: calc(3 * var(--focus-w));
+}
+
+.swatchTransparent::before {
+  background: repeating-conic-gradient(var(--checker-a) 0% 25%, var(--checker-b) 0% 50%) 50% / var(--s-2) var(--s-2);
+}
+
+/* ── Slider ── */
+
+.slider {
+  width: 100%;
+  min-height: var(--control-h);
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* ── Select (classe global .input) ── */
+
+.select {
+  font-size: var(--fs-body);
+}
+
+/* ── Reset (classe global .btn--secondary) ── */
+
+.reset {
+  margin-top: var(--s-2);
+}

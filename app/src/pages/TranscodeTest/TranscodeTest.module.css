@@ -1,0 +1,199 @@
+/* Teste do transcode (ferramenta de desenvolvimento): só tokens, sem polimento extra. */
+.root {
+  max-width: var(--grid-max);
+  margin: 0 auto;
+  padding: var(--s-6) var(--s-4) var(--s-12);
+  color: var(--text);
+  font-family: var(--font-text);
+}
+
+.title {
+  font-size: var(--fs-title2);
+  margin: 0 0 var(--s-1);
+}
+
+.subtitle {
+  font-size: var(--fs-footnote);
+  color: var(--text-2);
+  margin: 0 0 var(--s-5);
+}
+
+.card {
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--s-4);
+  margin-bottom: var(--s-4);
+}
+
+.row {
+  display: flex;
+  gap: var(--s-3);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+.field label {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  color: var(--text-2);
+}
+
+.field input[type="number"] {
+  background: var(--surface);
+  border: var(--hairline) solid var(--border-control);
+  color: var(--text);
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--radius-xs);
+  width: var(--num-input-w);
+  min-height: var(--control-h);
+  font-family: var(--font-mono);
+}
+
+.field input[type="file"] {
+  color: var(--text-2);
+  font-family: inherit;
+}
+
+.button {
+  background: var(--accent);
+  color: var(--on-accent);
+  border: none;
+  min-height: var(--control-h);
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--radius-xs);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.button:disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}
+
+.log {
+  background: var(--bg);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: var(--s-3);
+  height: var(--log-h);
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  line-height: var(--lh-text);
+  color: var(--text-2);
+  white-space: pre;
+}
+
+.status {
+  font-size: var(--fs-footnote);
+  color: var(--text-2);
+  margin-top: var(--s-2);
+}
+
+.statusIcon {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  vertical-align: middle;
+  margin-right: var(--s-1);
+}
+
+.statusOk {
+  color: var(--success);
+}
+
+.statusIconCache {
+  color: var(--accent-text);
+}
+
+.statusErr {
+  color: var(--danger);
+}
+
+.video {
+  width: 100%;
+  max-height: var(--dev-video-max-h);
+  background: var(--video-bg);
+  border-radius: var(--radius-xs);
+}
+
+.tracks {
+  margin-top: var(--s-3);
+  padding-top: var(--s-3);
+  border-top: var(--hairline) solid var(--border);
+}
+
+.tracksLabel {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  color: var(--text-2);
+  margin-bottom: var(--s-2);
+}
+
+.tracksList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+.trackItem {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-1) var(--s-2);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  font-size: var(--fs-footnote);
+  color: var(--text);
+  font-family: var(--font-mono);
+}
+
+.trackItem:hover {
+  background: var(--fill);
+}
+
+.trackItem input[type="radio"] {
+  accent-color: var(--accent);
+}
+
+.cacheBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s-2) var(--s-4);
+  font-size: var(--fs-footnote);
+  color: var(--text);
+}
+
+.cacheBar strong {
+  color: var(--accent-text);
+  font-family: var(--font-mono);
+}
+
+.buttonGhost {
+  background: transparent;
+  color: var(--text);
+  border: var(--hairline) solid var(--border-control);
+  padding: var(--s-1) var(--s-3);
+  min-height: var(--control-h);
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: var(--fs-caption);
+}
+
+.buttonGhost:hover:not(:disabled) {
+  background: var(--fill-hover);
+}
+
+.buttonGhost:disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+}

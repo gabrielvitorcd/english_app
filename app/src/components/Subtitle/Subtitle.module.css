@@ -1,0 +1,125 @@
+/* Componente sem uso hoje: só tokens, para cumprir a regra de nada solto. */
+/* ─── Modos de posicionamento ───────────────────────── */
+
+/* Sobreposto ao vídeo (uso padrão no player) */
+.overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 8;
+  padding: var(--s-4) var(--s-10) var(--s-16);
+  background: var(--caption-bg);
+}
+
+/* Bloco standalone — para usar fora do player */
+.block {
+  position: relative;
+  padding: var(--s-5) var(--s-6);
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+/* ─── Linha de palavras ─────────────────────────────── */
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-2);
+  transition:
+    filter var(--dur-slow) var(--ease),
+    opacity var(--dur-slow) var(--ease);
+}
+
+.hidden {
+  filter: var(--video-dim);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── Palavras ──────────────────────────────────────── */
+.word {
+  font-family: var(--font-text);
+  font-size: var(--fs-title2);
+  line-height: var(--lh-title);
+  color: var(--text);
+  cursor: pointer;
+  border-radius: var(--radius-xs);
+  padding: 0 var(--s-1);
+  transition: color var(--dur-fast) var(--ease);
+  position: relative;
+  user-select: none;
+}
+
+.word:hover {
+  color: var(--accent-text);
+}
+
+.word.sel {
+  color: var(--accent-text);
+}
+
+/* ─── Tooltip de tradução ───────────────────────────── */
+.tip {
+  position: absolute;
+  bottom: calc(100% + var(--s-2));
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--surface-2);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--s-1) var(--s-3);
+  font-family: var(--font-text);
+  font-size: var(--fs-caption);
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: var(--shadow-2);
+  color: var(--accent-text);
+  font-weight: var(--fw-medium);
+  z-index: 10;
+}
+
+/* ─── Botões ────────────────────────────────────────── */
+.toggleBtn {
+  position: absolute;
+  top: var(--s-2);
+  right: var(--s-2);
+  background: var(--surface-video);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: var(--s-1) var(--s-2);
+  color: var(--text-2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition:
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.toggleBtn:hover {
+  color: var(--text);
+  border-color: var(--border-control);
+}
+
+.clearBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-2);
+  font-size: var(--fs-caption);
+  cursor: pointer;
+  padding: 0 var(--s-1);
+  transition: color var(--dur) var(--ease);
+}
+
+.clearBtn:hover {
+  color: var(--danger);
+}

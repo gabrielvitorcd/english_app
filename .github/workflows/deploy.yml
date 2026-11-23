@@ -1,0 +1,113 @@
+name: deploy
+
+# Produção = branch main (GitFlow: o trabalho acontece na develop e chega aqui por PR).
+# DESLIGADO enquanto a variável DEPLOY_ENABLED não for "true": hoje o deploy é o `make deploy` no PC
+# (backend/deploy/publicar.sh). Este workflow faz o mesmo que ele: testes → build do app de produção →
+# envio à VPS → imagem do servidor montada lá (learnwatching-api:<sha>, sem registro de imagens) →
+# deploy.sh, que sobe a versão nova e volta sozinho para a anterior se a API não ficar saudável.
+#
+# O bundle do ffmpeg.wasm não está no git e não dá para compilar aqui sem as fontes. Antes de ligar,
+# publique o bundle (ffmpeg.js + ffmpeg.wasm num .tar.gz) num endereço privado e configure
+# FFMPEG_BUNDLE_URL e FFMPEG_BUNDLE_SHA256; sem eles o deploy para com uma mensagem.
+#
+# Configuração no GitHub (Settings → Secrets and variables → Actions):
+#   variáveis: DEPLOY_ENABLED=true, PUBLIC_API_URL (https://api.<domínio>), FFMPEG_BUNDLE_SHA256
+#   segredos:  DEPLOY_HOST (IP da VPS), DEPLOY_USER (core), DEPLOY_SSH_KEY (chave privada só do deploy),
+#              DEPLOY_KNOWN_HOSTS (saída de `ssh-keyscan <IP>`), FFMPEG_BUNDLE_URL
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-producao
+  cancel-in-progress: false # um deploy nunca é interrompido no meio
+
+jobs:
+  backend:
+    uses: ./.github/workflows/backend.yml
+
+  app:
+    uses: ./.github/workflows/app.yml
+
+  deploy:
+    needs: [backend, app]
+    if: vars.DEPLOY_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: production
+    env:
+      SHA: ${{ github.sha }}
+      HOST: ${{ secrets.DEPLOY_HOST }}
+      USER_: ${{ secrets.DEPLOY_USER }}
+      API_URL: ${{ vars.PUBLIC_API_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Bundle do ffmpeg.wasm (fora do git)
+        env:
+          URL: ${{ secrets.FFMPEG_BUNDLE_URL }}
+          SUM: ${{ vars.FFMPEG_BUNDLE_SHA256 }}
+        run: |
+          if [ -z "$URL" ] || [ -z "$SUM" ]; then
+            echo "defina FFMPEG_BUNDLE_URL (segredo) e FFMPEG_BUNDLE_SHA256 (variável); ou publique com make deploy"
+            exit 1
+          fi
+          curl -fsSL "$URL" -o /tmp/ffmpeg.tgz
+          echo "$SUM  /tmp/ffmpeg.tgz" | sha256sum -c -
+          mkdir -p app/src/vendor/ffmpeg && tar xzf /tmp/ffmpeg.tgz -C app/src/vendor/ffmpeg
+          (cd app/src/vendor/ffmpeg && sha256sum ffmpeg.js ffmpeg.wasm)
+
+      - name: Build do app de produção
+        working-directory: app
+        run: |
+          case "$API_URL" in ""|*exemplo.com.br*) echo "defina a variável PUBLIC_API_URL (domínio real)"; exit 1 ;; esac
+          npm ci && VITE_API_URL="$API_URL" npm run build
+          test ! -e dist/videos
+
+      - name: Pacote da versão (configuração + app + código do servidor)
+        run: |
+          mkdir -p release
+          cp backend/compose.yml release/
+          cp -r backend/deploy release/deploy
+          cp -r app/dist release/app
+          git archive "$SHA" backend | tar -x -C release
+          tar czf release.tgz -C release .
+
+      - name: Acesso SSH à VPS
+        env:
+          KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/deploy && chmod 600 ~/.ssh/deploy
+          printf '%s\n' "$KNOWN" > ~/.ssh/known_hosts
+          printf 'Host vps\n  HostName %s\n  User %s\n  IdentityFile ~/.ssh/deploy\n  StrictHostKeyChecking yes\n' "$HOST" "$USER_" > ~/.ssh/config
+
+      - name: Envia, monta a imagem e sobe a versão
+        run: |
+          # shellcheck disable=SC2029  # $SHA é expandido aqui de propósito
+          ssh vps "mkdir -p /opt/learnwatching/releases"
+          scp release.tgz "vps:/opt/learnwatching/releases/$SHA.tgz"
+          # shellcheck disable=SC2029
+          ssh vps "set -e
+            cd /opt/learnwatching/releases && rm -rf $SHA && mkdir $SHA && tar xzf $SHA.tgz -C $SHA && rm $SHA.tgz
+            docker build -q -t learnwatching-api:$SHA $SHA/backend >/dev/null
+            rm -rf $SHA/backend
+            bash /opt/learnwatching/releases/$SHA/deploy/deploy.sh $SHA"
+
+      - name: Confere de fora
+        run: |
+          for _ in $(seq 1 12); do
+            curl -fsS "$API_URL/health" && exit 0
+            sleep 5
+          done
+          echo "a API não respondeu pela internet"; exit 1

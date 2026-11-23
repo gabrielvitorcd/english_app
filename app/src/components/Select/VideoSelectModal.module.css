@@ -1,0 +1,343 @@
+/* Modal de seleção de vídeo: classe global .dialog (nível 3) sobre o véu --overlay. */
+
+/* ─── Overlay ───────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay);
+  -webkit-backdrop-filter: var(--overlay-blur);
+  backdrop-filter: var(--overlay-blur);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gutter);
+  z-index: 1000;
+  animation: fadeIn var(--dur) var(--ease);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ─── Modal ─────────────────────────────────────────── */
+.modal {
+  width: 100%;
+  max-width: var(--dialog-w);
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  font-family: var(--font-text);
+  animation: slideUp var(--dur-slow) var(--ease);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s-4));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Close Button (classe global .icon-btn) ────────── */
+.closeButton {
+  position: absolute;
+  top: var(--s-4);
+  right: var(--s-4);
+  color: var(--text-2);
+}
+
+.closeButton:hover {
+  color: var(--text);
+}
+
+/* ─── Header ────────────────────────────────────────── */
+.header {
+  margin-bottom: var(--s-6);
+  padding-right: var(--s-10);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--fs-title1);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-title);
+  letter-spacing: var(--tracking-title);
+  color: var(--text);
+  margin: 0 0 var(--s-2) 0;
+}
+
+.subtitle {
+  font-size: var(--fs-callout);
+  color: var(--text-2);
+  margin: 0;
+}
+
+/* ─── Dropzone ──────────────────────────────────────── */
+.dropzone {
+  border: var(--border-w-strong) dashed var(--border-control);
+  border-radius: var(--radius-md);
+  padding: var(--s-10) var(--s-6);
+  cursor: pointer;
+  transition:
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+  background: var(--fill);
+  min-height: calc(4 * var(--s-10));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropzone:hover {
+  border-color: var(--accent-text);
+}
+
+.dropzone.dragActive {
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.dropzone.hasVideo {
+  border-style: solid;
+  border-color: var(--border-control);
+  background: var(--surface);
+  padding: var(--s-4);
+  min-height: 0;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+/* ─── Dropzone Content ──────────────────────────────── */
+.dropzoneContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-3);
+  text-align: center;
+}
+
+.dropzoneIcon {
+  display: flex;
+  color: var(--text-2);
+  transition: color var(--dur) var(--ease);
+}
+
+.dropzoneIcon :global(.lucide) {
+  width: var(--icon-xl);
+  height: var(--icon-xl);
+}
+
+.dropzone:hover .dropzoneIcon,
+.dropzone.dragActive .dropzoneIcon {
+  color: var(--accent-text);
+}
+
+.dropzoneText {
+  font-size: var(--fs-callout);
+  color: var(--text);
+  margin: 0;
+}
+
+.highlight {
+  color: var(--accent-text);
+  font-weight: var(--fw-bold);
+}
+
+.dropzoneSub {
+  font-size: var(--fs-footnote);
+  color: var(--text-2);
+  margin: 0;
+}
+
+/* ─── File Selected ─────────────────────────────────── */
+.fileSelected {
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  width: 100%;
+}
+
+.fileIcon {
+  width: var(--icon-tile);
+  height: var(--icon-tile);
+  background: var(--accent-soft);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-text);
+  flex-shrink: 0;
+}
+
+.fileIcon :global(.lucide) {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}
+
+.fileInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+.fileName {
+  font-size: var(--fs-callout);
+  color: var(--text);
+  font-weight: var(--fw-medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* classe global .num */
+.fileSize {
+  font-size: var(--fs-mono);
+  color: var(--text-2);
+}
+
+/* classe global .icon-btn */
+.removeFile {
+  color: var(--text-2);
+}
+
+.removeFile:hover {
+  color: var(--danger);
+}
+
+/* ─── Subtitle Section ──────────────────────────────── */
+.subtitleSection {
+  margin-top: var(--s-5);
+}
+
+.subtitleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-bottom: var(--s-2);
+  min-height: var(--control-h);
+}
+
+.subtitleLabel {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-caption);
+  color: var(--text-2);
+}
+
+.removeSubtitle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  min-width: 0;
+  max-width: 60%;
+  min-height: var(--control-h);
+  padding: 0 var(--s-3);
+  background: transparent;
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-full);
+  color: var(--text-2);
+  font-size: var(--fs-footnote);
+  cursor: pointer;
+  transition:
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.removeSubtitle span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.removeSubtitle :global(.lucide) {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.removeSubtitle:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.subtitleDropzone {
+  border: var(--border-w-strong) dashed var(--border-control);
+  border-radius: var(--radius-md);
+  padding: var(--s-4) var(--s-5);
+  min-height: var(--control-h-lg);
+  cursor: pointer;
+  transition:
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+  background: var(--fill);
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+}
+
+.subtitleDropzone:hover {
+  border-color: var(--accent-text);
+}
+
+.subtitleDropzone.dragActive {
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.subtitleDropzone :global(.lucide) {
+  color: var(--text-2);
+}
+
+.subtitleDropzone:hover :global(.lucide) {
+  color: var(--accent-text);
+}
+
+.subtitleText {
+  font-size: var(--fs-footnote);
+  color: var(--text-2);
+}
+
+/* ─── Footer ────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: var(--hairline) solid var(--border);
+}
+
+/* ─── Celular: folha presa à base ───────────────────── */
+@media (max-width: 599px) {
+  .overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modal {
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding: var(--s-6) var(--gutter) calc(var(--s-6) + env(safe-area-inset-bottom));
+  }
+
+  .cancelButton,
+  .submitButton {
+    flex: 1;
+  }
+}

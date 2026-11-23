@@ -1,0 +1,101 @@
+/* Cartão de origem: classes globais .card .card--lg .card--interactive (fundo, borda, nível 1, nível 2 no hover). */
+.card {
+  padding: var(--s-6);
+  cursor: pointer;
+  text-align: left;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  animation: cardReveal var(--dur-slow) var(--ease) forwards;
+  animation-delay: calc(var(--i, 0) * var(--stagger));
+  min-height: var(--source-card-min-h);
+}
+
+@keyframes cardReveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--s-2));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 599px) {
+  .card {
+    padding: var(--s-4);
+  }
+}
+
+/* Card top */
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-bottom: var(--s-6);
+}
+
+.iconWrap {
+  width: var(--icon-tile);
+  height: var(--icon-tile);
+  flex: none;
+  border-radius: var(--radius-md);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  display: flex;
+}
+
+.icon :global(.lucide) {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}
+
+/* selo: classe global .chip */
+.badge {
+  flex: none;
+}
+
+/* Card body */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.label {
+  font-family: var(--font-display);
+  font-size: var(--fs-title2);
+  font-weight: var(--fw-semibold);
+  line-height: var(--lh-title);
+  letter-spacing: var(--tracking-title);
+  color: var(--text);
+}
+
+.tagline {
+  font-size: var(--fs-callout);
+  font-weight: var(--fw-medium);
+  color: var(--text);
+}
+
+.description {
+  font-size: var(--fs-footnote);
+  line-height: var(--lh-text);
+  color: var(--text-2);
+}
+
+/* .glow continua no DOM (o componente não muda), mas o brilho saiu */
+.glow {
+  display: none;
+}

@@ -1,0 +1,95 @@
+/* Página do player. Os estados de carregamento e erro também ficam no palco (classe global .palco). */
+.root {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  background: var(--video-bg);
+  overflow: hidden;
+}
+
+/* Esconde o Heading global quando o Player está montado.
+   O topBar do StudyPlayer substitui a navegação. */
+:global(.app):has(.root) :global(nav) {
+  display: none;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - var(--navbar-h) - var(--s-8));
+  padding: var(--s-6);
+  color: var(--text);
+  font-family: var(--font-text);
+}
+
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s-3);
+  max-width: var(--loader-max);
+  text-align: center;
+}
+
+.loaderTitle {
+  font-size: var(--fs-headline);
+  font-weight: var(--fw-bold);
+  color: var(--text);
+}
+
+.loaderProgress {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+}
+
+.progressBar {
+  width: var(--loader-w);
+  max-width: 100%;
+  height: var(--track-h);
+  background: var(--track-idle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-top: var(--s-1);
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: var(--radius-full);
+  transition: width var(--dur-slow) var(--ease);
+}
+
+.errorBox {
+  padding: var(--s-4) var(--s-5);
+  background: var(--danger-soft);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  max-width: var(--error-max);
+  font-size: var(--fs-callout);
+}
+
+.errorBox strong {
+  color: var(--danger);
+}
+
+/* fundo e desfoque vêm da classe global .material-video */
+.overlayBadge {
+  position: fixed;
+  top: var(--s-5);
+  right: var(--s-5);
+  padding: var(--s-2) var(--s-3);
+  color: var(--text);
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  z-index: 40;
+}

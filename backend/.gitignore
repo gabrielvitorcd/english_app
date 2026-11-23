@@ -1,0 +1,9 @@
+.venv/
+.env
+.data/
+__pycache__/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+app-dist/
+.import_linter_cache/

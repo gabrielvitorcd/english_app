@@ -1,0 +1,31 @@
+# Ambiente de teste no PC (make teste): o mesmo compose da produção, com a imagem montada aqui e o
+# .env.teste. Sobe como o projeto "learnwatching-teste" (o teste.sh passa -p), então banco e volumes são
+# só do teste (learnwatching-teste_pg_data).
+# Na produção o HTTPS é da borda (o Caddy compartilhado da VPS); aqui um Caddy próprio faz esse papel com
+# o mesmo deploy/site.caddy, recebendo os domínios por variável de ambiente. Portas 8080/8443 para rodar
+# junto com o teste do core-studio (que usa 80/443):
+#   API https://localhost:8443    app https://app.localhost:8443
+services:
+  api:
+    image: learnwatching-api:local
+    build: .
+    env_file: !override [.env.teste]
+  caddy:
+    image: caddy:2.8-alpine
+    restart: unless-stopped
+    ports: ["8080:80", "8443:443", "8443:443/udp"]
+    environment:
+      LEARN_DOMAIN: localhost
+      LEARN_APP_DOMAIN: app.localhost
+    volumes:
+      - ./deploy/site.caddy:/etc/caddy/Caddyfile:ro
+      - ./app-dist:/srv/learnwatching:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [borda]   # acha a API pelo alias learnwatching-api, como a borda na VPS
+    depends_on:
+      api: { condition: service_healthy }
+
+volumes:
+  caddy_data:
+  caddy_config:

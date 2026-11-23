@@ -1,0 +1,19 @@
+/* ─── Box do vídeo (componente sem uso hoje; só tokens) ─── */
+.box {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - var(--navbar-h));
+  background: var(--video-bg);
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.video {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  display: block;
+}

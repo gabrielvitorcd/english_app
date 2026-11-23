@@ -19,6 +19,7 @@ pip-delete-this-directory.txt
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.import_linter_cache/
 htmlcov/
 .coverage
 coverage.xml
@@ -35,7 +36,6 @@ dist-ssr/
 # Vite cache
 .vite/
 **/node_modules/
-dist/
 
 # ===========================
 # Variáveis de ambiente
@@ -63,7 +63,6 @@ Thumbs.db
 .refs
 .specs
 .claude
-docs
 
 # ===========================
 # Transcodificacao WASM (FFmpeg)
@@ -76,4 +75,12 @@ wasm-test/
 
 # Artefatos de build (.a intermediarios e o .wasm final de ~6.6MB)
 build/
-frontend/src/vendor/ffmpeg/
+app/src/vendor/ffmpeg/
+
+# ===========================
+# App e deploy
+# ===========================
+# Vídeos locais de teste (cerca de 4 GB): nunca vão para o git nem para o build publicado
+app/public/videos
+# Build do app copiado para o Caddy de teste (make teste)
+backend/app-dist/

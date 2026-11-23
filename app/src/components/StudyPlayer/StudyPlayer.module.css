@@ -1,0 +1,309 @@
+/* Player de estudo. A raiz leva a classe global .palco: aqui dentro os semânticos são sempre os escuros.
+   Layout funcional igual ao de antes; só a aparência muda (DESIGN.md, "Aplicação · Player"). */
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: var(--text);
+  font-family: var(--font-text);
+}
+
+/* ── VIDEO ── */
+
+.videoWrap {
+  position: absolute;
+  inset: 0;
+  background: var(--video-bg);
+  overflow: hidden;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  cursor: pointer;
+  transition: filter var(--dur-slow) var(--ease);
+}
+
+.videoPaused {
+  filter: var(--video-dim);
+}
+
+/* fundo e desfoque vêm da classe global .material-video */
+.playIconOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--play-overlay);
+  height: var(--play-overlay);
+  border-radius: var(--radius-full);
+  border: var(--border-w-strong) solid var(--border-video);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  pointer-events: none;
+  z-index: 5;
+  animation: playIconFadeIn var(--dur) var(--ease);
+}
+
+.playIconOverlay :global(.lucide) {
+  width: var(--icon-xl);
+  height: var(--icon-xl);
+  /* o triângulo do Play fica visualmente à esquerda; o deslocamento centraliza o peso */
+  transform: translateX(var(--s-1));
+}
+
+@keyframes playIconFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.waiting {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-2);
+  font-size: var(--fs-footnote);
+}
+
+.subtitleOverlay {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 85%;
+  padding: var(--s-2) var(--s-4);
+  text-align: center;
+  border-radius: var(--radius-sm);
+  -webkit-backdrop-filter: var(--caption-blur);
+  backdrop-filter: var(--caption-blur);
+  text-shadow: var(--caption-shadow);
+  pointer-events: none;
+  z-index: 4;
+  line-height: var(--lh-video);
+  /* cor, fundo, font-size e font-family vêm do inline via subtitleStyle() (preferências do aluno) */
+}
+
+/* ── TOP BAR (header do player) ── */
+
+/* fundo e desfoque vêm da classe global .material-video */
+.topBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--player-bar-h);
+  padding: 0 var(--gutter);
+  padding-top: env(safe-area-inset-top);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.root:hover .topBar,
+.root:focus-within .topBar {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.backButton {
+  position: absolute;
+  left: var(--gutter);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.counter {
+  position: absolute;
+  right: var(--gutter);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-2);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+/* Sei / Não Sei: classes .btn--sei e .btn--nao-sei de components.css */
+.answerButton {
+  font-size: var(--fs-callout);
+}
+
+/* ── 390 px: a barra quebra em duas linhas (voltar e contador em cima, ações embaixo) ── */
+@media (max-width: 599px) {
+  .topBar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: center;
+    row-gap: var(--s-1);
+    padding-top: calc(var(--s-1) + env(safe-area-inset-top));
+    padding-bottom: var(--s-1);
+  }
+
+  .backButton,
+  .counter {
+    position: static;
+    transform: none;
+  }
+
+  .actions {
+    flex: 1 1 100%;
+  }
+
+  .answerButton {
+    flex: 1;
+    padding: 0 var(--s-3);
+  }
+}
+
+/* ── Input area (desce do topo) ── */
+
+/* fundo e desfoque vêm da classe global .material-video */
+.inputArea {
+  position: absolute;
+  top: calc(var(--player-bar-h) + var(--s-1)); /* logo abaixo do topBar */
+  left: 50%;
+  width: min(var(--read-max), 100% - 2 * var(--gutter));
+  z-index: 25;
+  padding: var(--s-4) var(--s-5);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-2);
+  transform: translate(-50%, calc(-100% - var(--player-bar-h) - var(--s-4)));
+  opacity: 0;
+  transition:
+    transform var(--dur-slow) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+
+.inputAreaOpen {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+/* classe global .input; sobre o vídeo a borda é --border-video */
+.input {
+  flex: 1;
+  min-width: 0;
+  border-color: var(--border-video);
+}
+
+.input:focus {
+  border-color: var(--accent);
+}
+
+/* ── Feedback (dentro do inputArea) ── */
+
+.feedback {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+}
+
+.answerBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+}
+
+.answerLabel {
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-caption);
+  line-height: var(--lh-caption);
+  color: var(--text-2);
+}
+
+.answerText {
+  font-size: var(--fs-body);
+  color: var(--text);
+  line-height: var(--lh-text);
+}
+
+.matched {
+  color: var(--accent-text);
+  font-weight: var(--fw-bold);
+  text-decoration: underline var(--underline-w);
+  text-underline-offset: var(--underline-offset);
+}
+
+/* veredito: texto em --text (contraste sobre o vídeo), só o ícone leva a cor do estado */
+.score {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--fs-footnote);
+  font-weight: var(--fw-medium);
+  color: var(--text);
+}
+
+.scoreGreat {
+  background: var(--success-soft);
+}
+
+.scoreOkay {
+  background: var(--warning-soft);
+}
+
+.scorePoor {
+  background: var(--danger-soft);
+}
+
+.scoreGreat .scoreIcon {
+  color: var(--success);
+}
+
+.scoreOkay .scoreIcon {
+  color: var(--warning);
+}
+
+.scorePoor .scoreIcon {
+  color: var(--danger-video);
+}
+
+/* classe global .btn--accent */
+.nextButton {
+  flex-wrap: wrap;
+  white-space: normal;
+}
+
+.nextHint {
+  font-size: var(--fs-footnote);
+  font-weight: var(--fw-regular);
+  color: var(--on-accent);
+}
+
+.message {
+  text-align: center;
+  color: var(--text-2);
+  padding: var(--s-10);
+  font-size: var(--fs-body);
+}

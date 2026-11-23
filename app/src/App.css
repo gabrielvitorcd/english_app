@@ -1,0 +1,9 @@
+.app {
+  font-family: var(--font-text);
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
