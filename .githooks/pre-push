@@ -1,0 +1,4 @@
+#!/bin/sh
+# As verificações de todo o repositório rodam aqui antes de cada push (instale uma vez: make hooks).
+# Pular uma vez: git push --no-verify
+exec make -s check
