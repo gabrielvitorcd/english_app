@@ -1,0 +1,121 @@
+[project]
+name = "learnwatching-api"
+version = "1.0.0"
+description = "Backend do LearnWatching: lista as legendas disponíveis de vídeos do YouTube."
+requires-python = ">=3.13,<3.14"
+dependencies = [
+    "fastapi>=0.115",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "sqlalchemy[asyncio]>=2.0.36",
+    "psycopg[binary]>=3.2",
+    "alembic>=1.14",
+    "uvicorn[standard]>=0.32",
+    "structlog>=24.4",
+    "yt-dlp>=2025.1.1",
+    "httpx>=0.28",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "testcontainers[postgres]>=4.8",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "import-linter>=2.1",
+]
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+line-length = 110
+target-version = "py313"
+# Revisão gerada antes do ruff: fica como está, para não mexer no histórico do banco.
+extend-exclude = ["migrations/versions/1a28ea8eb4a0_create_user_table.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "A", "C4", "SIM", "RUF", "ASYNC", "S", "PTH"]
+ignore = [
+    "S101",   # assert é usado nos testes
+    "B008",   # Depends() em parâmetros padrão é o idioma do FastAPI
+    "RUF001", # textos em português usam caracteres "ambíguos"
+    "RUF002",
+    "RUF003",
+    "N818",   # exceções de domínio têm nomes de regra (EmailTaken), sem sufixo Error
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S105", "S106"]
+"migrations/**" = ["E501"]
+
+[tool.mypy]
+strict = true
+python_version = "3.13"
+plugins = ["pydantic.mypy"]
+exclude = ["migrations/"]
+
+[[tool.mypy.overrides]]
+module = ["yt_dlp", "yt_dlp.*", "testcontainers.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
+testpaths = ["tests"]
+
+# ---------------------------------------------------------------------------------------------
+# Fronteiras da arquitetura (lint-imports)
+# ---------------------------------------------------------------------------------------------
+[tool.importlinter]
+root_packages = ["app"]
+include_external_packages = true
+
+[[tool.importlinter.contracts]]
+name = "core não depende dos módulos"
+type = "forbidden"
+source_modules = ["app.core"]
+forbidden_modules = ["app.modules"]
+
+[[tool.importlinter.contracts]]
+name = "Camadas de cada módulo (api > infrastructure > application > domain)"
+type = "layers"
+# users entra aqui quando ganhar domain/application/api (hoje só tem infrastructure/orm.py).
+containers = [
+    "app.modules.subtitles",
+]
+layers = ["api", "infrastructure", "application", "domain"]
+exhaustive = false
+
+[[tool.importlinter.contracts]]
+name = "Domínio puro (sem framework)"
+type = "forbidden"
+source_modules = [
+    "app.modules.subtitles.domain",
+]
+forbidden_modules = ["fastapi", "sqlalchemy", "pydantic", "starlette"]
+
+[[tool.importlinter.contracts]]
+name = "Módulos só se conhecem pela interface pública (__init__)"
+type = "independence"
+modules = [
+    "app.modules.subtitles.domain",
+    "app.modules.users.infrastructure",
+]
+
+[[tool.importlinter.contracts]]
+name = "Os outros módulos só usam a interface pública de subtitles"
+type = "forbidden"
+source_modules = ["app.modules.system", "app.modules.users"]
+forbidden_modules = ["app.modules.subtitles.domain", "app.modules.subtitles.application", "app.modules.subtitles.infrastructure", "app.modules.subtitles.api"]
+allow_indirect_imports = true
+
+[[tool.importlinter.contracts]]
+name = "Os outros módulos só usam a interface pública de users"
+type = "forbidden"
+source_modules = ["app.modules.system", "app.modules.subtitles"]
+# Acrescente domain, application e api quando existirem.
+forbidden_modules = ["app.modules.users.infrastructure"]
+allow_indirect_imports = true
