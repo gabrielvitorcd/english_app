@@ -18,7 +18,7 @@ PREFIX="$ROOT/build/wasm"
 # (regra intencional — public/ e copia-literal-sem-transforms). Do src/vendor/
 # o consumidor usa `import url from './ffmpeg.js?url'`, o Vite trata como asset
 # opaco (nao bundleia, so hasheia e serve).
-OUT_DIR="$ROOT/frontend/src/vendor/ffmpeg"
+OUT_DIR="$ROOT/app/src/vendor/ffmpeg"
 
 source "$ROOT/emsdk/emsdk_env.sh" >/dev/null 2>&1
 

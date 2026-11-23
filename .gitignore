@@ -76,4 +76,4 @@ wasm-test/
 
 # Artefatos de build (.a intermediarios e o .wasm final de ~6.6MB)
 build/
-frontend/src/vendor/ffmpeg/
+app/src/vendor/ffmpeg/

@@ -42,7 +42,7 @@ services:
 
   web:
     build:
-      context: ./frontend
+      context: ./app
       dockerfile: Dockerfile
     container_name: react_frontend_english
     restart: always
@@ -51,7 +51,7 @@ services:
     ports:
       - "5200:5200"
     volumes:
-      - ./frontend:/app
+      - ./app:/app
       - /app/node_modules
     environment:
       - WDS_SOCKET_PORT=0

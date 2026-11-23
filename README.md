@@ -70,7 +70,7 @@ english_srt/
 │   ├── tests/                   # Testes com pytest
 │   ├── requirements.txt
 │   └── Dockerfile
-├── frontend/
+├── app/
 │   ├── src/
 │   │   ├── components/
 │   │   │   ├── Header/          # Navegação superior
@@ -179,7 +179,7 @@ pytest -x        # Parar no primeiro erro
 ### Frontend
 
 ```bash
-cd frontend
+cd app
 
 # Instalar dependências
 npm install
@@ -294,7 +294,7 @@ pytest tests/test_connection.py -v
 ### Frontend
 
 ```bash
-cd frontend
+cd app
 
 # Lint (validação de código)
 npm run lint

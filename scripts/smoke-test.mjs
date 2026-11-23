@@ -4,7 +4,7 @@
 // audio, encode H.264+AAC, mux MP4 e extracao de legenda para .srt.
 //
 // Uso:  node scripts/smoke-test.mjs <arquivo-de-video>
-// Ex.:  node scripts/smoke-test.mjs frontend/public/videos/friends/friends1x01.mkv
+// Ex.:  node scripts/smoke-test.mjs app/public/videos/friends/friends1x01.mkv
 //
 // Observacao: em Node usamos NODEFS para dar ao filesystem virtual acesso ao
 // disco. No browser o equivalente e WORKERFS (monta um File sem copiar tudo
@@ -21,7 +21,7 @@ if (!input) {
 
 const ROOT = resolve(import.meta.dirname, "..");
 const { default: createFFmpeg } = await import(
-  join(ROOT, "frontend/src/vendor/ffmpeg/ffmpeg.js")
+  join(ROOT, "app/src/vendor/ffmpeg/ffmpeg.js")
 );
 
 // O MEMFS nao ve o disco real: monta um diretorio de trabalho via NODEFS.
