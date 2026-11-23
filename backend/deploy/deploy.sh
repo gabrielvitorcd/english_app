@@ -112,7 +112,8 @@ conferir() {  # $1 = versão que vai entrar no ar. Roda ANTES de mexer em qualqu
     # Quem liga a borda é o deploy do core-studio (a migração tira o Caddy antigo dele). Ligar daqui,
     # antes disso, tomaria as portas 80/443 e deixaria o Caddy antigo do core sem poder voltar.
     log "a borda (container \"$BORDA\") está parada. Ela é ligada pelo deploy do core-studio: publique"
-    log "o core primeiro (veja o roteiro da borda no backend/README.md do core-studio)."
+    log "o core primeiro (veja o roteiro da borda no backend/README.md do core-studio). Se o core já"
+    log "está na borda e ela caiu: docker logs $BORDA; docker start $BORDA."
     return 1
   fi
   if [ ! -d "$BORDA_SITES" ] || [ ! -w "$BORDA_SITES" ]; then
