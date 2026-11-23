@@ -17,6 +17,7 @@ import {
   countCachedSlices,
   videoFingerprint,
 } from "../../lib/videoCache";
+import { CircleCheck, CircleX, Zap } from "lucide-react";
 import styles from "./TranscodeTest.module.css";
 
 type ProbeStatus =
@@ -340,7 +341,8 @@ export function TranscodeTestPage() {
         )}
         {probeStatus.kind === "error" && (
           <div className={`${styles.status} ${styles.statusErr}`}>
-            ✗ Probe falhou: {probeStatus.message}
+            <CircleX className={styles.statusIcon} aria-hidden="true" />
+            Probe falhou: {probeStatus.message}
           </div>
         )}
         {probeStatus.kind === "ready" && audioTracks.length > 0 && (
@@ -374,7 +376,18 @@ export function TranscodeTestPage() {
           )}
           {sliceStatus.kind === "done" && (
             <span className={styles.statusOk}>
-              {sliceStatus.cached ? "⚡ Cache hit" : "✓ Encodado"} —{" "}
+              {sliceStatus.cached ? (
+                <>
+                  <Zap className={`${styles.statusIcon} ${styles.statusIconCache}`} aria-hidden="true" />
+                  Cache hit
+                </>
+              ) : (
+                <>
+                  <CircleCheck className={styles.statusIcon} aria-hidden="true" />
+                  Encodado
+                </>
+              )}{" "}
+              —{" "}
               {(sliceStatus.bytes / 1024).toFixed(0)} KB em{" "}
               {sliceStatus.ms < 1000
                 ? `${sliceStatus.ms.toFixed(0)}ms`
@@ -382,7 +395,10 @@ export function TranscodeTestPage() {
             </span>
           )}
           {sliceStatus.kind === "error" && (
-            <span className={styles.statusErr}>✗ {sliceStatus.message}</span>
+            <span className={styles.statusErr}>
+              <CircleX className={styles.statusIcon} aria-hidden="true" />
+              {sliceStatus.message}
+            </span>
           )}
         </div>
       </div>
