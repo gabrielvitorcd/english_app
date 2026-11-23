@@ -1,0 +1,66 @@
+name: backend
+
+# Testes do servidor. Rodam em PR e na develop; o workflow "deploy" chama este antes de publicar.
+on:
+  push:
+    branches: [develop]
+    paths: ["backend/**", "docs/openapi.json", ".github/workflows/backend.yml"]
+  pull_request:
+    paths: ["backend/**", "docs/openapi.json", ".github/workflows/backend.yml"]
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: backend-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: backend
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: learn
+          POSTGRES_PASSWORD: learn
+          POSTGRES_DB: learnwatching_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U learn" --health-interval 5s --health-timeout 3s --health-retries 20
+    env:
+      # Com TEST_DATABASE_URL os testes usam este Postgres em vez do testcontainers (tests/conftest.py).
+      TEST_DATABASE_URL: postgresql+psycopg://learn:learn@localhost:5432/learnwatching_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - run: uv sync --frozen --python 3.13
+      - name: Lint
+        run: uv run ruff check . && uv run ruff format --check .
+      - name: Arquitetura (import-linter)
+        run: uv run lint-imports
+      - name: Tipos (mypy strict)
+        run: uv run mypy app
+      - name: Migrations sem pendências
+        env:
+          DATABASE_URL: postgresql+psycopg://learn:learn@localhost:5432/learnwatching_test
+        run: uv run alembic upgrade head && uv run alembic check
+      - name: Testes
+        run: uv run pytest -q
+      - name: OpenAPI do repositório está em dia
+        run: |
+          uv run python -c "import json; from app.main import app; print(json.dumps(app.openapi(), ensure_ascii=False, indent=2))" > /tmp/openapi.json
+          python3 - <<'PY'
+          import json
+          a = json.load(open("/tmp/openapi.json")); b = json.load(open("../docs/openapi.json"))
+          assert a == b, "docs/openapi.json desatualizado: rode make openapi em backend/"
+          PY
