@@ -105,7 +105,7 @@ conferir() {  # $1 = versão que vai entrar no ar. Roda ANTES de mexer em qualqu
   if ! docker network inspect borda >/dev/null 2>&1 || ! docker container inspect "$BORDA" >/dev/null 2>&1; then
     log "a borda (rede \"borda\" e container \"$BORDA\") não existe nesta VPS. Rode antes o borda/instalar.sh"
     log "do core-studio (veja borda/README.md lá):"
-    log "  scp -r borda core@<IP>:/tmp/borda && ssh core@<IP> bash /tmp/borda/instalar.sh"
+    log "  scp -r borda core@<IP>:/tmp/borda && ssh -t core@<IP> bash /tmp/borda/instalar.sh"
     return 1
   fi
   if ! borda_no_ar; then
