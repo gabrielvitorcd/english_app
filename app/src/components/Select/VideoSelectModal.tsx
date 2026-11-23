@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import { ArrowRight, FilePlay, FileText, Upload, X } from "lucide-react";
+import { Button, IconButton } from "../ui";
 import styles from "./VideoSelectModal.module.css";
 
 export interface VideoSelectModalProps {
@@ -93,13 +95,10 @@ export function VideoSelectModal({
 
   return (
     <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose} aria-label="Fechar modal">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
+      <div className={`dialog ${styles.modal}`} onClick={(e) => e.stopPropagation()}>
+        <IconButton className={styles.closeButton} onClick={onClose} aria-label="Fechar modal">
+          <X aria-hidden="true" />
+        </IconButton>
 
         <div className={styles.header}>
           <h2 className={styles.title}>Selecionar Vídeo</h2>
@@ -127,18 +126,15 @@ export function VideoSelectModal({
           {selectedVideo ? (
             <div className={styles.fileSelected}>
               <div className={styles.fileIcon}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <polygon points="23 7 16 12 23 17 23 7" />
-                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-                </svg>
+                <FilePlay aria-hidden="true" />
               </div>
               <div className={styles.fileInfo}>
                 <span className={styles.fileName}>{selectedVideo.name}</span>
-                <span className={styles.fileSize}>
+                <span className={`num ${styles.fileSize}`}>
                   {(selectedVideo.size / (1024 * 1024)).toFixed(2)} MB
                 </span>
               </div>
-              <button
+              <IconButton
                 className={styles.removeFile}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -146,20 +142,13 @@ export function VideoSelectModal({
                 }}
                 aria-label="Remover vídeo"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
+                <X aria-hidden="true" />
+              </IconButton>
             </div>
           ) : (
             <div className={styles.dropzoneContent}>
               <div className={styles.dropzoneIcon}>
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="17 8 12 3 7 8" />
-                  <line x1="12" y1="3" x2="12" y2="15" />
-                </svg>
+                <Upload aria-hidden="true" />
               </div>
               <p className={styles.dropzoneText}>
                 <span className={styles.highlight}>Clique para enviar</span> ou arraste e solte
@@ -176,10 +165,7 @@ export function VideoSelectModal({
             <span className={styles.subtitleLabel}>Legenda (opcional)</span>
             {selectedSubtitle && (
               <button className={styles.removeSubtitle} onClick={removeSubtitle}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
+                <X aria-hidden="true" />
                 <span>{selectedSubtitle.name}</span>
               </button>
             )}
@@ -199,10 +185,7 @@ export function VideoSelectModal({
               onChange={handleSubtitleInput}
               className={styles.hiddenInput}
             />
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <rect x="3" y="3" width="18" height="18" rx="2" />
-              <path d="M8 7h8M8 12h8M8 17h5" />
-            </svg>
+            <FileText aria-hidden="true" />
             <span className={styles.subtitleText}>
               {selectedSubtitle ? "Legenda carregada" : "Arraste um arquivo .srt ou clique para selecionar"}
             </span>
@@ -210,19 +193,18 @@ export function VideoSelectModal({
         </div>
 
         <div className={styles.footer}>
-          <button className={styles.cancelButton} onClick={onClose}>
+          <Button variant="secondary" className={styles.cancelButton} onClick={onClose}>
             Cancelar
-          </button>
-          <button
-            className={`${styles.submitButton} ${!selectedVideo ? styles.disabled : ""}`}
+          </Button>
+          <Button
+            variant="accent"
+            className={styles.submitButton}
             onClick={handleSubmit}
             disabled={!selectedVideo}
           >
             Enviar Vídeo
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
+            <ArrowRight aria-hidden="true" />
+          </Button>
         </div>
       </div>
     </div>
