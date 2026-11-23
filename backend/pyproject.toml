@@ -43,7 +43,7 @@ ignore = [
     "RUF001", # textos em português usam caracteres "ambíguos"
     "RUF002",
     "RUF003",
-    "N818",   # exceções de domínio têm nomes de regra (EmailTaken), sem sufixo Error
+    "N818",   # exceções de domínio têm nomes de regra (ex.: VideoIndisponivel), sem sufixo Error
 ]
 
 [tool.ruff.lint.per-file-ignores]
