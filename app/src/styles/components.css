@@ -1,0 +1,171 @@
+/* LearnWatching · classes base (DESIGN.md, "Components"). Os componentes de components/ui usam estas classes. */
+
+/* ---------- Botões ----------
+ * accent = principal · secondary = contorno · ghost = sem fundo · sei / nao-sei = resposta.
+ * Hover: brilho nos preenchidos, --fill-hover nos transparentes. Pressionar: opacidade, como no iOS. */
+.btn {
+  --btn-h: var(--control-h);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  min-height: var(--btn-h);
+  padding: 0 var(--s-4);
+  border: var(--hairline) solid transparent;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-text);
+  font-size: var(--fs-callout);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-caption);
+  white-space: nowrap;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    opacity var(--dur-fast) var(--ease),
+    filter var(--dur-fast) var(--ease);
+}
+.btn:active:not(:disabled) { opacity: var(--opacity-pressed); transition-duration: 0ms; }
+.btn:disabled,
+.btn[aria-disabled='true'] { opacity: var(--opacity-disabled); cursor: not-allowed; }
+
+.btn--accent { background: var(--accent); color: var(--on-accent); }
+.btn--accent:hover:not(:disabled) { background: var(--accent-hover); }
+.btn--secondary { background: transparent; border-color: var(--border-control); color: var(--text); }
+.btn--secondary:hover:not(:disabled) { background: var(--fill-hover); }
+.btn--ghost { background: transparent; color: var(--text-2); }
+.btn--ghost:hover:not(:disabled) { background: var(--fill-hover); color: var(--text); }
+.btn--sei { background: var(--success); color: var(--on-success); padding: 0 var(--s-5); }
+.btn--nao-sei { background: var(--danger); color: var(--on-danger); padding: 0 var(--s-5); }
+.btn--sei:hover:not(:disabled),
+.btn--nao-sei:hover:not(:disabled) { filter: var(--hover-brightness); }
+.btn--lg { --btn-h: var(--control-h-lg); padding: 0 var(--s-6); font-size: var(--fs-headline); }
+.btn--icon { width: var(--btn-h); padding: 0; }
+.btn--block { width: 100%; }
+
+/* ---------- Botão só com ícone (44 × 44) ---------- */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-h);
+  height: var(--control-h);
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text);
+  transition:
+    background-color var(--dur-fast) var(--ease),
+    color var(--dur-fast) var(--ease),
+    opacity var(--dur-fast) var(--ease);
+}
+.icon-btn:hover:not(:disabled) { background: var(--fill-hover); }
+.icon-btn:active:not(:disabled) { opacity: var(--opacity-pressed); transition-duration: 0ms; }
+.icon-btn:disabled { opacity: var(--opacity-disabled); cursor: not-allowed; }
+.icon-btn--on { background: var(--accent-soft); color: var(--accent); }
+.icon-btn--on:hover:not(:disabled) { background: var(--accent-soft); }
+.icon-btn--lg .lucide { width: var(--icon-lg); height: var(--icon-lg); }
+
+/* ---------- Campo ---------- */
+.input {
+  width: 100%;
+  min-height: var(--control-h);
+  padding: 0 var(--s-3);
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  transition: border-color var(--dur-fast) var(--ease);
+}
+.input::placeholder { color: var(--text-2); opacity: 1; }
+.input:focus { border-color: var(--accent); }
+.input:focus-visible { outline: var(--focus-w) solid var(--focus); outline-offset: var(--focus-w); }
+select.input { cursor: pointer; }
+
+/* ---------- Cartão ---------- */
+.card {
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+}
+.card--lg { border-radius: var(--radius-lg); }
+.card--interactive {
+  transition:
+    box-shadow var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+.card--interactive:hover,
+.card--interactive:focus-visible { box-shadow: var(--shadow-2); border-color: var(--accent); }
+
+/* ---------- Chip (selo e veredito) ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  min-height: var(--chip-h);
+  padding: 0 var(--s-3);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-full);
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-caption);
+  letter-spacing: var(--tracking-caption);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.chip .lucide { width: var(--icon-sm); height: var(--icon-sm); }
+.chip--success { border-color: transparent; background: var(--success-soft); color: var(--success); }
+.chip--warning { border-color: transparent; background: var(--warning-soft); color: var(--warning); }
+.chip--danger { border-color: transparent; background: var(--danger-soft); color: var(--danger); }
+
+/* ---------- Popover (nível 2) ---------- */
+.popover {
+  background: var(--surface-2);
+  color: var(--text);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-2);
+  padding: var(--s-4);
+}
+
+/* ---------- Diálogo (nível 3) ---------- */
+.dialog {
+  background: var(--surface-2);
+  color: var(--text);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-3);
+  padding: var(--s-8);
+}
+
+/* ---------- Material sobre o vídeo (vidro só no palco) ---------- */
+.material-video {
+  background: var(--surface-video);
+  -webkit-backdrop-filter: var(--material-blur);
+  backdrop-filter: var(--material-blur);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .material-video { background: var(--surface-video-solid); }
+}
+
+/* ---------- Spinner ---------- */
+.spinner {
+  width: var(--spinner);
+  height: var(--spinner);
+  border: var(--spinner-w) solid var(--track-idle);
+  border-top-color: var(--accent);
+  border-radius: var(--radius-full);
+  animation: lw-spin var(--dur-spin) linear infinite;
+}
+@keyframes lw-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .spinner { animation: none; }
+}

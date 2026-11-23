@@ -1,0 +1,279 @@
+/* LearnWatching · Sinal Limpo. Camadas: marca (--lw-*) → semânticos → componentes.
+ * Único arquivo do app com cor ou tamanho escrito à mão. Especificação: DESIGN.md, seção "Tokens CSS".
+ * Tema: claro em :root; escuro por prefers-color-scheme, por [data-theme='dark'] e dentro de .palco. */
+:root {
+  /* ---------- Marca (iguais nos dois temas) ---------- */
+  --lw-ciano: #36D7DF;
+  --lw-ciano-claro: #8AF1F5;
+  --lw-ciano-legenda: #7CEBEF;
+  --lw-ciano-fundo: #14BCC5;
+  --lw-ciano-tinta: #00737A;
+  --lw-ciano-foco: #00666C;
+  --lw-grafite-0: #05090A;
+  --lw-grafite-1: #0A0E0F;
+  --lw-grafite-2: #11181A;
+  --lw-grafite-3: #182123;
+  --lw-nevoa: #E8F1F0;
+  --lw-tinta: #0D1617;
+  --lw-sobre-acento: #031A1C;
+  --lw-branco: #FFFFFF;
+  --lw-preto: #000000;
+  --lw-verde: #4FD18B;
+  --lw-verde-tinta: #17784A;
+  --lw-coral: #FF6F7D;
+  --lw-coral-tinta: #B8323F;
+  --lw-coral-video: #FF9AA3;
+  --lw-ambar: #F2B544;
+  --lw-ambar-tinta: #8A5A00;
+
+  /* ---------- Fontes ---------- */
+  --font-display: 'Sora', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-text: 'Atkinson Hyperlegible Next', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* ---------- Tipografia (base 16 px) ---------- */
+  --fs-display: 2.5rem;
+  --fs-title1: 1.875rem;
+  --fs-title2: 1.5rem;
+  --fs-title3: 1.25rem;
+  --fs-headline: 1.0625rem;
+  --fs-body: 1rem;
+  --fs-callout: 0.9375rem;
+  --fs-footnote: 0.8125rem;
+  --fs-caption: 0.75rem;
+  --fs-mono: 0.8125rem;
+  --fs-caption-video: clamp(1.25rem, 0.9rem + 1.4vw, 2.125rem); /* proposta futura; ainda sem uso */
+  --lh-display: 1.1;
+  --lh-title: 1.2;
+  --lh-text: 1.5;
+  --lh-caption: 1.35;
+  --lh-video: 1.3;
+  --tracking-display: -0.02em;
+  --tracking-title: -0.01em;
+  --tracking-caption: 0.01em;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  /* ---------- Espaçamento: grade de 4 pt ---------- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 20px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-10: 40px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-24: 96px;
+  --gutter: 48px;
+
+  /* ---------- Larguras ---------- */
+  --read-max: 720px;
+  --grid-max: 960px;
+  --page-max: 1440px;
+
+  /* ---------- Forma ---------- */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+  --hairline: 1px;
+  --border-w-strong: 1.5px;
+  --underline-w: 2px;
+  --underline-offset: 3px;
+  --focus-w: 2px;
+
+  /* ---------- Controles e ícones ---------- */
+  --control-h: 44px;
+  --control-h-lg: 56px;
+  --icon-sm: 14px;
+  --icon: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 36px;
+  --icon-stroke: 1.75;
+  --swatch: 28px;
+  --play-overlay: 88px;
+  --opacity-disabled: 0.4;
+  --opacity-pressed: 0.72;
+
+  /* ---------- Estrutura ---------- */
+  --navbar-h: 64px;
+  --player-bar-h: 64px;
+  --panel-w: 320px;
+  --dialog-w: 560px;
+
+  /* ---------- Componentes (além do DESIGN.md: medidas que as telas já tinham) ---------- */
+  --chip-h: 28px;
+  --icon-tile: 48px;          /* quadrado do ícone no cartão de origem e no arquivo escolhido */
+  --source-card-min-h: 240px; /* cartão de origem (160 px no celular) */
+  --home-max: 1200px;         /* largura das seções da página inicial (como hoje) */
+  --home-mock-w: 500px;       /* vídeo de exemplo da página inicial */
+  --home-card-min: 250px;     /* coluna mínima da grade de recursos */
+  --home-source-min: 280px;   /* coluna mínima da grade de fontes */
+  --loader-w: 260px;          /* barra de progresso do "Preparando sessão…" */
+  --loader-max: 400px;
+  --error-max: 500px;
+  --spinner: 40px;
+  --spinner-w: 3px;
+  --track-h: 6px;             /* trilho de progresso */
+  --log-h: 260px;             /* log do teste de transcode */
+  --num-input-w: 100px;       /* campos numéricos do teste de transcode */
+  --dev-video-max-h: 480px;   /* vídeo do teste de transcode */
+  --stagger: 120ms;           /* atraso entre cartões na animação de entrada */
+
+  /* ---------- Movimento ---------- */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --dur-fast: 120ms;
+  --dur: 200ms;
+  --dur-slow: 360ms;
+  --dur-spin: 800ms;          /* uma volta do spinner (como hoje) */
+  --hover-brightness: brightness(1.08);
+
+  /* ---------- Palco do vídeo (iguais nos dois temas) ---------- */
+  --video-bg: var(--lw-preto);
+  --surface-video: rgba(11, 16, 17, 0.80);
+  --surface-video-solid: var(--lw-grafite-3);
+  --material-blur: blur(20px) saturate(140%);
+  --overlay-blur: blur(8px);
+  --fill-video: rgba(232, 241, 240, 0.10);
+  --fill-video-hover: rgba(232, 241, 240, 0.16);
+  --border-video: #8FA3A5;
+  --danger-video: var(--lw-coral-video);
+  --caption-bg: rgba(5, 9, 10, 0.84);
+  --caption-text: var(--lw-branco);
+  --caption-hit: var(--lw-ciano-legenda);
+  --video-dim: blur(10px) brightness(0.55);
+  --checker-a: #555555;       /* amostra "transparente" do painel de legenda */
+  --checker-b: #333333;
+
+  /* ---------- Semânticos: tema claro ---------- */
+  color-scheme: light;
+  --bg: #F3F6F6;
+  --surface: #FFFFFF;
+  --surface-2: #FFFFFF;
+  --text: var(--lw-tinta);
+  --text-2: #435556;
+  --text-disabled: #8D9C9D;
+  --accent: var(--lw-ciano-fundo);
+  --accent-hover: var(--lw-ciano);
+  --accent-text: var(--lw-ciano-tinta);
+  --on-accent: var(--lw-sobre-acento);
+  --accent-soft: rgba(0, 115, 122, 0.10);
+  --success: var(--lw-verde-tinta);
+  --on-success: var(--lw-branco);
+  --success-soft: rgba(23, 120, 74, 0.10);
+  --danger: var(--lw-coral-tinta);
+  --on-danger: var(--lw-branco);
+  --danger-soft: rgba(184, 50, 63, 0.10);
+  --warning: var(--lw-ambar-tinta);
+  --warning-soft: rgba(138, 90, 0, 0.10);
+  --focus: var(--lw-ciano-foco);
+  --border: rgba(13, 22, 23, 0.10);
+  --border-control: #7D8F91;
+  --fill: rgba(13, 22, 23, 0.05);
+  --fill-hover: rgba(13, 22, 23, 0.08);
+  --track-idle: rgba(13, 22, 23, 0.18);
+  --overlay: rgba(13, 22, 23, 0.40);
+  --shadow-1: 0 1px 2px rgba(13, 22, 23, 0.06);
+  --shadow-2: 0 2px 4px rgba(13, 22, 23, 0.06), 0 8px 24px rgba(13, 22, 23, 0.08);
+  --shadow-3: 0 24px 64px rgba(13, 22, 23, 0.16);
+  --selection: rgba(20, 188, 197, 0.28);
+  --scrollbar: rgba(13, 22, 23, 0.22);
+}
+
+@media (max-width: 1023px) {
+  :root { --gutter: 32px; }
+}
+@media (max-width: 599px) {
+  :root {
+    --gutter: 16px;
+    --navbar-h: 52px;
+    --player-bar-h: 112px;
+    --fs-display: 1.875rem;
+    --source-card-min-h: 160px;
+  }
+}
+
+/* ---------- Semânticos: tema escuro ----------
+ * O mesmo bloco vale para o sistema em modo escuro (sem data-theme='light'), para data-theme='dark'
+ * e para o palco do vídeo (.palco), que é escuro nos dois temas. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: var(--lw-grafite-1);
+    --surface: var(--lw-grafite-2);
+    --surface-2: var(--lw-grafite-3);
+    --text: var(--lw-nevoa);
+    --text-2: #9DB0AF;
+    --text-disabled: #64767A;
+    --accent: var(--lw-ciano);
+    --accent-hover: var(--lw-ciano-claro);
+    --accent-text: var(--lw-ciano);
+    --on-accent: var(--lw-sobre-acento);
+    --accent-soft: rgba(54, 215, 223, 0.14);
+    --success: var(--lw-verde);
+    --on-success: var(--lw-sobre-acento);
+    --success-soft: rgba(79, 209, 139, 0.14);
+    --danger: var(--lw-coral);
+    --on-danger: var(--lw-sobre-acento);
+    --danger-soft: rgba(255, 111, 125, 0.14);
+    --warning: var(--lw-ambar);
+    --warning-soft: rgba(242, 181, 68, 0.14);
+    --focus: var(--lw-ciano-claro);
+    --border: rgba(232, 241, 240, 0.08);
+    --border-control: #647A7D;
+    --fill: rgba(232, 241, 240, 0.06);
+    --fill-hover: rgba(232, 241, 240, 0.10);
+    --track-idle: rgba(232, 241, 240, 0.22);
+    --overlay: rgba(5, 9, 10, 0.60);
+    --shadow-1: inset 0 1px 0 rgba(232, 241, 240, 0.04);
+    --shadow-2: inset 0 1px 0 rgba(232, 241, 240, 0.06), 0 8px 24px rgba(0, 0, 0, 0.40);
+    --shadow-3: 0 24px 64px rgba(0, 0, 0, 0.55);
+    --selection: rgba(54, 215, 223, 0.28);
+    --scrollbar: rgba(232, 241, 240, 0.22);
+  }
+}
+:root[data-theme='dark'],
+.palco {
+  color-scheme: dark;
+  --bg: var(--lw-grafite-1);
+  --surface: var(--lw-grafite-2);
+  --surface-2: var(--lw-grafite-3);
+  --text: var(--lw-nevoa);
+  --text-2: #9DB0AF;
+  --text-disabled: #64767A;
+  --accent: var(--lw-ciano);
+  --accent-hover: var(--lw-ciano-claro);
+  --accent-text: var(--lw-ciano);
+  --on-accent: var(--lw-sobre-acento);
+  --accent-soft: rgba(54, 215, 223, 0.14);
+  --success: var(--lw-verde);
+  --on-success: var(--lw-sobre-acento);
+  --success-soft: rgba(79, 209, 139, 0.14);
+  --danger: var(--lw-coral);
+  --on-danger: var(--lw-sobre-acento);
+  --danger-soft: rgba(255, 111, 125, 0.14);
+  --warning: var(--lw-ambar);
+  --warning-soft: rgba(242, 181, 68, 0.14);
+  --focus: var(--lw-ciano-claro);
+  --border: rgba(232, 241, 240, 0.08);
+  --border-control: #647A7D;
+  --fill: rgba(232, 241, 240, 0.06);
+  --fill-hover: rgba(232, 241, 240, 0.10);
+  --track-idle: rgba(232, 241, 240, 0.22);
+  --overlay: rgba(5, 9, 10, 0.60);
+  --shadow-1: inset 0 1px 0 rgba(232, 241, 240, 0.04);
+  --shadow-2: inset 0 1px 0 rgba(232, 241, 240, 0.06), 0 8px 24px rgba(0, 0, 0, 0.40);
+  --shadow-3: 0 24px 64px rgba(0, 0, 0, 0.55);
+  --selection: rgba(54, 215, 223, 0.28);
+  --scrollbar: rgba(232, 241, 240, 0.22);
+}
+.palco {
+  color: var(--text);
+  background: var(--video-bg);
+}
