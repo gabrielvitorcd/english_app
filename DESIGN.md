@@ -162,7 +162,7 @@ components:
     textColor: "{colors.rotulo-escuro}"
     rounded: "{rounded.sm}"
     height: "44px"
-    padding: "0 14px"
+    padding: "0 12px"
   card:
     backgroundColor: "{colors.superficie}"
     rounded: "{rounded.lg}"
@@ -187,7 +187,7 @@ components:
   chip:
     rounded: "{rounded.full}"
     height: "28px"
-    padding: "0 10px"
+    padding: "0 12px"
 ---
 
 # Design System: LearnWatching
@@ -286,7 +286,7 @@ Escala de base 16 px (a Atkinson pede um corpo um pouco maior que os 15 do HIG):
 - **Larguras de referência:** 1440 px e 390 px. Pontos de quebra oficiais: `max-width: 1023px` (tablet e desktop estreito) e `max-width: 599px` (celular). Os 768 px e 900 px de hoje migram para esses dois.
 - **Margens laterais** (`--gutter`): 48 px a partir de 1024, 32 px até 1023, 16 px até 599.
 - **Larguras máximas:** 720 px para painéis de leitura e resposta (`--read-max`), 960 px para a grade de cartões (`--grid-max`), 1440 px para páginas (`--page-max`).
-- **Cabeçalho:** 64 px; 52 px no celular.
+- **Cabeçalho:** 64 px; 52 px no celular. Exceção ao ponto de quebra: as abas do cabeçalho somem em `max-width: 600px` (`Heading.module.css`), não em 599 px; é o comportamento antigo, mantido de propósito.
 - **Player:** o vídeo ocupa toda a área abaixo do cabeçalho; a barra do player tem 64 px (ver Aplicação para o celular).
 - **Ritmo:** grade de 4 pt (`--s-1` a `--s-24`). Mais espaço acima de um título do que abaixo.
 - **Alvos de toque:** todo controle clicável tem pelo menos 44 × 44 pt (`--control-h`), também no desktop. Botões principais grandes: 56 pt (`--control-h-lg`).
@@ -317,7 +317,7 @@ Cantos pequenos: o sinal é geométrico. 4 px (tecla, chip mínimo), 8 px (botõ
 ## Components
 
 ### Buttons
-Cheios e diretos. Hover: `filter: brightness(1.08)` nos preenchidos e `--fill-hover` nos transparentes. Pressionar: opacidade 0.72, como no iOS. Desativado: opacidade 0.4 e `cursor: not-allowed`. Foco: `outline: 2px solid var(--focus); outline-offset: 2px`. Sem gradiente, sem sombra 3D, sem deslocamento ao passar o mouse.
+Cheios e diretos. Hover: `.btn--accent` troca o fundo para `--accent-hover`; Sei e Não Sei (`.btn--sei`, `.btn--nao-sei`) ganham `filter: var(--hover-brightness)` (`brightness(1.08)`); os transparentes ganham `--fill-hover`. Pressionar: opacidade 0.72, como no iOS. Desativado: opacidade 0.4 e `cursor: not-allowed`. Foco: `outline: 2px solid var(--focus); outline-offset: 2px`. Sem gradiente, sem sombra 3D, sem deslocamento ao passar o mouse.
 - **Shape:** 8 px; altura 44 px (`--control-h`), 56 px no grande.
 - **Accent (principal):** `--accent` com texto `--on-accent`. A ação que leva adiante ("Próxima frase", "Começar agora", "Enviar Vídeo").
 - **Secondary:** transparente, borda 1 px `--border-control`, texto `--text` ("Cancelar", "Restaurar padrão").
@@ -325,6 +325,7 @@ Cheios e diretos. Hover: `filter: brightness(1.08)` nos preenchidos e `--fill-ho
 - **Sei:** `--success` com texto `--on-success`, ícone `Check`.
 - **Não Sei:** `--danger` com texto `--on-danger`, ícone `X`.
 - **Icon button:** 44 × 44, transparente, ícone 20 px (24 px na barra do player). Ligado: fundo `--accent-soft` e ícone `--accent`. Sempre com `aria-label`.
+- **Largura toda (`.btn--block`):** modificador que só põe `width: 100%`; vem da prop `block` do `Button` de `ui/` (hoje, o "Restaurar padrão" do painel de legenda).
 
 ### Inputs / Fields
 - **Style:** 44 px de altura, fundo `--surface`, borda 1 px `--border-control` (sobre o vídeo: `--border-video`), 8 px de canto, texto `--fs-body` (16 px), placeholder `--text-2`.
@@ -338,6 +339,10 @@ Cheios e diretos. Hover: `filter: brightness(1.08)` nos preenchidos e `--fill-ho
 - **Background:** `--surface`, nível 1.
 - **Hover/foco:** nível 2 e borda 1 px `--accent`. Sem brilho atrás, sem deslocamento.
 - **Internal Padding:** 24 px (16 px no celular).
+- **Classes:** `.card` é o cartão de lista (12 px, `--surface`, borda `--hairline` `--border`, `--shadow-1`); `.card--lg` passa o canto a 16 px (`--radius-lg`, cartão de origem e cartões da página inicial); `.card--interactive` acrescenta a transição e, em `:hover` e `:focus-visible`, `--shadow-2` com borda `--accent`.
+
+### Material sobre o vídeo (`.material-video`)
+Classe global do vidro do palco: fundo `--surface-video` com `backdrop-filter: var(--material-blur)` (e o prefixo `-webkit-`); sem suporte a `backdrop-filter`, cai para `--surface-video-solid`. Só no palco (barra do player, área de resposta e feedback, botão de play, selos "Aguardando cue…" / "Sessão pronta" da página do player), conforme a regra do vidro só no palco.
 
 ### Popover (painel de legenda)
 Nível 2 sobre o palco: `--surface-2` escuro, 12 px de canto, padding 16 px, largura 320 px (`--panel-w`). Título em headline, fechar com `X` 44 × 44, amostras de cor com círculo visível de 28 px (`--swatch`) dentro de uma área de toque de 44 × 44 (`--control-h`), anel `--focus` em volta do círculo na selecionada e foco de teclado por fora desse anel.
@@ -351,6 +356,9 @@ Cápsula de 28 px, `--fs-caption`, ícone de 14 px. Selo de cartão: borda 1 px 
 ### Navigation
 - **Cabeçalho:** 64 px, fundo `--bg` com borda inferior `--border`; marca à esquerda (ícone `AudioWaveform` em `--accent-text` + nome em Sora 600, Title 3), abas no centro, botão de menu 44 × 44 à direita.
 - **Abas:** 44 px de altura, callout, `--text-2`; hover `--fill-hover`; ativa com fundo `--accent-soft` e texto `--accent-text`. Sem sombra.
+
+### Página `/transcode-test`
+É ferramenta de desenvolvimento (teste do ffmpeg.wasm), não tela do aluno: segue os tokens e os alvos de 44 pt, mas não entra nas regras de polimento visual nem nas propostas futuras.
 
 ### Player
 Descrito em detalhe em "Aplicação · Player" (o que muda agora sobre a estrutura atual) e em "Proposta futura".
@@ -418,16 +426,33 @@ Conteúdo que a frente de aplicação cria em `app/src/styles/tokens.css`. Nomes
 | `--radius-xs` … `--radius-full` | `4px` · `8px` (`-sm`) · `12px` (`-md`) · `16px` (`-lg`) · `24px` (`-xl`) · `999px` (`-full`) | Cantos. |
 | `--hairline` / `--border-w-strong` | `1px` / `1.5px` | Bordas. |
 | `--underline-w` / `--underline-offset` | `2px` / `3px` | Sublinhado de sinal. |
+| `--focus-w` | `2px` | Espessura e afastamento do anel de foco (`outline`). |
 | `--control-h` / `--control-h-lg` | `44px` / `56px` | Alturas de controle. |
-| `--icon` / `--icon-lg` / `--icon-xl` / `--icon-stroke` | `20px` / `24px` / `36px` / `1.75` | Ícones Lucide. |
+| `--icon-sm` / `--icon` / `--icon-lg` / `--icon-xl` / `--icon-stroke` | `14px` / `20px` / `24px` / `36px` / `1.75` | Ícones Lucide (`--icon-sm` nos ícones pequenos: chip, seta do Progresso, ícones de status do modal e do teste de transcode). |
 | `--swatch` | `28px` | Círculo visível da amostra de cor do painel de legenda (a área de toque é `--control-h`). |
 | `--play-overlay` | `88px` | Botão de play sobre o vídeo pausado. |
 | `--opacity-disabled` / `--opacity-pressed` | `0.4` / `0.72` | Estados. |
 | `--navbar-h` | `64px` (52 px até 599) | Cabeçalho. |
 | `--player-bar-h` | `64px` (112 px até 599, barra em duas linhas) | Barra do player. |
 | `--panel-w` / `--dialog-w` | `320px` / `560px` | Popover e modal. |
+| `--chip-h` | `28px` | Altura mínima do chip. |
+| `--icon-tile` | `48px` | Quadrado do ícone no cartão de origem e no arquivo escolhido. |
+| `--source-card-min-h` | `240px` (160 px até 599) | Altura mínima do cartão de origem. |
+| `--home-max` | `1200px` | Largura das seções da página inicial. |
+| `--home-mock-w` | `500px` | Vídeo de exemplo da página inicial. |
+| `--home-card-min` / `--home-source-min` | `250px` / `280px` | Coluna mínima das grades de recursos e de fontes da página inicial. |
+| `--loader-w` / `--loader-max` | `260px` / `400px` | Barra de progresso do "Preparando sessão…" (largura e máximo). |
+| `--error-max` | `500px` | Largura máxima da caixa de erro do player. |
+| `--spinner` / `--spinner-w` | `40px` / `3px` | Spinner (tamanho e espessura do traço). |
+| `--track-h` | `6px` | Trilho de progresso. |
+| `--log-h` | `260px` | Log do teste de transcode. |
+| `--num-input-w` | `100px` | Campos numéricos do teste de transcode. |
+| `--dev-video-max-h` | `480px` | Altura máxima do vídeo do teste de transcode. |
 | `--ease` | `cubic-bezier(.2, .8, .2, 1)` | Curva padrão. |
 | `--dur-fast` / `--dur` / `--dur-slow` | `120ms` / `200ms` / `360ms` | Durações. |
+| `--dur-spin` | `800ms` | Uma volta do spinner. |
+| `--stagger` | `120ms` | Atraso entre cartões na animação de entrada. |
+| `--hover-brightness` | `brightness(1.08)` | Filtro de hover dos botões Sei e Não Sei. |
 
 ### Palco do vídeo (iguais nos dois temas, em `:root`)
 
@@ -442,6 +467,10 @@ Conteúdo que a frente de aplicação cria em `app/src/styles/tokens.css`. Nomes
 | `--danger-video` | `var(--lw-coral-video)` |
 | `--caption-bg` / `--caption-text` / `--caption-hit` | `rgba(5, 9, 10, 0.84)` / `var(--lw-branco)` / `var(--lw-ciano-legenda)` |
 | `--video-dim` | `blur(10px) brightness(0.55)` (o filtro do vídeo pausado de hoje) |
+| `--overlay-blur` | `blur(8px)` (véu do modal) |
+| `--caption-shadow` | `0 1px 2px rgba(0, 0, 0, 0.80)` (sombra da legenda do aluno: legível também com fundo transparente) |
+| `--caption-blur` | `blur(4px)` (desfoque atrás da legenda sobre o vídeo, `.subtitleOverlay`) |
+| `--checker-a` / `--checker-b` | `#555555` / `#333333` (xadrez da amostra "transparente" do painel de legenda) |
 
 ### Semânticos por tema
 
@@ -690,7 +719,7 @@ O comportamento e o layout funcional continuam: barra de controles no topo que a
 - **Página inicial (`HomePage.*`):** título em `--fs-display` (Title 1 no celular) com o destaque em `--accent-text` sólido (sai o gradiente no texto); botões como `.btn--accent` e `.btn--secondary`; cartões de recurso e de fonte como Card, ícones Lucide da tabela em `--accent-text` (saem as cores por fonte, `color` inline); vídeo de exemplo com `--video-bg`, legenda de exemplo com `--caption-bg`/`--caption-text` e barra com `--accent` (sem animação contínua); seção final e rodapé com tokens. Textos iguais.
 - **Progresso (`Progresso.*`):** título em `--fs-title1`, subtítulo `--text-2`; números das estatísticas em `--font-mono` grande (`--fs-title1`) com cores por token no lugar de `var(--tx)`/`var(--green)`/`var(--gold)`/`var(--red)`: Falas `--text`, Acertos `--success`, Vocabulário `--accent-text`, Anki Phrases `--danger`; painéis como Card nível 1; ícones `BookOpen`, `ArrowRight`, `Layers`; contagem "N×" em mono dentro de Chip com `--danger-soft`.
 - **Shadowing (`Shadowing.*`):** cartões nível 1, número em `--font-mono` `--text-2`, frase em `--fs-headline`; botões `Play` e `Mic` como `IconButton` (o de gravar com ícone `--danger`); dica com `Lightbulb`, fundo `--surface-2` (com `--shadow-1` no claro) e texto `--text-2`.
-- **Teste do transcode (`TranscodeTest.*`):** só tokens (cores, fontes, espaçamentos) e os ícones da tabela; é ferramenta de desenvolvimento, sem polimento extra.
+- **Teste do transcode (`TranscodeTest.*`):** só tokens (cores, fontes, espaçamentos) e os ícones da tabela; é ferramenta de desenvolvimento, sem polimento extra. Botões e campos numéricos com altura mínima `--control-h`.
 - **Componentes sem uso (`components/Subtitle/*`, `components/PlayerVideo/*`):** só trocar cores e fontes por tokens, para cumprir a regra de nada solto.
 
 ### Como conferir
