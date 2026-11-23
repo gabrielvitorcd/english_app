@@ -1,4 +1,4 @@
-/* LearnWatching · Sinal Limpo. Camadas: marca (--lw-*) → semânticos → componentes.
+/* LearnWatching · Sinal Limpo. Camadas: marca (--lw-*), semânticos e componentes.
  * Único arquivo do app com cor ou tamanho escrito à mão. Especificação: DESIGN.md, seção "Tokens CSS".
  * Tema: claro em :root; escuro por prefers-color-scheme, por [data-theme='dark'] e dentro de .palco. */
 :root {

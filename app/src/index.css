@@ -1,21 +1,5 @@
+/* Estilos globais, nesta ordem: fontes, tokens, base e componentes. As telas usam CSS Modules só com tokens. */
 @import "./styles/fonts.css";
 @import "./styles/tokens.css";
 @import "./styles/base.css";
 @import "./styles/components.css";
-
-/* Apelidos dos nomes antigos, só durante a migração (DESIGN.md, "Tokens CSS"). */
-:root {
-  --s1: var(--surface);
-  --s2: var(--surface-2);
-  --s3: var(--surface-2);
-  --b1: var(--border);
-  --b2: var(--border);
-  --b3: var(--border-control);
-  --tx: var(--text);
-  --mu: var(--text-2);
-  --mu2: var(--text-2);
-  --gold: var(--accent-text);
-  --blue: var(--accent-text);
-  --green: var(--success);
-  --red: var(--danger);
-}

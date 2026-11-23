@@ -1,4 +1,4 @@
-/* Cartão de origem: classes globais .card .card--lg .card--interactive (fundo, borda, nível 1 → 2). */
+/* Cartão de origem: classes globais .card .card--lg .card--interactive (fundo, borda, nível 1, nível 2 no hover). */
 .card {
   padding: var(--s-6);
   cursor: pointer;
