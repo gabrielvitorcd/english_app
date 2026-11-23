@@ -1,0 +1,11 @@
+# Só o Postgres para desenvolvimento local: `docker compose -f compose.dev.yml up -d`
+# e DATABASE_URL=postgresql+psycopg://learn:learn@127.0.0.1:5433/learnwatching no .env
+# (porta 5433 para não brigar com o Postgres de dev do core-studio, na 5432).
+services:
+  db:
+    image: postgres:17-alpine
+    environment: { POSTGRES_USER: learn, POSTGRES_PASSWORD: learn, POSTGRES_DB: learnwatching }
+    ports: ["127.0.0.1:5433:5432"]
+    volumes: [pg_dev:/var/lib/postgresql/data]
+volumes:
+  pg_dev:
