@@ -1,3 +1,4 @@
+/* Componente sem uso hoje: só tokens, para cumprir a regra de nada solto. */
 /* ─── Modos de posicionamento ───────────────────────── */
 
 /* Sobreposto ao vídeo (uso padrão no player) */
@@ -7,29 +8,24 @@
   left: 0;
   right: 0;
   z-index: 8;
-  padding: 16px 40px 80px;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.92) 0%,
-    rgba(0, 0, 0, 0.6) 55%,
-    transparent 100%
-  );
+  padding: var(--s-4) var(--s-10) var(--s-16);
+  background: var(--caption-bg);
 }
 
 /* Bloco standalone — para usar fora do player */
 .block {
   position: relative;
-  padding: 20px 24px;
-  background: var(--s1);
-  border: 1px solid var(--b1);
-  border-radius: 8px;
+  padding: var(--s-5) var(--s-6);
+  background: var(--surface);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-sm);
 }
 
 .wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: var(--s-2);
 }
 
 /* ─── Linha de palavras ─────────────────────────────── */
@@ -37,93 +33,93 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 6px;
+  gap: var(--s-2);
   transition:
-    filter 0.35s,
-    opacity 0.35s;
+    filter var(--dur-slow) var(--ease),
+    opacity var(--dur-slow) var(--ease);
 }
 
 .hidden {
-  filter: blur(10px);
+  filter: var(--video-dim);
   opacity: 0;
   pointer-events: none;
 }
 
 /* ─── Palavras ──────────────────────────────────────── */
 .word {
-  font-family: "DM Serif Display", serif;
-  font-size: 1.55rem;
-  line-height: 1.2;
-  color: var(--tx);
+  font-family: var(--font-text);
+  font-size: var(--fs-title2);
+  line-height: var(--lh-title);
+  color: var(--text);
   cursor: pointer;
-  border-radius: 4px;
-  padding: 0 3px;
-  transition: color 0.12s;
+  border-radius: var(--radius-xs);
+  padding: 0 var(--s-1);
+  transition: color var(--dur-fast) var(--ease);
   position: relative;
   user-select: none;
 }
 
 .word:hover {
-  color: var(--gold);
+  color: var(--accent-text);
 }
 
 .word.sel {
-  color: var(--gold);
+  color: var(--accent-text);
 }
 
 /* ─── Tooltip de tradução ───────────────────────────── */
 .tip {
   position: absolute;
-  bottom: calc(100% + 8px);
+  bottom: calc(100% + var(--s-2));
   left: 50%;
   transform: translateX(-50%);
-  background: var(--s2);
-  border: 1px solid var(--b2);
-  border-radius: 8px;
-  padding: 5px 11px;
-  font-family: "DM Sans", sans-serif;
-  font-size: 0.72rem;
+  background: var(--surface-2);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--s-1) var(--s-3);
+  font-family: var(--font-text);
+  font-size: var(--fs-caption);
   white-space: nowrap;
   pointer-events: none;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-  color: var(--gold);
-  font-weight: 500;
+  box-shadow: var(--shadow-2);
+  color: var(--accent-text);
+  font-weight: var(--fw-medium);
   z-index: 10;
 }
 
 /* ─── Botões ────────────────────────────────────────── */
 .toggleBtn {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--b1);
-  border-radius: 4px;
-  padding: 5px 7px;
-  color: var(--mu2);
+  top: var(--s-2);
+  right: var(--s-2);
+  background: var(--surface-video);
+  border: var(--hairline) solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: var(--s-1) var(--s-2);
+  color: var(--text-2);
   cursor: pointer;
   display: flex;
   align-items: center;
   transition:
-    color 0.2s,
-    border-color 0.2s;
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
 }
 
 .toggleBtn:hover {
-  color: var(--tx);
-  border-color: var(--b2);
+  color: var(--text);
+  border-color: var(--border-control);
 }
 
 .clearBtn {
   background: transparent;
   border: none;
-  color: var(--mu);
-  font-size: 11px;
+  color: var(--text-2);
+  font-size: var(--fs-caption);
   cursor: pointer;
-  padding: 2px 6px;
-  transition: color 0.2s;
+  padding: 0 var(--s-1);
+  transition: color var(--dur) var(--ease);
 }
 
 .clearBtn:hover {
-  color: var(--red);
+  color: var(--danger);
 }
