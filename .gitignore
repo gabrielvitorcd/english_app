@@ -81,6 +81,6 @@ app/src/vendor/ffmpeg/
 # App e deploy
 # ===========================
 # Vídeos locais de teste (cerca de 4 GB): nunca vão para o git nem para o build publicado
-app/public/videos/
+app/public/videos
 # Build do app copiado para o Caddy de teste (make teste)
 backend/app-dist/
