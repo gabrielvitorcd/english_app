@@ -1,0 +1,58 @@
+# Site do LearnWatching na borda (o Caddy compartilhado da VPS; veja borda/README.md no core-studio). Sem
+# bloco global: ele fica no Caddyfile da borda. Os domínios são placeholders:
+#   produção: o deploy.sh troca os placeholders LEARN_DOMAIN e LEARN_APP_DOMAIN pelos valores do
+#             /opt/learnwatching/.env e grava o resultado em /opt/borda/sites/learnwatching.caddy;
+#   make teste: o Caddy do compose.teste.yml monta este arquivo e recebe LEARN_DOMAIN/LEARN_APP_DOMAIN por
+#             ambiente (localhost e app.localhost, nas portas 8443/8080 do PC).
+# Kong no futuro: trocar "reverse_proxy learnwatching-api:8000" por "reverse_proxy kong:8000".
+
+# API
+{$LEARN_DOMAIN} {
+	encode zstd gzip
+	# A API só recebe consultas pequenas (não há upload).
+	request_body {
+		max_size 10MB
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+	reverse_proxy learnwatching-api:8000
+}
+
+# App (estático, gerado por `npm run build` em app/; na VPS fica em /opt/learnwatching/app-dist)
+{$LEARN_APP_DOMAIN} {
+	encode zstd gzip
+	root * /srv/learnwatching
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		# Isolamento entre origens: sem estes dois o navegador não dá SharedArrayBuffer e o ffmpeg.wasm
+		# (pthreads) não carrega. Os mesmos do servidor do Vite (app/vite.config.ts).
+		Cross-Origin-Opener-Policy "same-origin"
+		Cross-Origin-Embedder-Policy "require-corp"
+		-Server
+	}
+	# Os arquivos de /assets/ têm o hash do conteúdo no nome: podem ficar no cache para sempre. Um asset
+	# que não existe (de uma versão velha) dá 404, nunca o index.html no lugar.
+	handle /assets/* {
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+	# O resto (index.html, as rotas do React, que caem nele, e os ícones) é conferido a cada visita, para
+	# a versão nova aparecer logo depois do deploy.
+	handle {
+		header Cache-Control "no-cache"
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+# www → domínio sem www (o app fica no domínio raiz)
+www.{$LEARN_APP_DOMAIN} {
+	redir https://{$LEARN_APP_DOMAIN}{uri} permanent
+}
