@@ -32,6 +32,8 @@ package = false
 [tool.ruff]
 line-length = 110
 target-version = "py313"
+# Revisão gerada antes do ruff: fica como está, para não mexer no histórico do banco.
+extend-exclude = ["migrations/versions/1a28ea8eb4a0_create_user_table.py"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "A", "C4", "SIM", "RUF", "ASYNC", "S", "PTH"]
