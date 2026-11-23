@@ -1,3 +1,5 @@
+import { ArrowRight, BookOpen, Layers } from "lucide-react";
+import { Chip } from "../../components/ui";
 import styles from "./Progresso.module.css";
 
 export function ProgressoPage() {
@@ -26,13 +28,13 @@ export function ProgressoPage() {
         <div className={styles.stats}>
           {/* Inserir Dados Reais do Player */}
           {[
-            { n: "47", l: "Falas", c: "var(--tx)" },
-            { n: "31", l: "Acertos", c: "var(--green)" },
-            { n: "10", l: "Vocabulário", c: "var(--gold)" },
-            { n: "16", l: "Anki Phrases", c: "var(--red)" },
+            { n: "47", l: "Falas", c: "var(--text)" },
+            { n: "31", l: "Acertos", c: "var(--success)" },
+            { n: "10", l: "Vocabulário", c: "var(--accent-text)" },
+            { n: "16", l: "Anki Phrases", c: "var(--danger)" },
           ].map((s, i) => (
-            <div key={i} className={styles.sc}>
-              <div className={styles["sc-n"]} style={{ color: s.c }}>
+            <div key={i} className={`card ${styles.sc}`}>
+              <div className={`num ${styles["sc-n"]}`} style={{ color: s.c }}>
                 {s.n}
               </div>
               <div className={styles["sc-l"]}>{s.l}</div>
@@ -41,28 +43,34 @@ export function ProgressoPage() {
         </div>
 
         <div className={styles.cols}>
-          <div className={styles.panel}>
-            <div className={styles.ph}>📚 Vocabulário</div>
+          <div className={`card ${styles.panel}`}>
+            <div className={styles.ph}>
+              <BookOpen className={styles.phIcon} aria-hidden="true" />
+              Vocabulário
+            </div>
             <div className={styles.pb}>
               {MOCK_ANKI_VOCABULARY.map((v, i) => (
                 <div key={i} className={styles.pi}>
                   <span className={styles["pi-en"]}>{v.en}</span>
-                  <span className={styles["pi-sep"]}>→</span>
+                  <ArrowRight className={styles["pi-sep"]} aria-hidden="true" />
                   <span className={styles["pi-pt"]}>{v.pt}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className={styles.panel}>
-            <div className={styles.ph}>🃏 Anki Phrases</div>
+          <div className={`card ${styles.panel}`}>
+            <div className={styles.ph}>
+              <Layers className={styles.phIcon} aria-hidden="true" />
+              Anki Phrases
+            </div>
             <div className={styles.pb}>
               {MOCK_ANKI_PHRASE.map((a, i) => (
                 <div key={i} className={styles.pi}>
                   <span className={styles["pi-ph"]}>{a.phrase}</span>
-                  <span className={`${styles["bdg"]} ${styles["bdg-r"]}`}>
+                  <Chip tone="danger" className={`num ${styles["bdg"]}`}>
                     {a.tries}×
-                  </span>
+                  </Chip>
                 </div>
               ))}
             </div>
