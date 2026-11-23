@@ -1,13 +1,14 @@
 {
-  "name": "frontend",
+  "name": "learnwatching-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit",
+    "lint": "eslint . --max-warnings=0"
   },
   "dependencies": {
     "react": "^19.2.4",
