@@ -1,0 +1,49 @@
+# Produção na VPS (/opt/learnwatching): api (2 workers do uvicorn) + postgres. O HTTPS fica na borda (o
+# Caddy compartilhado da VPS, em /opt/borda; veja borda/README.md no core-studio), que acha a API pelo
+# alias learnwatching-api na rede Docker externa "borda" e serve o app (app-dist/).
+# Teste no PC: `make teste` (o compose.teste.yml acrescenta um Caddy próprio). API local: `make dev` em backend/.
+name: learnwatching
+
+services:
+  api:
+    # A imagem da versão no ar é montada na VPS pelo publicar.sh (learnwatching-api:<sha>); o deploy.sh
+    # grava API_IMAGE no .env.
+    image: ${API_IMAGE:-learnwatching-api:local}
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-learn}:${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-learnwatching}
+    mem_limit: 384m
+    networks:
+      default:
+      # Só a API entra na rede da borda, com um nome único (o core-studio também tem um serviço "api").
+      borda:
+        aliases: [learnwatching-api]
+    depends_on:
+      db: { condition: service_healthy }
+
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-learn}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?defina POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-learnwatching}
+    command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./deploy/postgresql.conf:/etc/postgresql/postgresql.conf:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    # Sem porta exposta e fora da rede "borda": só a API alcança o banco.
+
+networks:
+  borda:
+    external: true   # criada uma vez na VPS pelo borda/instalar.sh do core-studio (no PC, pelo teste.sh)
+
+volumes:
+  pg_data:   # na VPS: learnwatching_pg_data
