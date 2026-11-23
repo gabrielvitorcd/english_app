@@ -1,0 +1,49 @@
+name: app
+
+# Testes e build do app. Rodam em PR e na develop; o workflow "deploy" chama este antes de publicar.
+#
+# O bundle do ffmpeg.wasm (app/src/vendor/ffmpeg/) não está no git: compilar exige o emsdk e as fontes do
+# FFmpeg/x264 (make wasm, no PC). Por isso o build daqui usa dois arquivos FALSOS no lugar dele: prova que
+# o app (TypeScript, imports, workers, assets) monta, mas não testa o ffmpeg.wasm de verdade. O build com
+# o bundle real roda no PC (make check, no gancho de pre-push) e no make deploy.
+on:
+  push:
+    branches: [develop]
+    paths: ["app/**", ".github/workflows/app.yml"]
+  pull_request:
+    paths: ["app/**", ".github/workflows/app.yml"]
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: app-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: app
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test
+      - name: Build (com um ffmpeg.wasm falso; veja o topo deste arquivo)
+        run: |
+          mkdir -p src/vendor/ffmpeg
+          test -s src/vendor/ffmpeg/ffmpeg.js || echo '// bundle falso do CI' > src/vendor/ffmpeg/ffmpeg.js
+          test -s src/vendor/ffmpeg/ffmpeg.wasm || printf '\0asm\1\0\0\0' > src/vendor/ffmpeg/ffmpeg.wasm
+          npm run build
+          test ! -e dist/videos
