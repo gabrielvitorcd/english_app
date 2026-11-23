@@ -14,6 +14,21 @@ import {
   subtitleStyle,
   useSubtitleSettings,
 } from "../../hooks/useSubtitleSettings";
+import {
+  ArrowRight,
+  Captions,
+  CaptionsOff,
+  Check,
+  ChevronLeft,
+  CircleCheck,
+  CircleDashed,
+  CircleX,
+  Play,
+  Repeat,
+  Settings2,
+  X,
+} from "lucide-react";
+import { Button, IconButton } from "../ui";
 import { SubtitleSettingsPanel } from "./SubtitleSettingsPanel";
 import styles from "./StudyPlayer.module.css";
 
@@ -240,14 +255,14 @@ export function StudyPlayer({
 
   if (!currentCue) {
     return (
-      <div className={styles.root}>
+      <div className={`palco ${styles.root}`}>
         <div className={styles.message}>Sessão concluída — não há mais cues.</div>
       </div>
     );
   }
 
   return (
-    <div className={styles.root}>
+    <div className={`palco ${styles.root}`}>
       <div className={styles.videoWrap} ref={videoWrapRef}>
         {blobUrl ? (
           <>
@@ -263,10 +278,11 @@ export function StudyPlayer({
               onDoubleClick={handleVideoDoubleClick}
             />
             {isPaused && (
-              <div className={styles.playIconOverlay} aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
+              <div
+                className={`material-video ${styles.playIconOverlay}`}
+                aria-hidden="true"
+              >
+                <Play aria-hidden="true" />
               </div>
             )}
           </>
@@ -285,122 +301,81 @@ export function StudyPlayer({
         )}
       </div>
 
-      <div className={styles.topBar}>
-        <button
+      <div className={`material-video ${styles.topBar}`}>
+        <IconButton
+          large
           className={styles.backButton}
           onClick={handleBack}
           type="button"
           title="Voltar para seleção"
           aria-label="Voltar"
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M19 12H5M12 19l-7-7 7-7" />
-          </svg>
-        </button>
+          <ChevronLeft aria-hidden="true" />
+        </IconButton>
 
         <div className={styles.counter}>
           Frase {currentIndex + 1} de {cues.length}
         </div>
 
         <div className={styles.actions}>
-          <button
-            className={styles.dontKnowButton}
+          <Button
+            variant="nao-sei"
+            className={styles.answerButton}
             onClick={handleDontKnow}
             type="button"
             disabled={submitted}
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-              aria-hidden="true"
-            >
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+            <X aria-hidden="true" />
             <span>Não Sei</span>
-          </button>
-          <button
-            className={styles.knowButton}
+          </Button>
+          <Button
+            variant="sei"
+            className={styles.answerButton}
             onClick={handleKnow}
             type="button"
             disabled={showInput || submitted}
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M20 6L9 17l-5-5" />
-            </svg>
+            <Check aria-hidden="true" />
             <span>Sei</span>
-          </button>
+          </Button>
 
-          <button
-            className={`${styles.iconButton} ${showSubtitle ? styles.iconButtonActive : ""}`}
+          <IconButton
+            large
+            on={showSubtitle}
             onClick={() => setShowSubtitle((s) => !s)}
             type="button"
             title={showSubtitle ? "Ocultar legenda" : "Mostrar legenda"}
             aria-label="Alternar legenda"
           >
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-9 10.5H8.5v1H11V17H7v-4.5h4v2zm6.5 0H15v1h2.5V17H14v-4.5h3.5v2z" />
-            </svg>
-          </button>
+            {showSubtitle ? (
+              <Captions aria-hidden="true" />
+            ) : (
+              <CaptionsOff aria-hidden="true" />
+            )}
+          </IconButton>
 
-          <button
-            className={`${styles.iconButton} ${showSubtitleSettings ? styles.iconButtonActive : ""}`}
+          <IconButton
+            large
+            on={showSubtitleSettings}
             onClick={() => setShowSubtitleSettings((s) => !s)}
             type="button"
             title="Configurações da legenda"
             aria-label="Configurações da legenda"
             aria-expanded={showSubtitleSettings}
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <circle cx="12" cy="12" r="3" />
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-            </svg>
-          </button>
+            <Settings2 aria-hidden="true" />
+          </IconButton>
 
-          <button
-            className={`${styles.iconButton} ${autoplay ? styles.iconButtonActive : ""}`}
+          <IconButton
+            large
+            on={autoplay}
             onClick={() => setAutoplay((a) => !a)}
             type="button"
             title={autoplay ? "Autoplay ligado" : "Autoplay desligado"}
             aria-label="Alternar autoplay"
           >
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M17 1l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3" />
-            </svg>
-          </button>
+            <Repeat aria-hidden="true" />
+          </IconButton>
         </div>
       </div>
 
@@ -414,7 +389,7 @@ export function StudyPlayer({
       )}
 
       <div
-        className={`${styles.inputArea} ${
+        className={`material-video ${styles.inputArea} ${
           showInput || submitted ? styles.inputAreaOpen : ""
         }`}
       >
@@ -422,28 +397,19 @@ export function StudyPlayer({
           <form onSubmit={submit} className={styles.form}>
             <input
               ref={inputRef}
-              className={styles.input}
+              className={`input ${styles.input}`}
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
               placeholder="Digite o que você entendeu e pressione Enter…"
             />
-            <button
+            <IconButton
               type="button"
-              className={styles.closeButton}
               onClick={handleCloseInput}
               title="Fechar sem responder"
               aria-label="Fechar"
             >
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              >
-                <path d="M18 6L6 18M6 6l12 12" />
-              </svg>
-            </button>
+              <X aria-hidden="true" />
+            </IconButton>
           </form>
         ) : (
           <div className={styles.feedback}>
@@ -467,10 +433,24 @@ export function StudyPlayer({
                           : styles.scorePoor
                     }`}
                   >
-                    {correction.verdict === "great" && "✓ Boa!"}
-                    {correction.verdict === "okay" && "≈ Mais ou menos"}
-                    {correction.verdict === "poor" &&
-                      "✗ Tenta de novo na próxima"}
+                    {correction.verdict === "great" && (
+                      <>
+                        <CircleCheck className={styles.scoreIcon} aria-hidden="true" />
+                        Boa!
+                      </>
+                    )}
+                    {correction.verdict === "okay" && (
+                      <>
+                        <CircleDashed className={styles.scoreIcon} aria-hidden="true" />
+                        Mais ou menos
+                      </>
+                    )}
+                    {correction.verdict === "poor" && (
+                      <>
+                        <CircleX className={styles.scoreIcon} aria-hidden="true" />
+                        Tenta de novo na próxima
+                      </>
+                    )}
                     {" — "}
                     {correction.matched.length} de{" "}
                     {correction.matched.length + correction.missing.length}{" "}
@@ -484,12 +464,18 @@ export function StudyPlayer({
                 <div className={styles.answerText}>{currentCue.text}</div>
               </div>
             )}
-            <button className={styles.nextButton} onClick={next} type="button">
-              Próxima frase →{" "}
+            <Button
+              variant="accent"
+              className={styles.nextButton}
+              onClick={next}
+              type="button"
+            >
+              Próxima frase
+              <ArrowRight aria-hidden="true" />{" "}
               <span className={styles.nextHint}>
                 {autoplay ? `(auto em ${countdown}s ou Enter)` : "(Enter)"}
               </span>
-            </button>
+            </Button>
           </div>
         )}
       </div>
