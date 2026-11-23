@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom";
+import { AudioWaveform, Menu } from "lucide-react";
+import { IconButton } from "../ui";
 import styles from "./Heading.module.css";
 
 export function Heading() {
@@ -14,12 +16,7 @@ export function Heading() {
     <nav className={styles.nav}>
       <div className={styles.brand_group}>
         <a href="/" className={styles.brand}>
-          <div className={styles.brand_logo}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-              <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
+          <AudioWaveform className={styles.brand_logo} aria-hidden="true" />
           <span className={styles.brand_text}>English<span>SRT</span></span>
         </a>
       </div>
@@ -38,11 +35,9 @@ export function Heading() {
         ))}
       </div>
 
-      <button className={styles.menu_btn} title="Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M4 6H20M4 12H20M4 18H20" strokeLinecap="round" />
-        </svg>
-      </button>
+      <IconButton className={styles.menu_btn} title="Menu" aria-label="Menu">
+        <Menu aria-hidden="true" />
+      </IconButton>
     </nav>
   );
 }
