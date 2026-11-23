@@ -1,8 +1,9 @@
 """Legendas: extração do id, montagem da lista, download e VTT→SRT (sem internet e sem banco).
 
 Estes testes foram escritos contra o código antigo (app/application/subtitles/service.py) antes da
-mudança de estrutura e continuam iguais depois dela: só os imports do topo mudam. O yt-dlp e o httpx são
-trocados por versões falsas, então nada sai para a internet.
+mudança de estrutura e continuam iguais depois dela: só os imports do topo mudam (`listar` e `baixar`
+montam o caso de uso com o adaptador do yt-dlp e os schemas da resposta, como a rota faz). O yt-dlp e o
+httpx são trocados por versões falsas, então nada sai para a internet.
 """
 
 from typing import Any, ClassVar
@@ -11,10 +12,21 @@ import httpx
 import pytest
 import yt_dlp
 
-from app.application.subtitles.service import _convert_vtt_to_srt as converter_vtt
-from app.application.subtitles.service import download_subtitle as baixar
-from app.application.subtitles.service import extract_video_id
-from app.application.subtitles.service import list_available_subtitles as listar
+from app.modules.subtitles.api.routes import _response
+from app.modules.subtitles.api.schemas import SubtitleListResponse
+from app.modules.subtitles.application.services import download_subtitle, list_available_subtitles
+from app.modules.subtitles.domain.models import convert_vtt_to_srt as converter_vtt
+from app.modules.subtitles.domain.models import extract_video_id
+from app.modules.subtitles.infrastructure.ytdlp import YtDlpSubtitleSource
+
+
+def listar(video_url: str) -> SubtitleListResponse:
+    return _response(list_available_subtitles(video_url, YtDlpSubtitleSource()))
+
+
+def baixar(video_url: str, language_code: str) -> tuple[str, str]:
+    return download_subtitle(video_url, language_code, YtDlpSubtitleSource())
+
 
 ID = "dQw4w9WgXcQ"
 URL = f"https://www.youtube.com/watch?v={ID}"
@@ -207,7 +219,8 @@ def test_lista_url_invalida(ydl: type[FakeYoutubeDL]) -> None:
 
 
 def test_lista_titulo_nulo_falha(ydl: type[FakeYoutubeDL]) -> None:
-    # "title": None existe no dicionário, então o "Unknown" não entra e a validação falha (vira 500 na API).
+    # "title": None existe no dicionário, então o "Unknown" não entra e a validação do Pydantic falha.
+    # O ValidationError é um ValueError: na API vira 400 com a mensagem da validação.
     ydl.info = {"title": None}
     with pytest.raises(Exception, match="video_title"):
         listar(URL)
