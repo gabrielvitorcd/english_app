@@ -65,6 +65,7 @@ export function HomePage() {
   const { setSession } = usePlayerSession();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mounted liga a animação de entrada depois do primeiro render; reescrever mudaria a animação
     setMounted(true);
   }, []);
 

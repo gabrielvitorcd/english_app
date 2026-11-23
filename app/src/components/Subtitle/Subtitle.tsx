@@ -27,7 +27,7 @@ export function Subtitle({ cue, overlay = true }: SubtitleProps) {
 
     setSelWord(clean);
 
-    let translation = lookup(clean);
+    const translation = lookup(clean);
 
     if (!translation && !translations[clean]) {
       setLoading(clean);

@@ -83,6 +83,7 @@ export function PlayerSessionProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components -- o hook fica junto do Provider; mover para outro arquivo mudaria os imports sem ganho
 export function usePlayerSession(): ContextValue {
   const ctx = useContext(PlayerSessionContext);
   if (!ctx) {

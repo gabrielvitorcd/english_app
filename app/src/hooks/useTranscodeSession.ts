@@ -84,6 +84,7 @@ export function useTranscodeSession(
     );
 
     // Reset state on new session
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- o estado da sessão é zerado junto com a criação do worker; reescrever mexeria no pipeline de transcode
     setState({ kind: "preparing", ready: 0, total: initialTotal });
     setCuesReady(new Map());
     nextBlockStartRef.current = initialTotal;

@@ -7,6 +7,7 @@ export function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- mounted liga a animação de entrada depois do primeiro render; reescrever mudaria a animação
     setMounted(true);
   }, []);
 

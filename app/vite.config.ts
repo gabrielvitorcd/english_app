@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -14,11 +15,8 @@ const crossOriginIsolation = {
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true, // Ou '0.0.0.0'
-    port: 5200, // Porta interna do container
-    watch: {
-      usePolling: true, // Necessário para Hot Reload funcionar bem no Docker/Linux
-    },
+    port: 5200,
+    strictPort: true,
     headers: crossOriginIsolation,
   },
   preview: {
@@ -26,4 +24,8 @@ export default defineConfig({
   },
   // .wasm é grande (6.6 MB): mantém como asset servido, não inline em base64
   assetsInclude: ["**/*.wasm"],
+  test: {
+    environment: "node",
+    include: ["src/**/*.test.ts"],
+  },
 });
