@@ -1,4 +1,6 @@
 import { useState } from "react";
+import type { LucideIcon } from "lucide-react";
+import { Chip } from "../ui";
 import styles from "./SourceCard.module.css";
 
 export interface Source {
@@ -8,10 +10,8 @@ export interface Source {
   tagline: string;
   description: string;
   icon: React.ReactNode;
-  accent: string;
-  accentDim: string;
   badge: string;
-  badgeIcon: string;
+  badgeIcon: LucideIcon;
   number: string;
 }
 
@@ -23,17 +23,13 @@ interface SourceCardProps {
 
 export function SourceCard({ source, index, onNavigate }: SourceCardProps) {
   const [, setHovered] = useState(false);
+  const BadgeIcon = source.badgeIcon;
 
   return (
     <button
-      className={styles.card}
-      style={
-        {
-          "--accent": source.accent,
-          "--accent-dim": source.accentDim,
-          animationDelay: `${index * 120}ms`,
-        } as React.CSSProperties
-      }
+      className={`card card--lg card--interactive ${styles.card}`}
+      // --i é a posição do cartão: o atraso da entrada é calc(var(--i) * var(--stagger)) no CSS
+      style={{ "--i": index } as React.CSSProperties}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => onNavigate(source.path)}
@@ -44,10 +40,10 @@ export function SourceCard({ source, index, onNavigate }: SourceCardProps) {
           <div className={styles.icon}>{source.icon}</div>
         </div>
 
-        <div className={styles.badge}>
-          <span className={styles.badgeIcon}>{source.badgeIcon}</span>
+        <Chip className={styles.badge}>
+          <BadgeIcon aria-hidden="true" />
           {source.badge}
-        </div>
+        </Chip>
       </div>
 
       <div className={styles.body}>
