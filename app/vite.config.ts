@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -23,4 +24,8 @@ export default defineConfig({
   },
   // .wasm é grande (6.6 MB): mantém como asset servido, não inline em base64
   assetsInclude: ["**/*.wasm"],
+  test: {
+    environment: "node",
+    include: ["src/**/*.test.ts"],
+  },
 });
