@@ -59,7 +59,7 @@ A variável do app é `VITE_API_URL` (padrão `http://localhost:8000`).
 
 | Comando | O que faz |
 |---|---|
-| `make check` | verificações de tudo (backend + app), as mesmas do GitHub Actions |
+| `make check` | verificações de tudo (backend + app); o GitHub Actions confere também as migrations e o `docs/openapi.json` |
 | `make hooks` | instala o gancho `pre-push`, que roda `make -s check` antes de cada push (uma vez por clone) |
 | `make teste` / `make teste-parar` | ambiente de teste no PC com a branch atual, em `https://app.localhost:8443` |
 | `make deploy` / `make deploy-voltar` | publica a `main` na VPS / volta para a versão anterior (veja `backend/README.md`) |

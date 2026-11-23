@@ -1,4 +1,5 @@
-# Verificações de todo o repositório, no seu PC (as mesmas do GitHub Actions).
+# Verificações de todo o repositório, no seu PC (quase as mesmas do GitHub Actions, que também confere
+# as migrations e o docs/openapi.json).
 # O backend precisa de Postgres: Docker (testcontainers) ou TEST_DATABASE_URL.
 .PHONY: check backend app hooks teste teste-parar deploy deploy-voltar wasm
 
