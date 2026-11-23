@@ -24,7 +24,7 @@ Regras em `DESIGN.md` (identidade "Sinal Limpo"), no padrão Apple HIG.
 ## Verificação antes de dizer que terminou
 - tudo: `make check` na raiz (backend + app)
 - backend: `cd backend && make check` (precisa de Postgres: `TEST_DATABASE_URL=...` ou Docker)
-- app: `cd app && npm run typecheck && npm run lint && npm run test && npm run build`
+- app: `make app` na raiz (typecheck, lint, test e build sem copiar `public/`; o `npm run build` direto copia os ~4 GB de `app/public/videos/` para `dist/`)
 
 ## Regras de desenvolvimento
 @docs/regras.md
