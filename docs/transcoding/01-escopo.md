@@ -107,7 +107,7 @@ Alvo único e normalizado — o player não precisa saber de onde veio o arquivo
 ### 4.1 Por que a legenda sai como arquivo separado (e não queimada no vídeo)
 
 O player já funciona com **vídeo + SRT separados**: o hook
-[`useSrt`](../../frontend/src/components/useSrt/useSrt.ts) faz `fetch(srtSrc)`,
+[`useSrt`](../../app/src/components/useSrt/useSrt.ts) faz `fetch(srtSrc)`,
 lê como texto e parseia os cues.
 
 Manter a legenda separada é obrigatório para o produto, não só conveniente:

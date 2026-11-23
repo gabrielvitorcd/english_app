@@ -12,7 +12,7 @@ Três scripts, nesta ordem:
 ```bash
 ./scripts/build-x264.sh          # 1. cross-compila libx264 (dependencia externa)
 ./scripts/build-ffmpeg.sh        # 2. cross-compila FFmpeg + CLI
-./scripts/link-ffmpeg-wasm.sh    # 3. link final -> frontend/public/ffmpeg/
+./scripts/link-ffmpeg-wasm.sh    # 3. link final -> app/src/vendor/ffmpeg/
 ```
 
 Validação:
@@ -25,12 +25,12 @@ node scripts/smoke-test.mjs <arquivo-de-video>
 
 | Arquivo                              | Tamanho | Papel                        |
 | ------------------------------------ | ------- | ---------------------------- |
-| `frontend/public/ffmpeg/ffmpeg.js`   | ~100 KB | glue code (ES module)        |
-| `frontend/public/ffmpeg/ffmpeg.wasm` | 6.6 MB  | o binário                    |
+| `app/src/vendor/ffmpeg/ffmpeg.js`   | ~100 KB | glue code (ES module)        |
+| `app/src/vendor/ffmpeg/ffmpeg.wasm` | 6.6 MB  | o binário                    |
 | `build/wasm/lib/*.a`                 | ~12 MB  | intermediários (não servidos)|
 
 Nada disso é versionado — `emsdk/`, `ffmpeg-wasm/`, `libx264/`, `build/` e
-`frontend/public/ffmpeg/` estão no `.gitignore`. O que se versiona são os scripts.
+`app/src/vendor/ffmpeg/` estão no `.gitignore`. O que se versiona são os scripts.
 
 ---
 
@@ -48,7 +48,7 @@ Decisão: habilitar pthreads e usar o CLI (mesmo caminho do ffmpeg.wasm oficial)
 
 **Consequência obrigatória:** pthreads exige `SharedArrayBuffer`, que só existe
 em contexto *cross-origin isolated*. Isso demandou dois headers em
-[`vite.config.ts`](../../frontend/vite.config.ts):
+[`vite.config.ts`](../../app/vite.config.ts):
 
 ```
 Cross-Origin-Opener-Policy: same-origin
@@ -149,7 +149,7 @@ Primeiros cues:
 O arquivo real exercitou justamente o caminho não-trivial do escopo:
 **MKV + AC3 + legenda subrip embutida** — típico de release de série. Confirmou
 `ac3 → aac` e `h264 → libx264`, e a legenda saiu com **vírgula** nos
-milissegundos, formato que o [`useSrt`](../../frontend/src/components/useSrt/useSrt.ts)
+milissegundos, formato que o [`useSrt`](../../app/src/components/useSrt/useSrt.ts)
 parseia sem ajuste.
 
 Os 37 componentes do contrato (§9 do escopo) foram verificados um a um em

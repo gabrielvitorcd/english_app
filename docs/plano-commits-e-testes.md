@@ -1,5 +1,9 @@
 # Plano de commits e testes
 
+> Documento histórico, de antes da padronização com o core-studio. O formato de commit e o fluxo de
+> trabalho valem pelo `docs/regras.md`; a pasta `frontend/` agora é `app/`; os testes da Fase 1 deste
+> plano estão em `app/src/**/*.test.ts` (Vitest) e o CI em `.github/workflows/`.
+
 Guia pra fatiar o trabalho atual em commits atômicos seguindo o padrão do histórico do projeto, e um roteiro pra montar CI com testes futuramente.
 
 ---
