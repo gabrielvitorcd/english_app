@@ -14,11 +14,8 @@ const crossOriginIsolation = {
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true, // Ou '0.0.0.0'
-    port: 5200, // Porta interna do container
-    watch: {
-      usePolling: true, // Necessário para Hot Reload funcionar bem no Docker/Linux
-    },
+    port: 5200,
+    strictPort: true,
     headers: crossOriginIsolation,
   },
   preview: {
