@@ -112,6 +112,7 @@ export function TranscodeTestPage() {
     ulog("useEffect[file] triggered. file =", file?.name);
     if (!file) {
       ulog("useEffect[file]: sem file, resetando estado");
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- página de debug: zera o estado quando o arquivo sai; reescrever mudaria o fluxo
       setAudioTracks([]);
       setSelectedAudioIndex(null);
       setProbeStatus({ kind: "idle" });

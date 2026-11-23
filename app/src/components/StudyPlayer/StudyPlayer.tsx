@@ -94,6 +94,7 @@ export function StudyPlayer({
     const url = URL.createObjectURL(
       new Blob([currentMp4], { type: "video/mp4" })
     );
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- a URL do blob da cue atual nasce e é revogada neste effect; reescrever mudaria quando ela troca
     setBlobUrl(url);
     if (previousUrlRef.current) URL.revokeObjectURL(previousUrlRef.current);
     previousUrlRef.current = url;
@@ -109,6 +110,7 @@ export function StudyPlayer({
 
   // Reseta estado por cue: input escondido, sem submit, sem legenda visivel
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset do estado a cada cue faz parte do fluxo do player; reescrever mudaria a ordem dos renders
     setShowInput(false);
     setSubmitted(false);
     setAnswer("");
@@ -208,6 +210,7 @@ export function StudyPlayer({
   // Enter avanca imediato independentemente.
   useEffect(() => {
     if (!submitted) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- o contador do auto-avanço começa junto com o timer; tirar do effect mudaria o fluxo
     setCountdown(AUTO_ADVANCE_SEC);
     const tick = window.setInterval(() => {
       setCountdown((c) => Math.max(0, c - 1));
