@@ -109,7 +109,7 @@ log "montando o app (endereço $API_URL)"
 STAGE=$(mktemp -d)
 trap 'rm -rf "$STAGE"' EXIT
 vite_build "$STAGE"
-rsync -a --exclude 'videos/' "$ROOT/app/public/" "$STAGE/"
+rsync -a --exclude '/videos' "$ROOT/app/public/" "$STAGE/"   # pasta ou symlink
 # O Caddy do teste monta app-dist como pasta: atualizar o conteúdo, nunca apagar e recriar a pasta.
 mkdir -p "$B/app-dist"
 rsync -a --checksum --delete "$STAGE/" "$B/app-dist/"
