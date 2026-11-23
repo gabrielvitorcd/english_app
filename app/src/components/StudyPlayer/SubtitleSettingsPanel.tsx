@@ -1,6 +1,11 @@
 // Painel de customizacao da legenda (estilo Netflix).
 // Controla cor do texto, cor+opacidade do fundo, tamanho e familia de fonte.
+//
+// COLOR_PRESETS, BG_PRESETS e FONT_OPTIONS são dados de preferência do aluno (as cores e fontes que
+// ele pode escolher para a legenda), não estilo do app: são a exceção à regra de cor solta do DESIGN.md.
 
+import { X } from "lucide-react";
+import { Button, IconButton } from "../ui";
 import type { SubtitleSettings } from "../../hooks/useSubtitleSettings";
 import styles from "./SubtitleSettingsPanel.module.css";
 
@@ -59,28 +64,15 @@ export function SubtitleSettingsPanel({
 }: Props) {
   return (
     <div
-      className={styles.panel}
+      className={`popover ${styles.panel}`}
       role="dialog"
       aria-label="Configurações de legenda"
     >
       <div className={styles.header}>
         <h4 className={styles.title}>Legenda</h4>
-        <button
-          className={styles.close}
-          onClick={onClose}
-          type="button"
-          aria-label="Fechar"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-          >
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
+        <IconButton onClick={onClose} type="button" aria-label="Fechar">
+          <X aria-hidden="true" />
+        </IconButton>
       </div>
 
       <div className={styles.section}>
@@ -164,7 +156,7 @@ export function SubtitleSettingsPanel({
         <select
           value={settings.fontFamily}
           onChange={(e) => update("fontFamily", e.target.value)}
-          className={styles.select}
+          className={`input ${styles.select}`}
           aria-label="Família de fonte"
         >
           {FONT_OPTIONS.map((f) => (
@@ -179,9 +171,15 @@ export function SubtitleSettingsPanel({
         </select>
       </div>
 
-      <button className={styles.reset} onClick={reset} type="button">
+      <Button
+        variant="secondary"
+        block
+        className={styles.reset}
+        onClick={reset}
+        type="button"
+      >
         Restaurar padrão
-      </button>
+      </Button>
     </div>
   );
 }

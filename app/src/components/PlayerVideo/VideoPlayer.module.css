@@ -1,9 +1,9 @@
-/* ─── Box do vídeo ──────────────────────────────────── */
+/* ─── Box do vídeo (componente sem uso hoje; só tokens) ─── */
 .box {
   position: relative;
   width: 100%;
-  height: calc(100vh - var(--heading-h, 56px));
-  background: #000;
+  height: calc(100vh - var(--navbar-h));
+  background: var(--video-bg);
   overflow: hidden;
 
   display: flex;

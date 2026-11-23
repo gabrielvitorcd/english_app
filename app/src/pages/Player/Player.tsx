@@ -21,6 +21,7 @@ import type {
   VideoCodec,
   WorkerResponse,
 } from "../../workers/transcode.worker";
+import { Spinner } from "../../components/ui";
 import styles from "./Player.module.css";
 
 export function PlayerPage() {
@@ -30,9 +31,9 @@ export function PlayerPage() {
   // se ha sessao salva.
   if (!hydrated) {
     return (
-      <div className={styles.centered}>
+      <div className={`palco ${styles.centered}`}>
         <div className={styles.loader}>
-          <div className={styles.spinner} />
+          <Spinner />
           <div>Restaurando sessão…</div>
         </div>
       </div>
@@ -111,7 +112,7 @@ function PlayerLoader({
 
   if (probeError) {
     return (
-      <div className={styles.centered}>
+      <div className={`palco ${styles.centered}`}>
         <div className={styles.errorBox}>
           <strong>Erro:</strong> {probeError}
         </div>
@@ -121,9 +122,9 @@ function PlayerLoader({
 
   if (!cues || !audioTracks || !videoCodec || audioStreamIndex === null) {
     return (
-      <div className={styles.centered}>
+      <div className={`palco ${styles.centered}`}>
         <div className={styles.loader}>
-          <div className={styles.spinner} />
+          <Spinner />
           <div>
             {!cues
               ? "Lendo legenda…"
@@ -138,7 +139,7 @@ function PlayerLoader({
 
   if (cues.length === 0) {
     return (
-      <div className={styles.centered}>
+      <div className={`palco ${styles.centered}`}>
         <div className={styles.errorBox}>
           Legenda sem cues de diálogo aproveitáveis.
         </div>
@@ -181,9 +182,9 @@ function SessionRunner({
       (session.state.ready / Math.max(1, session.state.total)) * 100
     );
     return (
-      <div className={styles.centered}>
+      <div className={`palco ${styles.centered}`}>
         <div className={styles.loader}>
-          <div className={styles.spinner} />
+          <Spinner />
           <div className={styles.loaderTitle}>Preparando sessão…</div>
           <div className={styles.loaderProgress}>
             {session.state.ready} de {session.state.total} cues processadas
@@ -201,7 +202,7 @@ function SessionRunner({
 
   if (session.state.kind === "error") {
     return (
-      <div className={styles.centered}>
+      <div className={`palco ${styles.centered}`}>
         <div className={styles.errorBox}>
           <strong>Erro na sessão:</strong> {session.state.message}
         </div>
@@ -210,7 +211,7 @@ function SessionRunner({
   }
 
   return (
-    <div className={styles.root}>
+    <div className={`palco ${styles.root}`}>
       <StudyPlayer
         cues={cues}
         cuesReady={session.cuesReady}
@@ -218,12 +219,12 @@ function SessionRunner({
       />
 
       {session.state.kind === "buffering" && (
-        <div className={styles.overlayBadge}>
+        <div className={`material-video ${styles.overlayBadge}`}>
           Aguardando cue {session.state.waitingCue}…
         </div>
       )}
       {session.state.kind === "complete" && (
-        <div className={styles.overlayBadge}>Sessão pronta (todas as cues)</div>
+        <div className={`material-video ${styles.overlayBadge}`}>Sessão pronta (todas as cues)</div>
       )}
     </div>
   );

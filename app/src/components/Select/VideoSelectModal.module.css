@@ -1,14 +1,18 @@
+/* Modal de seleção de vídeo: classe global .dialog (nível 3) sobre o véu --overlay. */
+
 /* ─── Overlay ───────────────────────────────────────── */
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(10, 10, 11, 0.85);
-  backdrop-filter: blur(4px);
+  background: var(--overlay);
+  -webkit-backdrop-filter: var(--overlay-blur);
+  backdrop-filter: var(--overlay-blur);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: var(--gutter);
   z-index: 1000;
-  animation: fadeIn 0.2s ease;
+  animation: fadeIn var(--dur) var(--ease);
 }
 
 @keyframes fadeIn {
@@ -22,23 +26,19 @@
 
 /* ─── Modal ─────────────────────────────────────────── */
 .modal {
-  background: var(--s1);
-  border: 1px solid var(--b2);
-  border-radius: 8px;
   width: 100%;
-  max-width: 520px;
+  max-width: var(--dialog-w);
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  padding: 32px;
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
-  animation: slideUp 0.3s ease;
+  font-family: var(--font-text);
+  animation: slideUp var(--dur-slow) var(--ease);
 }
 
 @keyframes slideUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(var(--s-4));
   }
   to {
     opacity: 1;
@@ -46,81 +46,72 @@
   }
 }
 
-/* ─── Close Button ──────────────────────────────────── */
+/* ─── Close Button (classe global .icon-btn) ────────── */
 .closeButton {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  background: transparent;
-  border: none;
-  color: var(--mu2);
-  cursor: pointer;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition:
-    color 0.2s ease,
-    background 0.2s ease;
+  top: var(--s-4);
+  right: var(--s-4);
+  color: var(--text-2);
 }
 
 .closeButton:hover {
-  color: var(--tx);
-  background: var(--b1);
+  color: var(--text);
 }
 
 /* ─── Header ────────────────────────────────────────── */
 .header {
-  margin-bottom: 24px;
+  margin-bottom: var(--s-6);
+  padding-right: var(--s-10);
 }
 
 .title {
-  font-family: "DM Serif Display", Georgia, serif;
-  font-size: 28px;
-  font-weight: 400;
-  color: var(--tx);
-  margin: 0 0 8px 0;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display);
+  font-size: var(--fs-title1);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-title);
+  letter-spacing: var(--tracking-title);
+  color: var(--text);
+  margin: 0 0 var(--s-2) 0;
 }
 
 .subtitle {
-  font-size: 13px;
-  color: var(--mu2);
-  font-weight: 300;
+  font-size: var(--fs-callout);
+  color: var(--text-2);
   margin: 0;
 }
 
 /* ─── Dropzone ──────────────────────────────────────── */
 .dropzone {
-  border: 1px dashed var(--b2);
-  border-radius: 6px;
-  padding: 40px 24px;
+  border: var(--border-w-strong) dashed var(--border-control);
+  border-radius: var(--radius-md);
+  padding: var(--s-10) var(--s-6);
   cursor: pointer;
   transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
-  background: var(--s2);
-  min-height: 160px;
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+  background: var(--fill);
+  min-height: calc(4 * var(--s-10));
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .dropzone:hover {
-  border-color: var(--blue);
-  background: rgba(122, 196, 232, 0.05);
+  border-color: var(--accent-text);
 }
 
 .dropzone.dragActive {
-  border-color: var(--blue);
-  background: rgba(122, 196, 232, 0.08);
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 .dropzone.hasVideo {
   border-style: solid;
-  border-color: var(--green);
-  background: rgba(110, 231, 183, 0.05);
+  border-color: var(--border-control);
+  background: var(--surface);
+  padding: var(--s-4);
+  min-height: 0;
 }
 
 .hiddenInput {
@@ -132,60 +123,66 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: var(--s-3);
   text-align: center;
 }
 
 .dropzoneIcon {
-  color: var(--mu2);
-  transition: color 0.2s ease;
+  display: flex;
+  color: var(--text-2);
+  transition: color var(--dur) var(--ease);
 }
 
-.dropzone:hover .dropzoneIcon {
-  color: var(--blue);
+.dropzoneIcon :global(.lucide) {
+  width: var(--icon-xl);
+  height: var(--icon-xl);
 }
 
+.dropzone:hover .dropzoneIcon,
 .dropzone.dragActive .dropzoneIcon {
-  color: var(--blue);
+  color: var(--accent-text);
 }
 
 .dropzoneText {
-  font-size: 14px;
-  color: var(--tx);
+  font-size: var(--fs-callout);
+  color: var(--text);
   margin: 0;
 }
 
 .highlight {
-  color: var(--blue);
-  font-weight: 500;
+  color: var(--accent-text);
+  font-weight: var(--fw-bold);
 }
 
 .dropzoneSub {
-  font-size: 11px;
-  color: var(--mu);
+  font-size: var(--fs-footnote);
+  color: var(--text-2);
   margin: 0;
-  letter-spacing: 0.05em;
 }
 
 /* ─── File Selected ─────────────────────────────────── */
 .fileSelected {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--s-4);
   width: 100%;
 }
 
 .fileIcon {
-  width: 48px;
-  height: 48px;
-  background: var(--s3);
-  border: 1px solid var(--b2);
-  border-radius: 6px;
+  width: var(--icon-tile);
+  height: var(--icon-tile);
+  background: var(--accent-soft);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--blue);
+  color: var(--accent-text);
   flex-shrink: 0;
+}
+
+.fileIcon :global(.lucide) {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
 }
 
 .fileInfo {
@@ -193,121 +190,125 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--s-1);
 }
 
 .fileName {
-  font-size: 13px;
-  color: var(--tx);
-  font-weight: 500;
+  font-size: var(--fs-callout);
+  color: var(--text);
+  font-weight: var(--fw-medium);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+/* classe global .num */
 .fileSize {
-  font-size: 11px;
-  color: var(--mu);
-  letter-spacing: 0.05em;
+  font-size: var(--fs-mono);
+  color: var(--text-2);
 }
 
+/* classe global .icon-btn */
 .removeFile {
-  background: var(--s3);
-  border: 1px solid var(--b2);
-  color: var(--mu2);
-  cursor: pointer;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
-  flex-shrink: 0;
+  color: var(--text-2);
 }
 
 .removeFile:hover {
-  color: var(--red);
-  border-color: var(--red);
+  color: var(--danger);
 }
 
 /* ─── Subtitle Section ──────────────────────────────── */
 .subtitleSection {
-  margin-top: 20px;
+  margin-top: var(--s-5);
 }
 
 .subtitleHeader {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  gap: var(--s-3);
+  margin-bottom: var(--s-2);
+  min-height: var(--control-h);
 }
 
 .subtitleLabel {
-  font-size: 12px;
-  color: var(--mu2);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: var(--fs-caption);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--tracking-caption);
+  color: var(--text-2);
 }
 
 .removeSubtitle {
-  background: var(--s3);
-  border: 1px solid var(--b1);
-  color: var(--mu2);
-  cursor: pointer;
-  padding: 6px 10px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  border-radius: 4px;
-  font-size: 11px;
+  gap: var(--s-1);
+  min-width: 0;
+  max-width: 60%;
+  min-height: var(--control-h);
+  padding: 0 var(--s-3);
+  background: transparent;
+  border: var(--hairline) solid var(--border-control);
+  border-radius: var(--radius-full);
+  color: var(--text-2);
+  font-size: var(--fs-footnote);
+  cursor: pointer;
   transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.removeSubtitle span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.removeSubtitle :global(.lucide) {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
 }
 
 .removeSubtitle:hover {
-  color: var(--red);
-  border-color: var(--red);
+  color: var(--danger);
+  border-color: var(--danger);
 }
 
 .subtitleDropzone {
-  border: 1px dashed var(--b2);
-  border-radius: 6px;
-  padding: 16px 20px;
+  border: var(--border-w-strong) dashed var(--border-control);
+  border-radius: var(--radius-md);
+  padding: var(--s-4) var(--s-5);
+  min-height: var(--control-h-lg);
   cursor: pointer;
   transition:
-    border-color 0.2s ease,
-    background 0.2s ease;
-  background: var(--s2);
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+  background: var(--fill);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--s-3);
 }
 
 .subtitleDropzone:hover {
-  border-color: var(--gold);
-  background: rgba(232, 201, 122, 0.05);
+  border-color: var(--accent-text);
 }
 
 .subtitleDropzone.dragActive {
-  border-color: var(--gold);
-  background: rgba(232, 201, 122, 0.08);
+  border-style: solid;
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
-.subtitleDropzone svg {
-  color: var(--mu2);
-  flex-shrink: 0;
+.subtitleDropzone :global(.lucide) {
+  color: var(--text-2);
 }
 
-.subtitleDropzone:hover svg {
-  color: var(--gold);
+.subtitleDropzone:hover :global(.lucide) {
+  color: var(--accent-text);
 }
 
 .subtitleText {
-  font-size: 12px;
-  color: var(--mu2);
+  font-size: var(--fs-footnote);
+  color: var(--text-2);
 }
 
 /* ─── Footer ────────────────────────────────────────── */
@@ -315,62 +316,28 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid var(--b1);
+  gap: var(--s-3);
+  margin-top: var(--s-6);
+  padding-top: var(--s-5);
+  border-top: var(--hairline) solid var(--border);
 }
 
-.cancelButton {
-  background: transparent;
-  border: 1px solid var(--b2);
-  color: var(--mu2);
-  cursor: pointer;
-  padding: 10px 20px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  transition:
-    color 0.2s ease,
-    border-color 0.2s ease;
-}
+/* ─── Celular: folha presa à base ───────────────────── */
+@media (max-width: 599px) {
+  .overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
 
-.cancelButton:hover {
-  color: var(--tx);
-  border-color: var(--b3);
-}
+  .modal {
+    max-width: 100%;
+    max-height: 92vh;
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding: var(--s-6) var(--gutter) calc(var(--s-6) + env(safe-area-inset-bottom));
+  }
 
-.submitButton {
-  background: var(--blue);
-  border: 1px solid var(--blue);
-  color: var(--bg);
-  cursor: pointer;
-  padding: 10px 24px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.1s ease;
-}
-
-.submitButton:hover:not(.disabled) {
-  background: #6ab8d8;
-  transform: translateY(-1px);
-}
-
-.submitButton.disabled {
-  background: var(--s3);
-  border-color: var(--b1);
-  color: var(--mu);
-  cursor: not-allowed;
-}
-
-.submitButton:active:not(.disabled) {
-  transform: translateY(0);
+  .cancelButton,
+  .submitButton {
+    flex: 1;
+  }
 }

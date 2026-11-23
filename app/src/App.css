@@ -1,17 +1,9 @@
 .app {
-  font-family: "DM Sans", sans-serif;
+  font-family: var(--font-text);
   background: var(--bg);
-  color: var(--tx);
+  color: var(--text);
   height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-}
-
-/* ── PLAYER LAYOUT ── */
-.player {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 1fr 300px;
   overflow: hidden;
 }
